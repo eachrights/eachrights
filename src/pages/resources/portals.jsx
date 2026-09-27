@@ -10,7 +10,7 @@ const portals = [
   {
     title: "SRHR Portal",
     description: "EACHRights' Sexual and Reproductive Health and Rights portal.",
-    href: "#", // TODO: add SRHR Portal link
+    href: "https://eachrights.github.io/srhr/", // TODO: add SRHR Portal link
   },
   {
     title: "UPR Recommendations Tracking Dashboard",
