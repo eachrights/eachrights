@@ -127,7 +127,7 @@ const focusAreas = [
 
 const programmes = [
   {
-    title: "Education Justice",
+    title: "Education",
     description:
       "Advancing equitable access to quality education and strengthening the right to learn.",
     icon: GraduationCap,
@@ -136,7 +136,7 @@ const programmes = [
     link: "/programmes/education-justice",
   },
   {
-    title: "Gender Justice",
+    title: "Gender",
     description:
       "Promoting gender equality, dignity and protection for women, girls and vulnerable groups.",
     icon: Scales,
@@ -145,7 +145,7 @@ const programmes = [
     link: "/programmes/gender-justice",
   },
   {
-    title: "Health Justice",
+    title: "Health",
     description:
       "Advocating for equitable access to health and the realization of the right to health.",
     icon: Heartbeat,
@@ -154,7 +154,7 @@ const programmes = [
     link: "/programmes/health-justice",
   },
   {
-    title: "Environmental & Climate Justice",
+    title: "Environmental & Climate",
     description:
       "Supporting communities to address environmental challenges and climate-related injustices.",
     icon: Leaf,
@@ -163,7 +163,7 @@ const programmes = [
     link: "/programmes/environmental-climate-justice",
   },
   {
-    title: "Economic Justice, Business and Human Rights",
+    title: "Economice, Business and Human Rights",
     description:
       "Advancing economic and social rights for vulnerable and marginalized communities.",
     icon: Briefcase,
