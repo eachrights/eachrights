@@ -163,7 +163,7 @@ const programmes = [
     link: "/programmes/environmental-climate-justice",
   },
   {
-    title: "Economice, Business and Human Rights",
+    title: "Economic, Business and Human Rights",
     description:
       "Advancing economic and social rights for vulnerable and marginalized communities.",
     icon: Briefcase,
