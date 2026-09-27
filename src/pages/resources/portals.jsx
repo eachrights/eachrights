@@ -1,24 +1,22 @@
 import { Link } from "react-router-dom";
-import { FileText, LayoutGrid, ArrowUpRight, ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, LayoutGrid } from "lucide-react";
 
 // ============================================================
-// RESOURCE LINK CARDS
+// PORTAL LINKS
 // ============================================================
+// Add the real destination URLs here once they're ready.
 
-const resourceLinks = [
+const portals = [
   {
-    title: "Publications",
-    description:
-      "Research, reports, strategic plans and programme publications produced by EACHRights.",
-    icon: FileText,
-    to: "/resources/publications",
+    title: "SRHR Portal",
+    description: "EACHRights' Sexual and Reproductive Health and Rights portal.",
+    href: "#", // TODO: add SRHR Portal link
   },
   {
-    title: "Portals",
+    title: "UPR Recommendations Tracking Dashboard",
     description:
-      "EACHRights' dashboards and portals, including the SRHR Portal and UPR Recommendations Tracking Dashboard.",
-    icon: LayoutGrid,
-    to: "/resources/portals",
+      "Tracks Universal Periodic Review recommendations made to Kenya and their implementation status.",
+    href: "#", // TODO: add UPR Dashboard link
   },
 ];
 
@@ -26,39 +24,41 @@ const resourceLinks = [
 // MAIN COMPONENT
 // ============================================================
 
-export default function Resources() {
+export default function Portals() {
   return (
     <main className="bg-white font-sans text-ink">
       <section className="px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
         <div className="mx-auto max-w-5xl">
           <Link
-            to="/"
+            to="/resources"
             className="inline-flex items-center gap-2 text-sm font-medium text-forest/70 transition hover:text-forest"
           >
             <ArrowLeft size={16} />
-            Home
+            Resources
           </Link>
 
           <span className="mt-6 block h-1 w-14 bg-forest" />
 
           <h1 className="mt-4 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-            Resources
+            Portals
           </h1>
 
           <p className="mt-3 max-w-xl text-sm leading-6 text-ink/60 sm:text-base">
-            Explore EACHRights' publications and portals.
+            EACHRights' dashboards and portals.
           </p>
 
           <div className="mt-12 grid gap-6 sm:grid-cols-2">
-            {resourceLinks.map(({ title, description, icon: Icon, to }) => (
-              <Link
+            {portals.map(({ title, description, href }) => (
+              <a
                 key={title}
-                to={to}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group flex flex-col justify-between rounded-xl border border-gray-200 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
               >
                 <div>
                   <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-forest-soft text-forest">
-                    <Icon size={22} strokeWidth={1.7} />
+                    <LayoutGrid size={22} strokeWidth={1.7} />
                   </div>
 
                   <h2 className="mt-5 font-display text-xl font-bold text-ink">{title}</h2>
@@ -73,7 +73,7 @@ export default function Resources() {
                     className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                   />
                 </div>
-              </Link>
+              </a>
             ))}
           </div>
         </div>

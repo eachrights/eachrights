@@ -19,6 +19,10 @@ import OurTeam from "./pages/whoweare/OurTeam";
 // What We Do (file: src/pages/whatwedo.jsx)
 import WhatWeDo from "./pages/whatwedo";
 
+// Resources
+import Publications from "./pages/resources/publications";
+import Portals from "./pages/resources/portals";
+
 // Programmes
 import EducationJustice from "./pages/programmes/EducationJustice";
 import GenderJustice from "./pages/programmes/GenderJustice";
@@ -53,6 +57,10 @@ function App() {
 
         {/* What We Do */}
         <Route path="/what-we-do" element={<WhatWeDo />} />
+
+        {/* Resources */}
+        <Route path="/resources/publications" element={<Publications />} />
+        <Route path="/resources/portals" element={<Portals />} />
 
         {/* Programmes */}
         <Route
