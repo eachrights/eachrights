@@ -166,7 +166,7 @@ const programmes = [
     link: "/programmes/health-justice",
   },
   {
-    title: "Environmental and Climate change justice",
+    title: "Environment and Climate change justice",
     description:
       "Supporting communities to address environmental challenges and climate-related injustices.",
     icon: Leaf,
