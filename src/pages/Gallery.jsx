@@ -11,7 +11,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 
-import storiesHero from "../assets/gallery/stories-voices-moments.jpeg";
+import storiesHero from "../assets/gallery/stories-voices-moments.png";
 
 /*
 |--------------------------------------------------------------------------
@@ -402,58 +402,82 @@ function Gallery() {
   return (
     <main className="min-h-screen bg-paper font-sans text-ink">
 
-      {/* HERO */}
-      <header className="relative h-[38vh] min-h-[300px] max-h-[380px] overflow-hidden bg-forest text-paper sm:h-[52vh] sm:min-h-[440px] sm:max-h-[560px]">
+      {/* HERO — same design as the "What we do" page */}
+      <header className="relative isolate min-h-[420px] overflow-hidden bg-forest text-paper sm:min-h-[440px] lg:min-h-[480px]">
+        <div className="absolute left-0 right-0 top-0 z-10 h-1 bg-accent" />
+
         <img
           src={storiesHero}
-          alt="Stories, Voices & Moments"
-          className="absolute inset-0 h-full w-full object-cover object-center sm:object-bottom"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover object-center"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-        <div className="absolute left-0 right-0 top-0 z-20 h-1 bg-[#8DC63F]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/20" />
 
-        <Link
-          to="/"
-          className="absolute left-4 top-4 z-20 inline-flex items-center gap-1.5 text-xs font-medium text-white/85 transition hover:text-white sm:left-6 sm:top-6 sm:text-sm lg:left-8 lg:top-8"
-        >
-          <ArrowLeft size={14} />
-          Back to Home
-        </Link>
-
-        <h1 className="sr-only">
-          Stories, Voices &amp; Moments — EACHRights Gallery
-        </h1>
-
-        <div className="relative z-10 mx-auto flex h-full max-w-7xl items-end px-4 pb-5 sm:px-6 sm:pb-8 lg:px-8 lg:pb-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-2xl"
+        <div className="relative z-10 mx-auto flex min-h-[420px] max-w-7xl flex-col justify-center px-6 py-10 sm:min-h-[440px] sm:px-8 sm:py-12 lg:min-h-[480px] lg:px-12 lg:py-16">
+          <Link
+            to="/"
+            className="mb-4 inline-flex items-center gap-2 text-sm font-medium text-white/75 transition hover:text-white"
           >
-            <p className="max-w-xl text-xs leading-6 text-white/90 sm:text-sm sm:leading-7 sm:text-base">
-              Videos and visual stories from EACHRights' programmes,
-              community engagement and work to advance human rights across
-              East Africa.
+            <ArrowLeft size={16} />
+            Back to Home
+          </Link>
+
+          <div className="mt-3 flex items-center gap-2.5">
+            <span className="h-1.5 w-1.5 bg-accent" />
+            <p className="text-sm font-semibold text-white/70">
+              OUR GALLERY
             </p>
+          </div>
 
-            <div className="mt-4 flex flex-wrap gap-2 sm:mt-6 sm:gap-3">
-              <a
-                href="#videos"
-                className="inline-flex items-center gap-2 bg-[#8DC63F] px-4 py-2 text-xs font-bold text-forest shadow-lg transition hover:-translate-y-0.5 hover:brightness-105 sm:px-6 sm:py-3 sm:text-sm"
-              >
-                Explore Videos
-              </a>
+          <h1 className="mt-3 max-w-4xl font-display text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-7xl">
+            Stories, Voices &amp; Moments
+          </h1>
 
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 border-2 border-white bg-white/5 px-4 py-2 text-xs font-bold text-white backdrop-blur-sm transition hover:bg-white hover:text-forest sm:px-6 sm:py-3 sm:text-sm"
-              >
-                Get Involved
-              </Link>
+          <p className="mt-4 max-w-3xl text-base leading-8 text-white/80 sm:text-lg">
+            Videos and visual stories from EACHRights' programmes, community
+            engagement and work to advance human rights across East Africa.
+          </p>
+
+          <div className="mt-6 flex flex-wrap gap-4">
+            <a
+              href="#videos"
+              className="inline-flex items-center gap-2 bg-accent px-6 py-3.5 text-sm font-bold text-forest transition hover:brightness-105"
+            >
+              Explore videos
+              <ArrowRight size={16} />
+            </a>
+
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 border border-white/30 px-6 py-3.5 text-sm font-bold text-white transition hover:border-white hover:bg-white/10"
+            >
+              Get involved
+            </Link>
+          </div>
+
+          {/* Credibility strip */}
+          <div className="mt-8 grid max-w-3xl grid-cols-3 gap-x-4 gap-y-6 border-t border-white/15 pt-6 sm:flex sm:flex-wrap sm:gap-x-10">
+            <div>
+              <p className="font-display text-2xl font-bold text-white sm:text-3xl">
+                {String(photos.length).padStart(2, "0")}
+              </p>
+              <p className="mt-1 text-sm text-white/60">Photos</p>
             </div>
-          </motion.div>
+            <div>
+              <p className="font-display text-2xl font-bold text-white sm:text-3xl">
+                {String(videos.length).padStart(2, "0")}
+              </p>
+              <p className="mt-1 text-sm text-white/60">Videos</p>
+            </div>
+            <div>
+              <p className="font-display text-2xl font-bold text-white sm:text-3xl">
+                East Africa
+              </p>
+              <p className="mt-1 text-sm text-white/60">Regional reach</p>
+            </div>
+          </div>
         </div>
       </header>
 
