@@ -23,6 +23,11 @@ import {
   Quotes,
   Bank,
   Images,
+  Handshake,
+  UsersThree,
+  ChalkboardTeacher,
+  Newspaper,
+  MapPin,
 } from "@phosphor-icons/react";
 
 import CountUp from "../components/CountUp.jsx";
@@ -207,34 +212,49 @@ const impactStats = [
   { value: 67, suffix: "%", label: "Community and public awareness" },
 ];
 
+/* Mirrors the six approaches on the How We Work page. */
 const approaches = [
   {
     title: "Research",
     description:
-      "Generating evidence and knowledge to understand rights challenges and inform action.",
+      "Undertaking baseline studies, surveys, position papers and policy briefs to build evidence-based programmes.",
     icon: MagnifyingGlass,
     color: "amber",
   },
   {
-    title: "Advocacy",
+    title: "Networking, collaboration, and partnerships",
     description:
-      "Influencing policies, institutions and decision-makers to advance human rights.",
+      "Working with CSOs, NGOs, INGOs, government and the private sector to advance rights for vulnerable communities.",
+    icon: Handshake,
+    color: "teal",
+  },
+  {
+    title: "Social movement building and grassroots community mobilization",
+    description:
+      "Supporting communities to organize around common concerns and lead citizen-driven campaigns.",
+    icon: UsersThree,
+    color: "violet",
+  },
+  {
+    title: "Training and capacity building",
+    description:
+      "Strengthening the knowledge and skills of communities, CSOs, local leaders, government agencies and partners.",
+    icon: ChalkboardTeacher,
+    color: "sky",
+  },
+  {
+    title: "Lobbying and advocacy",
+    description:
+      "Engaging decision-makers with credible evidence to drive legal, policy and structural reforms.",
     icon: Megaphone,
     color: "rose",
   },
   {
-    title: "Capacity building",
+    title: "Community and public awareness creation",
     description:
-      "Strengthening communities and partners with knowledge, skills and tools for action.",
-    icon: Users,
-    color: "teal",
-  },
-  {
-    title: "Public interest litigation",
-    description:
-      "Using strategic legal action to protect rights and seek justice.",
-    icon: Gavel,
-    color: "violet",
+      "Educating the public and encouraging collective action to address local challenges and promote human rights.",
+    icon: Newspaper,
+    color: "green",
   },
 ];
 
@@ -262,11 +282,15 @@ const strategicAims = [
   },
 ];
 
+/* `counties` is optional and shown as chips under the country. Add or
+   remove names freely; the list below only includes counties named in the
+   team bios, so please complete it with the full list. */
 const regions = [
   {
     country: "Kenya",
     description:
       "Home base for our national advocacy, research and litigation work.",
+    counties: ["Nairobi", "Kajiado", "Marsabit"],
   },
   {
     country: "Uganda",
@@ -1126,7 +1150,7 @@ function Approach() {
           </Link>
         </div>
 
-        <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+        <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-10">
           {approaches.map((item) => {
             const Icon = item.icon;
             return (
@@ -1217,6 +1241,25 @@ function WhereWeWork() {
               <p className="mt-3 max-w-xs leading-7 text-ink/65">
                 {region.description}
               </p>
+
+              {region.counties?.length > 0 && (
+                <div className="mt-5">
+                  <p className="text-xs font-bold uppercase tracking-[0.15em] text-forest/60">
+                    Counties
+                  </p>
+                  <ul className="mt-3 flex flex-wrap gap-2">
+                    {region.counties.map((county) => (
+                      <li
+                        key={county}
+                        className="inline-flex items-center gap-1.5 border border-forest/20 bg-white px-3 py-1.5 text-sm font-semibold text-forest"
+                      >
+                        <MapPin size={14} weight="duotone" className="text-[#8DC63F]" />
+                        {county}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </article>
           ))}
         </div>
