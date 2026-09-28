@@ -310,31 +310,31 @@ const regions = [
 const previousCountries = [
   {
     country: "Rwanda",
-    //description: "Briefly describe the work done here.",
+    description: "Briefly describe the work done here.",
   },
   {
     country: "Burundi",
-    //description: "Briefly describe the work done here.",
+    description: "Briefly describe the work done here.",
   },
   {
     country: "Madagascar",
-    //description: "Briefly describe the work done here.",
+    description: "Briefly describe the work done here.",
   },
   {
     country: "South Sudan",
-    //description: "Briefly describe the work done here.",
+    description: "Briefly describe the work done here.",
   },
   {
     country: "Comoros",
-    //description: "Briefly describe the work done here.",
+    description: "Briefly describe the work done here.",
   },
   {
     country: "Sudan",
-    //description: "Briefly describe the work done here.",
+    description: "Briefly describe the work done here.",
   },
   {
     country: "Somalia",
-    //description: "Briefly describe the work done here.",
+    description: "Briefly describe the work done here.",
   },
 ];
 
@@ -1295,6 +1295,7 @@ function PreviousCountries() {
           <span className="h-px w-10 bg-[#8DC63F]" />
           Beyond our current footprint
         </p>
+
         <h2
           id="previous-countries-title"
           className="mt-4 font-display text-3xl font-bold leading-tight text-forest sm:text-4xl"
@@ -1302,23 +1303,28 @@ function PreviousCountries() {
           Countries we have worked in previously
         </h2>
 
-        <div className="mt-8 grid gap-px bg-forest/15 md:grid-cols-3">
+        {/* 5 countries per row on medium screens and above */}
+        <div className="mt-8 grid grid-cols-7 gap-px bg-forest/15">
           {previousCountries.map((item, index) => (
             <article
               key={`${item.country}-${index}`}
-              className="bg-white py-6 md:px-8 md:first:pl-0"
+              className="bg-white py-6 md:px-6 md:first:pl-0"
             >
               <h3 className="font-display text-3xl font-bold text-forest">
                 {item.country}
               </h3>
+
               {item.period && (
                 <p className="mt-1 text-sm font-semibold text-forest/60">
                   {item.period}
                 </p>
               )}
-              <p className="mt-3 max-w-xs leading-7 text-ink/65">
-                {item.description}
-              </p>
+
+              {item.description && (
+                <p className="mt-3 max-w-xs leading-7 text-ink/65">
+                  {item.description}
+                </p>
+              )}
             </article>
           ))}
         </div>
