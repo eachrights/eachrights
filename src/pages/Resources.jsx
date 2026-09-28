@@ -1,6 +1,14 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FileText, LayoutGrid, ArrowUpRight, ArrowLeft, Sparkles, Mail } from "lucide-react";
+import {
+  FileText,
+  LayoutGrid,
+  Globe2,
+  ArrowUpRight,
+  ArrowLeft,
+  Sparkles,
+  Mail,
+} from "lucide-react";
 
 import resourcesPhoto from "../assets/hero/resources-photo.png";
 
@@ -9,6 +17,15 @@ import resourcesPhoto from "../assets/hero/resources-photo.png";
 // ============================================================
 
 const resourceLinks = [
+  {
+    title: "Portals",
+    tagline: "Dashboards & tools",
+    description:
+      "Our live dashboards and tracking tools, including the SRHR Portal and the UPR Recommendations Tracking Dashboard.",
+    stat: "SRHR Portal · UPR Dashboard",
+    icon: LayoutGrid,
+    to: "/resources/portals",
+  },
   {
     title: "Publications",
     tagline: "Research & reports",
@@ -19,13 +36,13 @@ const resourceLinks = [
     to: "/resources/publications",
   },
   {
-    title: "Portals",
-    tagline: "Dashboards & tools",
+    title: "UPR Advocacy Tools",
+    tagline: "UN engagement",
     description:
-      "Our live dashboards and tracking tools, including the SRHR Portal and the UPR Recommendations Tracking Dashboard.",
-    stat: "SRHR Portal · UPR Dashboard",
-    icon: LayoutGrid,
-    to: "/resources/portals",
+      "Tools to support engagement with the Universal Periodic Review, from tracking recommendations to following up on their implementation.",
+    stat: "Recommendations · Submissions · Follow-up",
+    icon: Globe2,
+    to: "/resources/upr-advocacy-tools",
   },
 ];
 
@@ -82,8 +99,8 @@ export default function Resources() {
       ====================================================== */}
 
       <section className="px-6 py-20 sm:px-8 lg:px-12">
-        <div className="mx-auto max-w-5xl">
-          <div className="grid gap-8 sm:grid-cols-2">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {resourceLinks.map(({ title, tagline, description, stat, icon: Icon, to }, index) => (
               <motion.div
                 key={title}
@@ -141,7 +158,7 @@ export default function Resources() {
       ====================================================== */}
 
       <section className="bg-forest-soft px-6 py-12 sm:px-8 lg:px-12">
-        <div className="mx-auto flex max-w-5xl flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto flex max-w-6xl flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-3">
             <div className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-forest text-white">
               <Sparkles size={16} />

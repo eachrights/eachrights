@@ -22,6 +22,7 @@ import WhatWeDo from "./pages/whatwedo";
 // Resources
 import Publications from "./pages/resources/publications";
 import Portals from "./pages/resources/portals";
+import UprAdvocacyTools from "./pages/resources/upr-advocacy-tools";
 
 // Programmes
 import EducationJustice from "./pages/programmes/EducationJustice";
@@ -61,6 +62,10 @@ function App() {
         {/* Resources */}
         <Route path="/resources/publications" element={<Publications />} />
         <Route path="/resources/portals" element={<Portals />} />
+        <Route
+          path="/resources/upr-advocacy-tools"
+          element={<UprAdvocacyTools />}
+        />
 
         {/* Programmes */}
         <Route
