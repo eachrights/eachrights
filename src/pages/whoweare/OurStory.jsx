@@ -98,7 +98,7 @@ export default function OurStory() {
           HERO
       ===================================================== */}
 
-      <section className="relative isolate flex min-h-[520px] items-end overflow-hidden bg-ink text-paper lg:min-h-[640px]">
+      <section className="relative isolate flex min-h-[420px] items-end overflow-hidden bg-ink text-paper lg:min-h-[520px]">
         <img
           src={heroImg}
           alt="The EACHRights team together outdoors"
@@ -111,9 +111,9 @@ export default function OurStory() {
           initial={reduce ? false : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mx-auto w-full max-w-7xl px-6 pb-14 sm:px-8 lg:px-12 lg:pb-20"
+          className="mx-auto w-full max-w-7xl px-6 pb-8 sm:px-8 lg:px-12 lg:pb-10"
         >
-          <div className="mb-6 h-1 w-20 bg-[#8DC63F]" />
+          <div className="mb-4 h-1 w-20 bg-[#8DC63F]" />
 
           <h1 className="max-w-4xl font-display text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
             Our story rooted in dignity and justice
@@ -125,8 +125,8 @@ export default function OurStory() {
           INTRO
       ===================================================== */}
 
-      <section className="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12 lg:py-28">
-        <div className="grid gap-8 lg:grid-cols-[0.62fr_0.38fr] lg:gap-20">
+      <section className="mx-auto max-w-7xl px-6 py-8 sm:px-8 lg:px-12 lg:py-10">
+        <div className="grid gap-6 lg:grid-cols-[0.62fr_0.38fr] lg:gap-14">
           <p className="font-display text-3xl leading-snug text-forest sm:text-4xl">
             EACHRights promotes and protects human dignity through the
             realization of social and economic rights for vulnerable and
@@ -144,14 +144,14 @@ export default function OurStory() {
           STORY
       ===================================================== */}
 
-      <section className="bg-forest-light px-6 py-24 sm:px-8 lg:px-12 lg:py-32">
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.42fr_0.58fr] lg:gap-20">
+      <section className="bg-forest-light px-6 py-8 sm:px-8 lg:px-12 lg:py-10">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.42fr_0.58fr] lg:gap-14">
           <div className="lg:sticky lg:top-28 lg:self-start">
             <h2 className="font-display text-4xl font-bold leading-tight text-forest sm:text-5xl">
               A story still being written
             </h2>
 
-            <p className="mt-6 max-w-md text-lg leading-8 text-ink/70">
+            <p className="mt-4 max-w-md text-lg leading-8 text-ink/70">
               Every campaign, case and partnership adds another chapter to our
               work advancing rights and justice across East Africa.
             </p>
@@ -161,7 +161,7 @@ export default function OurStory() {
             {storyChapters.map((chapter) => (
               <article
                 key={chapter.title}
-                className="relative pb-14 last:pb-0"
+                className="relative pb-8 last:pb-0"
               >
                 <span className="absolute -left-[41px] top-2 h-4 w-4 rounded-full border-4 border-forest-light bg-[#8DC63F] sm:-left-[57px]" />
 
@@ -169,7 +169,7 @@ export default function OurStory() {
                   {chapter.title}
                 </h3>
 
-                <p className="mt-3 max-w-xl text-lg leading-8 text-ink/75">
+                <p className="mt-2 max-w-xl text-lg leading-8 text-ink/75">
                   {chapter.text}
                 </p>
               </article>
@@ -182,7 +182,7 @@ export default function OurStory() {
           VISION / MISSION / GOAL / VALUES
       ===================================================== */}
 
-      <section className="mx-auto max-w-7xl px-6 py-24 sm:px-8 lg:px-12 lg:py-32">
+      <section className="mx-auto max-w-7xl px-6 py-8 sm:px-8 lg:px-12 lg:py-10">
         <div className="grid border-t border-forest/15 md:grid-cols-2">
           {statements.map((item, index) => {
             const Icon = item.icon;
@@ -190,7 +190,7 @@ export default function OurStory() {
             return (
               <div
                 key={item.label}
-                className={`border-b border-forest/15 py-10 md:pr-10 ${
+                className={`border-b border-forest/15 py-6 md:pr-10 ${
                   index % 2 === 1 ? "md:border-l md:pl-10 md:pr-0" : ""
                 }`}
               >
@@ -204,7 +204,7 @@ export default function OurStory() {
                   <h2 className="text-lg font-bold">{item.label}</h2>
                 </div>
 
-                <p className="mt-4 font-display text-2xl leading-snug text-forest">
+                <p className="mt-3 font-display text-2xl leading-snug text-forest">
                   {item.text}
                 </p>
               </div>
@@ -217,8 +217,8 @@ export default function OurStory() {
           WHERE OUR WORK IS FOCUSED
       ===================================================== */}
 
-      <section className="bg-white px-6 py-24 sm:px-8 lg:px-12 lg:py-28">
-        <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2 lg:gap-20">
+      <section className="bg-white px-6 py-8 sm:px-8 lg:px-12 lg:py-10">
+        <div className="mx-auto grid max-w-7xl items-center gap-8 lg:grid-cols-2 lg:gap-14">
           <img
             src={missionImg}
             alt="An EACHRights facilitator speaking with community members"
@@ -230,7 +230,7 @@ export default function OurStory() {
               Where our work is focused
             </h2>
 
-            <p className="mt-5 max-w-xl text-lg leading-8 text-ink/75">
+            <p className="mt-4 max-w-xl text-lg leading-8 text-ink/75">
               Our goal is to enable vulnerable and marginalized groups and
               communities to fully realize their rights to education and
               health, challenge gender and economic inequalities, and reduce
@@ -244,7 +244,7 @@ export default function OurStory() {
           GOAL STATEMENT
       ===================================================== */}
 
-      <section className="relative overflow-hidden bg-forest px-6 py-24 text-paper sm:px-8 lg:px-12 lg:py-32">
+      <section className="relative overflow-hidden bg-forest px-6 py-10 text-paper sm:px-8 lg:px-12 lg:py-12">
         <div className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full border-[25px] border-[#8DC63F]/10" />
 
         <div className="relative mx-auto max-w-7xl">
@@ -260,13 +260,13 @@ export default function OurStory() {
           CORE VALUES
       ===================================================== */}
 
-      <section className="mx-auto grid max-w-7xl gap-12 px-6 py-24 sm:px-8 lg:grid-cols-[0.38fr_0.62fr] lg:gap-20 lg:px-12 lg:py-32">
+      <section className="mx-auto grid max-w-7xl gap-8 px-6 py-8 sm:px-8 lg:grid-cols-[0.38fr_0.62fr] lg:gap-14 lg:px-12 lg:py-10">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <h2 className="font-display text-4xl font-bold leading-tight text-forest sm:text-5xl">
             Our values
           </h2>
 
-          <p className="mt-6 max-w-sm text-lg leading-8 text-ink/70">
+          <p className="mt-4 max-w-sm text-lg leading-8 text-ink/70">
             Our values define how we work with communities, partners,
             institutions and one another.
           </p>
@@ -279,7 +279,7 @@ export default function OurStory() {
             return (
               <li
                 key={value.title}
-                className="grid gap-3 border-b border-forest/15 py-8 sm:grid-cols-[0.42fr_0.58fr] sm:gap-8"
+                className="grid gap-2 border-b border-forest/15 py-5 sm:grid-cols-[0.42fr_0.58fr] sm:gap-8"
               >
                 <div className="flex items-start gap-3">
                   <Icon
@@ -304,18 +304,18 @@ export default function OurStory() {
           THEORY OF CHANGE
       ===================================================== */}
 
-      <section className="bg-forest-light px-6 py-20 sm:px-8 lg:px-12">
-        <div className="mx-auto flex max-w-7xl flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+      <section className="bg-forest-light px-6 py-8 sm:px-8 lg:px-12 lg:py-10">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-2xl">
             <p className="text-xs font-bold uppercase tracking-widest text-[#8DC63F]">
               Our Approach
             </p>
 
-            <h2 className="mt-3 font-display text-3xl font-bold leading-tight text-forest sm:text-4xl">
+            <h2 className="mt-2 font-display text-3xl font-bold leading-tight text-forest sm:text-4xl">
               Explore our Theory of Change
             </h2>
 
-            <p className="mt-4 leading-7 text-ink/70">
+            <p className="mt-3 leading-7 text-ink/70">
               Discover how our programmes, advocacy, partnerships and community
               engagement connect to the change we seek to achieve.
             </p>
