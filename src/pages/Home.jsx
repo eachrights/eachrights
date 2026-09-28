@@ -1070,11 +1070,11 @@ function Impact() {
 
           <Link
             to="/gallery"
-            className="inline-flex items-center gap-2 bg-[#8DC63F] px-5 py-3 text-sm font-bold text-forest transition hover:brightness-105"
+            className="group inline-flex items-center gap-2 border border-white/25 bg-white/5 px-5 py-3 text-sm font-bold text-white/85 backdrop-blur-sm transition hover:border-[#8DC63F] hover:bg-[#8DC63F]/10 hover:text-white"
           >
-            <Images size={17} weight="duotone" />
+            <Images size={17} weight="duotone" className="text-[#8DC63F]" />
             View our gallery
-            <ArrowRight size={16} />
+            <ArrowRight size={16} className="text-[#8DC63F] transition group-hover:translate-x-0.5" />
           </Link>
         </div>
       </div>
