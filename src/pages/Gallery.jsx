@@ -1,7 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { PlayCircle, ArrowLeft, ArrowRight } from "lucide-react";
+import {
+  PlayCircle,
+  ArrowLeft,
+  ArrowRight,
+  Newspaper,
+  Tv,
+  Radio,
+  ArrowUpRight,
+} from "lucide-react";
 
 import storiesHero from "../assets/gallery/stories-voices-moments.jpeg";
 
@@ -178,7 +186,72 @@ const videos = [
     date: "Dec 4, 2023",
     url: "https://www.youtube.com/watch?v=A442sUby8To",
   },
-  
+];
+
+/*
+|--------------------------------------------------------------------------
+| ADD YOUR NEWSPAPER, TELEVISION & RADIO COVERAGE HERE
+|--------------------------------------------------------------------------
+| type   : "Newspaper" | "Television" | "Radio"
+| outlet : the newspaper, TV station or radio station
+| title  : headline, programme or segment title
+| date   : shown as written, e.g. "12 Mar 2026"
+| url    : link to the article, clip or recording. Leave "" if there is none
+|          and the card will show without a link.
+|
+| The entries below are PLACEHOLDERS — replace them with real coverage.
+| Delete a whole group's entries and its tab disappears automatically.
+*/
+
+const MEDIA_TYPES = {
+  Newspaper: { icon: Newspaper, action: "Read article" },
+  Television: { icon: Tv, action: "Watch clip" },
+  Radio: { icon: Radio, action: "Listen" },
+};
+
+const mediaCoverage = [
+  {
+    type: "Newspaper",
+    outlet: "Newspaper name",
+    title: "Headline of the article featuring EACHRights",
+    date: "2026",
+    url: "",
+  },
+  {
+    type: "Newspaper",
+    outlet: "Newspaper name",
+    title: "Headline of the article featuring EACHRights",
+    date: "2026",
+    url: "",
+  },
+  {
+    type: "Television",
+    outlet: "TV station name",
+    title: "Programme or segment title",
+    date: "2026",
+    url: "",
+  },
+  {
+    type: "Television",
+    outlet: "TV station name",
+    title: "Programme or segment title",
+    date: "2026",
+    url: "",
+  },
+  {
+    type: "Radio",
+    outlet: "Radio station name",
+    title: "Interview or programme title",
+    date: "2026",
+    url: "",
+  },
+  {
+    type: "Radio",
+    outlet: "Radio station name",
+    title: "Interview or programme title",
+    date: "2026",
+    url: "",
+  },
 ];
 
 /*
@@ -216,9 +289,61 @@ function getYouTubeVideoId(url) {
   }
 }
 
+/** A single newspaper / television / radio coverage card. */
+function MediaCard({ item }) {
+  const { icon: Icon, action } = MEDIA_TYPES[item.type];
+
+  const body = (
+    <>
+      <div className="flex items-center justify-between gap-3">
+        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-forest text-[#8DC63F] transition group-hover:bg-[#8DC63F] group-hover:text-forest">
+          <Icon size={20} strokeWidth={1.75} />
+        </span>
+        <span className="text-xs font-semibold uppercase tracking-wide text-forest/50">
+          {item.type}
+        </span>
+      </div>
+
+      <p className="mt-6 text-sm font-bold text-forest-dark">{item.outlet}</p>
+
+      <h3 className="mt-2 font-display text-lg font-bold leading-snug text-forest">
+        {item.title}
+      </h3>
+
+      <div className="mt-auto flex items-center justify-between gap-3 pt-6 text-xs">
+        <span className="text-ink/50">{item.date}</span>
+        {item.url && (
+          <span className="inline-flex items-center gap-1 font-bold text-forest underline decoration-[#8DC63F] decoration-2 underline-offset-4">
+            {action}
+            <ArrowUpRight size={14} />
+          </span>
+        )}
+      </div>
+    </>
+  );
+
+  const cardClass =
+    "group flex h-full flex-col border border-forest/15 border-t-4 border-t-[#8DC63F] bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-t-forest hover:shadow-xl";
+
+  return item.url ? (
+    <a
+      href={item.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cardClass}
+    >
+      {body}
+      <span className="sr-only">(opens in a new tab)</span>
+    </a>
+  ) : (
+    <div className={cardClass}>{body}</div>
+  );
+}
+
 function Gallery() {
   const [activeVideo, setActiveVideo] = useState(null);
   const [currentPhoto, setCurrentPhoto] = useState(0);
+  const [mediaFilter, setMediaFilter] = useState("All");
   const photoTimerRef = useRef(null);
   const prefersReducedMotion = useReducedMotion();
 
@@ -264,6 +389,15 @@ function Gallery() {
         exit: { opacity: 0, scale: 0.98 },
         transition: { duration: 0.9, ease: "easeInOut" },
       };
+
+  // --- Media coverage: only show tabs for types that have entries ---
+  const mediaTabs = ["All", ...Object.keys(MEDIA_TYPES).filter((type) =>
+    mediaCoverage.some((item) => item.type === type)
+  )];
+  const visibleMedia =
+    mediaFilter === "All"
+      ? mediaCoverage
+      : mediaCoverage.filter((item) => item.type === mediaFilter);
 
   return (
     <main className="min-h-screen bg-paper font-sans text-ink">
@@ -344,11 +478,7 @@ function Gallery() {
         </motion.div>
       </section>
 
-      {/* QUICK NAV — a straightforward jump-to-section row. (This used to
-          be a category filter with "All"/"Videos" buttons, but there was
-          only ever one dataset to show — the buttons didn't actually
-          filter anything. Two real sections now exist, so linking to them
-          directly is the honest version of the same idea.) */}
+      {/* QUICK NAV — jump-to-section row. */}
       <section className="border-y border-forest/10 bg-forest-light">
         <div className="mx-auto flex max-w-7xl gap-8 px-6 py-4 text-sm font-semibold text-forest-dark lg:px-8">
           <a href="#photos" className="transition hover:text-forest">
@@ -356,6 +486,9 @@ function Gallery() {
           </a>
           <a href="#videos" className="transition hover:text-forest">
             Videos
+          </a>
+          <a href="#media" className="transition hover:text-forest">
+            In the media
           </a>
         </div>
       </section>
@@ -494,7 +627,7 @@ function Gallery() {
         </div>
       </section>
 
-      {/* VIDEOS */}
+      {/* VIDEOS — 4 per row on large screens */}
       <section
         id="videos"
         className="mx-auto max-w-7xl px-6 py-20 lg:px-8"
@@ -505,7 +638,7 @@ function Gallery() {
           </h2>
         </div>
 
-        <div className="grid gap-7 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {videos.map((video, index) => {
             const videoId = getYouTubeVideoId(video.url);
             const isActive = activeVideo === index;
@@ -518,10 +651,10 @@ function Gallery() {
                 viewport={{ once: true }}
                 transition={{
                   duration: 0.4,
-                  delay: index * 0.05,
+                  delay: (index % 4) * 0.05,
                 }}
                 whileHover={{ y: -5 }}
-                className="group overflow-hidden bg-white shadow-sm transition hover:shadow-xl"
+                className="group flex flex-col overflow-hidden bg-white shadow-sm transition hover:shadow-xl"
               >
 
                 {/* VIDEO / SHARP THUMBNAIL */}
@@ -549,11 +682,11 @@ function Gallery() {
 
                       {/* PLAY BUTTON */}
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[#8DC63F] text-forest shadow-xl transition duration-300 group-hover:scale-110 sm:h-16 sm:w-16">
+                        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#8DC63F] text-forest shadow-xl transition duration-300 group-hover:scale-110 sm:h-14 sm:w-14">
                           <PlayCircle
-                            size={30}
+                            size={26}
                             strokeWidth={2}
-                            className="sm:h-8 sm:w-8"
+                            className="sm:h-7 sm:w-7"
                           />
                         </span>
                       </div>
@@ -576,7 +709,7 @@ function Gallery() {
                 </div>
 
                 {/* VIDEO DETAILS */}
-                <div className="p-5">
+                <div className="flex flex-1 flex-col p-4">
                   <div className="mb-2 flex items-center justify-between gap-3">
                     <span className="bg-[#8DC63F]/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-forest-dark">
                       Video
@@ -587,7 +720,7 @@ function Gallery() {
                     </span>
                   </div>
 
-                  <h3 className="font-display text-lg font-bold leading-snug text-forest">
+                  <h3 className="line-clamp-3 font-display text-base font-bold leading-snug text-forest">
                     {video.title}
                   </h3>
 
@@ -600,6 +733,81 @@ function Gallery() {
           })}
         </div>
       </section>
+
+      {/* IN THE MEDIA — newspaper, television & radio */}
+      {mediaCoverage.length > 0 && (
+        <section
+          id="media"
+          aria-labelledby="media-title"
+          className="border-t border-forest/10 bg-forest-light"
+        >
+          <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+            <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+              <div className="max-w-2xl">
+                <span className="block h-1 w-14 bg-[#8DC63F]" />
+                <p className="mt-4 text-sm font-semibold uppercase tracking-[0.15em] text-forest/60">
+                  In the media
+                </p>
+                <h2
+                  id="media-title"
+                  className="mt-2 font-display text-3xl font-bold text-forest sm:text-4xl"
+                >
+                  Newspaper, Television &amp; Radio
+                </h2>
+                <p className="mt-4 leading-8 text-ink/70">
+                  Coverage of EACHRights' work and the issues we champion in
+                  print, on screen and on the airwaves.
+                </p>
+              </div>
+
+              {/* Filter tabs */}
+              <div
+                role="tablist"
+                aria-label="Filter media coverage"
+                className="flex flex-wrap gap-2"
+              >
+                {mediaTabs.map((tab) => {
+                  const isActive = mediaFilter === tab;
+                  const Icon = MEDIA_TYPES[tab]?.icon;
+
+                  return (
+                    <button
+                      key={tab}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive}
+                      onClick={() => setMediaFilter(tab)}
+                      className={`inline-flex items-center gap-2 border px-4 py-2 text-sm font-bold transition ${
+                        isActive
+                          ? "border-forest bg-forest text-white"
+                          : "border-forest/25 bg-white text-forest hover:border-forest"
+                      }`}
+                    >
+                      {Icon && <Icon size={16} strokeWidth={1.75} />}
+                      {tab}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={mediaFilter}
+                initial={{ opacity: prefersReducedMotion ? 1 : 0, y: prefersReducedMotion ? 0 : 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: prefersReducedMotion ? 1 : 0 }}
+                transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+                className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+              >
+                {visibleMedia.map((item, index) => (
+                  <MediaCard key={`${item.type}-${item.title}-${index}`} item={item} />
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </section>
+      )}
 
       {/* CTA */}
       <section className="relative overflow-hidden bg-forest-dark px-6 py-16 text-paper">
