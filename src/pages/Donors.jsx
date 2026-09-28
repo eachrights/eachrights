@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import heroImage from "/donors/donors-hero.png";
+
+const heroImage = "/donors/donors-hero.png";
 
 const currentDonors = [
   {
@@ -42,6 +43,54 @@ const pastDonors = [
     description:
       "A former philanthropic partner that supported initiatives advancing equity, justice and community empowerment.",
   },
+  {
+    name: "UN Millennium Campaign",
+    logo: null,
+    description:
+      "A former development partner that supported initiatives contributing to stronger communities and human rights.",
+  },
+  {
+    name: "Save the Children",
+    logo: "/donors/savethechildren.jpg",
+    description:
+      "A former development partner that supported initiatives contributing to stronger communities and human rights.",
+  },
+  {
+    name: "Plan International",
+    logo: "/donors/planinternational.jpg",
+    description:
+      "A former development partner that supported initiatives contributing to stronger communities and human rights.",
+  },
+  {
+    name: "Terre des Hommes",
+    logo: "/donors/terrdeshommes.png",
+    description:
+      "A former development partner that supported initiatives contributing to stronger communities and human rights.",
+  },
+  {
+    name: "Open Society Initiative for Eastern Africa",
+    logo: "/donors/opensocietyfoundation.png",
+    description:
+      "A former development partner that supported initiatives contributing to stronger communities and human rights.",
+  },
+  {
+    name: "Our Sign of Hope",
+    logo: null,
+    description:
+      "A former development partner that supported initiatives contributing to stronger communities and human rights.",
+  },
+  {
+    name: "JAIKA Foundation",
+    logo: null,
+    description:
+      "A former development partner that supported initiatives contributing to stronger communities and human rights.",
+  },
+  {
+    name: "ACCU",
+    logo: null,
+    description:
+      "A former development partner that supported initiatives contributing to stronger communities and human rights.",
+  },
 ];
 
 function DonorCard({ donor }) {
@@ -49,22 +98,36 @@ function DonorCard({ donor }) {
     <motion.article
       whileHover={{ y: -5 }}
       transition={{ duration: 0.2 }}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-xl"
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:shadow-xl"
     >
       {/* LOGO */}
-      <div className="flex min-h-[190px] items-center justify-center border-b border-gray-100 bg-white p-8">
-        <div className="flex h-28 w-full items-center justify-center rounded-xl bg-gray-50 p-5">
-          <img
-            src={donor.logo}
-            alt={`${donor.name} logo`}
-            className="max-h-20 max-w-[220px] object-contain"
-          />
+      <div className="flex min-h-[230px] items-center justify-center border-b border-gray-100 bg-white px-8 py-10">
+        <div className="flex h-[175px] w-full items-center justify-center rounded-2xl bg-gray-50 px-8 py-7 transition-colors duration-300 group-hover:bg-gray-100">
+          {donor.logo ? (
+            <img
+              src={donor.logo}
+              alt={`${donor.name} logo`}
+              loading="lazy"
+              className="block h-auto max-h-[135px] w-auto max-w-[290px] object-contain"
+            />
+          ) : (
+            <div
+              className="flex h-full w-full items-center justify-center px-5 text-center"
+              aria-label={`${donor.name} logo unavailable`}
+            >
+              <span className="text-xl font-bold leading-snug text-gray-400">
+                {donor.name}
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
       {/* CONTENT */}
       <div className="flex flex-1 flex-col p-7">
-        <h3 className="text-xl font-bold text-ink">{donor.name}</h3>
+        <h3 className="text-xl font-bold leading-snug text-ink">
+          {donor.name}
+        </h3>
 
         <p className="mt-3 flex-1 text-sm leading-7 text-gray-600">
           {donor.description}
@@ -88,8 +151,11 @@ function DonorGrid({ donors }) {
           key={donor.name}
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: index * 0.1 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{
+            duration: 0.5,
+            delay: Math.min(index * 0.08, 0.4),
+          }}
         >
           <DonorCard donor={donor} />
         </motion.div>
@@ -103,7 +169,6 @@ function Donors() {
     <main className="min-h-screen bg-white">
       {/* HERO */}
       <section className="relative overflow-hidden bg-gray-900 py-20 text-white lg:py-28">
-        {/* Background image */}
         <img
           src={heroImage}
           alt=""
@@ -111,16 +176,13 @@ function Donors() {
           className="absolute inset-0 h-full w-full object-cover"
         />
 
-        {/* Neutral overlay keeps the text readable; darkest on the text side */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/25" />
 
-        {/* Decorative circles */}
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 opacity-10" aria-hidden="true">
           <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full border-[40px] border-white" />
           <div className="absolute -bottom-32 -left-20 h-96 w-96 rounded-full border-[50px] border-white" />
         </div>
 
-        {/* Content */}
         <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 25 }}
@@ -130,7 +192,7 @@ function Donors() {
           >
             <Link
               to="/"
-              className="mb-8 inline-block text-sm font-medium text-white/80 transition hover:text-white"
+              className="mb-8 inline-flex items-center text-sm font-medium text-white/80 transition hover:text-white"
             >
               ← Back to Home
             </Link>
@@ -186,6 +248,7 @@ function Donors() {
           <div className="mb-10 max-w-2xl">
             <div className="flex items-center gap-3">
               <span className="h-1 w-12 rounded-full bg-forest" />
+
               <span className="text-sm font-bold uppercase tracking-[0.18em] text-forest">
                 Current Partners
               </span>
@@ -211,6 +274,7 @@ function Donors() {
           <div className="mb-10 max-w-2xl">
             <div className="flex items-center gap-3">
               <span className="h-1 w-12 rounded-full bg-forest" />
+
               <span className="text-sm font-bold uppercase tracking-[0.18em] text-forest">
                 Previous Partnerships
               </span>
