@@ -1281,52 +1281,111 @@ function WhereWeWork() {
   );
 }
 
+/* Right-to-left marquee for the PreviousCountries section. The track holds
+   two identical sets of cards; translating by half its width loops seamlessly. */
+const MARQUEE_CSS = `
+@keyframes eachr-marquee-rtl {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.eachr-marquee-track {
+  animation: eachr-marquee-rtl 45s linear infinite;
+  will-change: transform;
+}
+.eachr-marquee:hover .eachr-marquee-track,
+.eachr-marquee:focus-within .eachr-marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .eachr-marquee-track { animation: none; }
+  .eachr-marquee { overflow-x: auto; }
+  .eachr-marquee-dup { display: none; }
+}
+`;
+
 /** Countries we have worked in previously, shown directly below "Where we work". */
 function PreviousCountries() {
   if (!previousCountries.length) return null;
 
+  const renderCard = (item, index, hidden = false) => (
+    <li
+      key={`${item.country}-${index}${hidden ? "-dup" : ""}`}
+      className="group relative w-[260px] shrink-0 border border-forest/15 border-t-4 border-t-[#8DC63F] bg-paper p-6 transition duration-300 hover:-translate-y-1 hover:border-t-forest hover:shadow-xl hover:shadow-forest/10 sm:w-[290px]"
+    >
+      <div className="flex items-center justify-between">
+        <span className="font-display text-sm font-bold tracking-widest text-forest/40">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-forest text-[#8DC63F] transition group-hover:bg-[#8DC63F] group-hover:text-forest">
+          <MapPin size={18} weight="duotone" />
+        </span>
+      </div>
+
+      <h3 className="mt-8 font-display text-3xl font-bold leading-tight text-forest">
+        {item.country}
+      </h3>
+
+      {item.period && (
+        <p className="mt-1 text-sm font-semibold text-forest/60">{item.period}</p>
+      )}
+
+      {item.description && (
+        <p className="mt-3 text-sm leading-6 text-ink/65">{item.description}</p>
+      )}
+    </li>
+  );
+
   return (
     <section
       aria-labelledby="previous-countries-title"
-      className="bg-white px-6 py-8 sm:px-8 lg:px-12 lg:py-10"
+      className="overflow-hidden bg-white px-6 py-10 sm:px-8 lg:px-12 lg:py-14"
     >
+      <style>{MARQUEE_CSS}</style>
+
       <div className={CONTAINER}>
-        <p className="flex items-center gap-3 text-sm font-semibold text-forest/60">
-          <span className="h-px w-10 bg-[#8DC63F]" />
-          Beyond our current footprint
-        </p>
-
-        <h2
-          id="previous-countries-title"
-          className="mt-4 font-display text-3xl font-bold leading-tight text-forest sm:text-4xl"
-        >
-          Countries we have worked in previously
-        </h2>
-
-        {/* 5 countries per row on medium screens and above */}
-        <div className="mt-8 grid grid-cols-7 gap-px bg-forest/15">
-          {previousCountries.map((item, index) => (
-            <article
-              key={`${item.country}-${index}`}
-              className="bg-white py-6 md:px-6 md:first:pl-0"
+        <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+          <div className="max-w-2xl">
+            <span className="block h-1 w-14 bg-[#8DC63F]" />
+            <p className="mt-4 text-sm font-semibold uppercase tracking-[0.15em] text-forest/60">
+              Beyond our current footprint
+            </p>
+            <h2
+              id="previous-countries-title"
+              className="mt-2 font-display text-3xl font-bold leading-tight text-forest sm:text-4xl"
             >
-              <h3 className="font-display text-3xl font-bold text-forest">
-                {item.country}
-              </h3>
+              Countries we have worked in previously
+            </h2>
+          </div>
 
-              {item.period && (
-                <p className="mt-1 text-sm font-semibold text-forest/60">
-                  {item.period}
-                </p>
-              )}
+          <p className="flex items-baseline gap-2 text-forest">
+            <span className="font-display text-5xl font-bold text-[#8DC63F]">
+              {previousCountries.length}
+            </span>
+            <span className="max-w-[10rem] text-sm font-semibold leading-5 text-forest/70">
+              additional countries across Africa
+            </span>
+          </p>
+        </div>
+      </div>
 
-              {item.description && (
-                <p className="mt-3 max-w-xs leading-7 text-ink/65">
-                  {item.description}
-                </p>
-              )}
-            </article>
-          ))}
+      {/* Full-width marquee with soft fade at both edges */}
+      <div
+        className="eachr-marquee relative mt-10 overflow-hidden py-3"
+        style={{
+          maskImage:
+            "linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)",
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)",
+        }}
+      >
+        <div className="eachr-marquee-track flex w-max">
+          <ul className="flex shrink-0 gap-5 pr-5">
+            {previousCountries.map((item, index) => renderCard(item, index))}
+          </ul>
+          {/* Duplicate set makes the loop seamless; hidden from assistive tech */}
+          <ul aria-hidden="true" className="eachr-marquee-dup flex shrink-0 gap-5 pr-5">
+            {previousCountries.map((item, index) => renderCard(item, index, true))}
+          </ul>
         </div>
       </div>
     </section>
