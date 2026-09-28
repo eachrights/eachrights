@@ -69,7 +69,7 @@ const programmes = [
       "Advocating for equitable access to health services and the realization of the right to health, including Sexual and Reproductive Health and Rights.",
   },
   {
-    name: "Environmental & Climate",
+    name: "Environmental and Climate Change",
     path: "/programmes/environmental-climate-justice",
     icon: Leaf,
     photo: environmentalPhoto,
@@ -453,74 +453,7 @@ export default function WhatWeDo() {
             />
           ))}
         </motion.div>
-      </section>
-      {/* =====================================================
-          SRHR PORTAL
-      ===================================================== */}
-
-      <section className="bg-white px-6 py-16 sm:px-8 lg:px-12 lg:py-20">
-        <div className="mx-auto max-w-7xl">
-
-          <div className="grid overflow-hidden border border-forest/10 lg:grid-cols-[1.1fr_0.9fr]">
-
-            <div className="bg-forest p-8 text-white sm:p-10 lg:p-12">
-              <span className="flex h-12 w-12 items-center justify-center bg-white/10">
-                <HeartPulse
-                  size={25}
-                  className="text-accent"
-                  strokeWidth={1.7}
-                />
-              </span>
-
-              <p className="mt-8 text-sm font-semibold uppercase tracking-wider text-accent">
-                Dedicated platform
-              </p>
-
-              <h2 className="mt-3 max-w-xl font-display text-3xl font-bold leading-tight sm:text-4xl">
-                Sexual and Reproductive Health and Rights advocacy
-              </h2>
-
-              <p className="mt-5 max-w-xl leading-7 text-white/70">
-                Our dedicated SRHR portal provides a deeper look at our
-                Sexual and Reproductive Health and Rights advocacy and related
-                work across the region.
-              </p>
-
-              <a
-                href={srhrAdvocacyLink.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-8 inline-flex items-center gap-2 bg-accent px-6 py-3.5 text-sm font-bold text-forest transition hover:brightness-105"
-              >
-                Visit the SRHR Portal
-                <ExternalLink size={16} />
-              </a>
-            </div>
-
-            <div className="flex items-center bg-paper p-8 sm:p-10 lg:p-12">
-              <div>
-                <p className="text-sm font-semibold text-forest/60">
-                  Why it matters
-                </p>
-
-                <h3 className="mt-3 font-display text-2xl font-bold text-forest">
-                  Health, dignity and informed choice are central to human
-                  rights
-                </h3>
-
-                <p className="mt-5 leading-7 text-ink/65">
-                  Through advocacy, evidence generation and engagement with
-                  communities and decision-makers, EACHRights works to advance
-                  access to rights-based health information and services.
-                </p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      
+      </section>   
 
     </main>
   );

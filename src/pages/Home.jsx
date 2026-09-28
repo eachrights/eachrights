@@ -22,6 +22,7 @@ import {
   FileText,
   Quotes,
   Bank,
+  Images,
 } from "@phosphor-icons/react";
 
 import CountUp from "../components/CountUp.jsx";
@@ -62,8 +63,8 @@ const SRHR_PORTAL_URL = "https://eachrights.github.io/srhr/";
 const heroSlides = [
   {
     label: "Advancing human rights since 2010",
-    title: "Rights, realized",
-    highlight: "Not just recognized",
+    title: "Rights realized",
+    highlight: "not just recognized",
     description:
       "EACHRights works to promote, protect and advance Economic, Social and Cultural Rights across East Africa.",
     image: hero1,
@@ -103,14 +104,20 @@ const focusAreas = [
   {
     icon: Scales,
     color: "violet",
-    title: "Gender and economic equality",
+    title: "Gender",
     text: "Challenging gender and economic inequalities.",
   },
   {
     icon: Leaf,
     color: "green",
-    title: "Environment and climate",
+    title: "Environment and Climate Change",
     text: "Reducing the impact of environmental and climate change vulnerabilities.",
+  },
+  {
+    icon: Leaf,
+    color: "green",
+    title: "Economic Justice",
+    text: "Advancing economic and social rights for vulnerable and marginalized communities.",
   },
 ];
 
@@ -154,7 +161,7 @@ const programmes = [
     link: "/programmes/health-justice",
   },
   {
-    title: "Environmental & Climate",
+    title: "Environmental and Climate change justice",
     description:
       "Supporting communities to address environmental challenges and climate-related injustices.",
     icon: Leaf,
@@ -163,7 +170,7 @@ const programmes = [
     link: "/programmes/environmental-climate-justice",
   },
   {
-    title: "Economic, Business and Human Rights",
+    title: "Economic Justice, Business and Human Rights",
     description:
       "Advancing economic and social rights for vulnerable and marginalized communities.",
     icon: Briefcase,
@@ -273,6 +280,27 @@ const regions = [
   },
 ];
 
+/* Countries EACHRights has worked in previously. Replace the placeholder
+   entries below with the real ones; `period` is optional. The section
+   lays them out automatically and hides itself if the list is empty. */
+const previousCountries = [
+  {
+    country: "Country name",
+    period: "Years active",
+    description: "Briefly describe the work done here.",
+  },
+  {
+    country: "Country name",
+    period: "Years active",
+    description: "Briefly describe the work done here.",
+  },
+  {
+    country: "Country name",
+    period: "Years active",
+    description: "Briefly describe the work done here.",
+  },
+];
+
 /* Add new platforms here; the section lays them out automatically. */
 const platforms = [
   {
@@ -339,7 +367,9 @@ function usePreload(sources) {
    SHARED
 ========================================================= */
 
-const SECTION = "px-6 py-16 sm:px-8 lg:px-12 lg:py-20";
+/* Vertical padding is kept deliberately tight so sections sit close
+   together instead of leaving large empty bands between them. */
+const SECTION = "px-6 py-8 sm:px-8 lg:px-12 lg:py-10";
 const CONTAINER = "mx-auto max-w-7xl";
 
 /* Maps each data item's `color` key to a tile gradient. All values stay
@@ -366,7 +396,7 @@ function SectionHeading({ title, children, light = false }) {
       </h2>
       {children && (
         <p
-          className={`mt-5 max-w-2xl text-lg leading-8 ${
+          className={`mt-4 max-w-2xl text-lg leading-8 ${
             light ? "text-white/70" : "text-ink/65"
           }`}
         >
@@ -552,23 +582,23 @@ function Platforms() {
   return (
     <section
       aria-labelledby="platforms-title"
-      className="bg-white px-6 py-14 sm:px-8 lg:px-12 lg:py-16"
+      className="bg-white px-6 py-8 sm:px-8 lg:px-12 lg:py-10"
     >
       <div className={CONTAINER}>
         <div className="max-w-2xl">
           <span className="block h-1 w-14 bg-[#8DC63F]" />
           <h2
             id="platforms-title"
-            className="mt-5 font-display text-4xl font-bold leading-tight text-forest sm:text-5xl"
+            className="mt-4 font-display text-4xl font-bold leading-tight text-forest sm:text-5xl"
           >
             Platforms and tools
           </h2>
-          <p className="mt-4 max-w-lg text-lg leading-8 text-ink/65">
+          <p className="mt-3 max-w-lg text-lg leading-8 text-ink/65">
             Online portals and resources from EACHRights.
           </p>
         </div>
 
-        <ul className="mt-12 grid gap-8">
+        <ul className="mt-8 grid gap-8">
           {platforms.map((platform) => {
             const Icon = platform.icon;
             const host = new URL(platform.url).host;
@@ -648,16 +678,14 @@ function Platforms() {
   );
 }
 
-/** "Who we are" intro, with a supporting photo alongside the copy on large screens. */
-/** "Who we are" intro, set over a full-bleed background photo. */
 /** "Who we are" intro, anchored by a large framed photo with a floating stat card. */
 function Introduction() {
   return (
     <section
       aria-labelledby="intro-title"
-      className="overflow-hidden bg-paper px-6 py-16 sm:px-8 lg:px-12 lg:py-24"
+      className="overflow-hidden bg-paper px-6 py-8 sm:px-8 lg:px-12 lg:py-12"
     >
-      <div className={`${CONTAINER} grid gap-14 lg:grid-cols-2 lg:items-center lg:gap-20`}>
+      <div className={`${CONTAINER} grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16`}>
         {/* Image, framed with an offset accent border and a floating stat card */}
         <div className="relative order-1 lg:order-1">
           <div
@@ -673,7 +701,7 @@ function Introduction() {
 
           <div className="absolute -bottom-7 left-4 right-4 flex items-center gap-4 bg-forest px-6 py-5 text-white shadow-xl sm:left-8 sm:right-auto sm:max-w-[260px]">
             <span className="font-display text-4xl font-bold text-[#8DC63F]">
-              14+
+              Since 2010
             </span>
             <span className="text-sm leading-6 text-white/85">
               Years advancing human rights across East Africa
@@ -686,17 +714,17 @@ function Introduction() {
           <span className="block h-1 w-14 bg-[#8DC63F]" />
           <h2
             id="intro-title"
-            className="mt-5 font-display text-4xl font-bold leading-tight text-forest sm:text-5xl"
+            className="mt-4 font-display text-4xl font-bold leading-tight text-forest sm:text-5xl"
           >
             Who we are
           </h2>
 
-          <p className="mt-6 max-w-xl font-display text-2xl font-bold leading-snug text-forest sm:text-3xl">
+          <p className="mt-5 max-w-xl font-display text-2xl font-bold leading-snug text-forest sm:text-3xl">
             The East African Centre for Human Rights promotes, protects and
-            advances Economic, Social and Cultural Rights.
+            advances Economic, Social and Cultural Rights
           </p>
 
-          <p className="mt-6 max-w-xl text-lg leading-8 text-ink/70">
+          <p className="mt-5 max-w-xl text-lg leading-8 text-ink/70">
             EACHRights is a non-partisan regional non-governmental organisation
             working with vulnerable and marginalized communities. Through
             research, advocacy, capacity building and public interest
@@ -704,7 +732,7 @@ function Introduction() {
             their rights and live with dignity.
           </p>
 
-          <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <div className="mt-7 flex flex-wrap items-center gap-x-8 gap-y-4">
             <Link
               to="/who-we-are/our-story"
               className="inline-flex items-center gap-2 bg-forest px-6 py-3.5 text-sm font-bold text-white transition hover:bg-forest-dark"
@@ -726,7 +754,7 @@ function Introduction() {
 function Challenge() {
   return (
     <section className="bg-white" aria-labelledby="challenge-title">
-      <div className={`${CONTAINER} grid gap-12 px-6 py-14 sm:px-8 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-12 lg:py-16`}>
+      <div className={`${CONTAINER} grid gap-10 px-6 py-8 sm:px-8 lg:grid-cols-2 lg:items-center lg:gap-14 lg:px-12 lg:py-10`}>
         <div>
           <p className="flex items-center gap-3 text-sm font-semibold text-forest/60">
             <span className="h-px w-10 bg-[#8DC63F]" />
@@ -734,33 +762,31 @@ function Challenge() {
           </p>
           <h2
             id="challenge-title"
-            className="mt-5 font-display text-3xl font-bold leading-tight text-forest sm:text-4xl"
+            className="mt-4 font-display text-3xl font-bold leading-tight text-forest sm:text-4xl"
           >
-            Rights guaranteed on paper are still out of reach in daily life.
+            Rights guaranteed on paper are still out of reach in daily life
           </h2>
-          <p className="mt-6 max-w-xl text-lg leading-8 text-ink/70">
+          <p className="mt-5 max-w-xl text-lg leading-8 text-ink/70">
             Constitutions and international treaties across East Africa
             recognize economic, social and cultural rights. But recognition on
             its own does not put food on a table, keep a clinic stocked, or
             protect land from being taken.
           </p>
-          <p className="mt-4 max-w-xl leading-7 text-ink/65">
+          <p className="mt-3 max-w-xl leading-7 text-ink/65">
             This is not because these rights are aspirational. It is because
             the institutions meant to deliver them are under-resourced,
             under-monitored, or not held to account.
           </p>
 
-          <ul className="mt-8 space-y-3 border-t border-forest/10 pt-6">
+          <div className="mt-6 space-y-3 border-t border-forest/10 pt-5">
             {challengeGroups.map((line) => (
-              <li key={line} className="flex gap-3 leading-7 text-ink/70">
-                <span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-[#8DC63F]" />
+              <p key={line} className="leading-7 text-ink/70">
                 {line}
-              </li>
+              </p>
             ))}
-          </ul>
+          </div>
         </div>
-
-        <div className="relative">
+        <div className="relative pb-8">
           <img
             src={impact3}
             alt=""
@@ -771,7 +797,7 @@ function Challenge() {
             src={impact2}
             alt=""
             aria-hidden="true"
-            className="absolute -bottom-8 -left-8 hidden aspect-[3/2] w-40 border-4 border-white object-cover shadow-xl sm:block lg:w-48"
+            className="absolute bottom-0 -left-8 hidden aspect-[3/2] w-40 border-4 border-white object-cover shadow-xl sm:block lg:w-48"
           />
         </div>
       </div>
@@ -784,10 +810,10 @@ function StrategicPlanHighlight() {
   return (
     <section
       aria-labelledby="strategic-plan-title"
-      className="bg-forest px-6 py-14 sm:px-8 lg:px-12 lg:py-16 text-white"
+      className="bg-forest px-6 py-8 sm:px-8 lg:px-12 lg:py-10 text-white"
     >
       <div className={CONTAINER}>
-        <div className="grid gap-10 lg:grid-cols-[auto_1fr] lg:items-center lg:gap-16">
+        <div className="grid gap-8 lg:grid-cols-[auto_1fr] lg:items-center lg:gap-14">
           <GlassIconTile icon={FileText} size={30} tileSize={64} />
 
           <div>
@@ -798,7 +824,7 @@ function StrategicPlanHighlight() {
 
             <h2
               id="strategic-plan-title"
-              className="mt-4 font-display text-3xl font-bold italic leading-snug sm:text-4xl"
+              className="mt-3 font-display text-3xl font-bold italic leading-snug sm:text-4xl"
             >
               &ldquo;A just society that respects and upholds human rights and
               inherent dignity.&rdquo;
@@ -815,7 +841,7 @@ function StrategicPlanHighlight() {
               href={strategicPlan2026}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-7 inline-flex items-center gap-2 bg-[#8DC63F] px-6 py-3.5 text-sm font-bold text-forest transition hover:brightness-105"
+              className="mt-6 inline-flex items-center gap-2 bg-[#8DC63F] px-6 py-3.5 text-sm font-bold text-forest transition hover:brightness-105"
             >
               Read the full Strategic Plan
               <ArrowUpRight size={17} />
@@ -824,14 +850,14 @@ function StrategicPlanHighlight() {
           </div>
         </div>
 
-        <p className="mt-10 border-t border-white/15 pt-8 text-sm font-semibold text-white/70">
+        <p className="mt-8 border-t border-white/15 pt-6 text-sm font-semibold text-white/70">
           Over the next five years, we&apos;re working toward:
         </p>
-        <div className="mt-6 grid gap-8 sm:grid-cols-3 sm:gap-6">
+        <div className="mt-5 grid gap-6 sm:grid-cols-3 sm:gap-6">
           {strategicAims.map((aim) => {
             const Icon = aim.icon;
             return (
-              <div key={aim.text} className="flex gap-4 border-t border-[#8DC63F] pt-5">
+              <div key={aim.text} className="flex gap-4 border-t border-[#8DC63F] pt-4">
                 <GlassIconTile icon={Icon} size={20} tileSize={44} />
                 <p className="leading-7 text-white/85">{aim.text}</p>
               </div>
@@ -846,7 +872,7 @@ function StrategicPlanHighlight() {
 function FocusAreas() {
   return (
     <section className={`bg-white ${SECTION}`} aria-labelledby="focus-title">
-      <div className={`${CONTAINER} grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20`}>
+      <div className={`${CONTAINER} grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16`}>
         <div>
           <h2
             id="focus-title"
@@ -854,12 +880,12 @@ function FocusAreas() {
           >
             Where we focus our efforts
           </h2>
-          <p className="mt-5 max-w-md text-lg leading-8 text-ink/65">
+          <p className="mt-4 max-w-md text-lg leading-8 text-ink/65">
             Four areas where we help communities claim their rights.
           </p>
         </div>
 
-        <dl className="grid gap-x-10 gap-y-10 sm:grid-cols-2">
+        <dl className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
           {focusAreas.map((area) => {
             const Icon = area.icon;
             return (
@@ -889,7 +915,7 @@ function Programmes() {
   return (
     <section className={`bg-forest-light ${SECTION}`}>
       <div className={CONTAINER}>
-        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+        <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <SectionHeading title="Seven Strategic Focus Areas, One commitment to justice">
             Our programmes address the structural barriers that prevent
             communities from fully realizing their rights.
@@ -903,7 +929,7 @@ function Programmes() {
           </Link>
         </div>
 
-        <div className="mt-10 grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="mt-8 grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
           <ul className="divide-y divide-forest/15 border-y border-forest/15">
             {programmes.map((programme, index) => {
               const Icon = programme.icon;
@@ -943,7 +969,7 @@ function Programmes() {
                         to={programme.link}
                         className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-forest underline decoration-[#8DC63F] decoration-2 underline-offset-4"
                       >
-                        Explore programme
+                        Read more
                         <ArrowRight size={16} />
                       </Link>
                     </div>
@@ -992,7 +1018,7 @@ function Programmes() {
 
 function Impact() {
   return (
-    <section className="relative isolate overflow-hidden bg-ink px-6 py-12 text-white sm:px-8 lg:px-12 lg:py-14">
+    <section className="relative isolate overflow-hidden bg-ink px-6 py-8 text-white sm:px-8 lg:px-12 lg:py-10">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -right-32 -top-32 -z-10 h-96 w-96 rounded-full bg-[#8DC63F]/15 blur-[100px]"
@@ -1013,11 +1039,11 @@ function Impact() {
           </p>
         </div>
 
-        <dl className="mt-8 grid border-t border-white/15 sm:grid-cols-2 lg:grid-cols-3">
+        <dl className="mt-6 grid border-t border-white/15 sm:grid-cols-2 lg:grid-cols-3">
           {impactStats.map((stat) => (
             <div
               key={stat.label}
-              className="border-b border-white/15 py-5 sm:pr-6 lg:[&:not(:nth-child(3n+1))]:border-l lg:[&:not(:nth-child(3n+1))]:pl-6"
+              className="border-b border-white/15 py-4 sm:pr-6 lg:[&:not(:nth-child(3n+1))]:border-l lg:[&:not(:nth-child(3n+1))]:pl-6"
             >
               <dd className="font-display text-3xl font-bold text-white sm:text-4xl">
                 <CountUp end={stat.value} duration={2} separator="," />
@@ -1030,16 +1056,27 @@ function Impact() {
           ))}
         </dl>
 
-        <a
-          href={strategicPlan2026}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-10 inline-flex items-center gap-2 text-sm font-bold text-white/80 underline decoration-[#8DC63F] decoration-2 underline-offset-4 transition hover:text-white"
-        >
-          Read the full Strategic Plan
-          <ArrowUpRight size={16} />
-          <span className="sr-only">(opens in a new tab)</span>
-        </a>
+        <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <a
+            href={strategicPlan2026}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-bold text-white/80 underline decoration-[#8DC63F] decoration-2 underline-offset-4 transition hover:text-white"
+          >
+            Read the full Strategic Plan
+            <ArrowUpRight size={16} />
+            <span className="sr-only">(opens in a new tab)</span>
+          </a>
+
+          <Link
+            to="/gallery"
+            className="inline-flex items-center gap-2 bg-[#8DC63F] px-5 py-3 text-sm font-bold text-forest transition hover:brightness-105"
+          >
+            <Images size={17} weight="duotone" />
+            View our gallery
+            <ArrowRight size={16} />
+          </Link>
+        </div>
       </div>
     </section>
   );
@@ -1048,7 +1085,7 @@ function Impact() {
 /** Full-bleed pull-quote, anchoring the vision behind the day-to-day work. */
 function QuoteBanner() {
   return (
-    <section className="relative isolate overflow-hidden bg-black px-6 py-16 text-white sm:px-8 lg:px-12">
+    <section className="relative isolate overflow-hidden bg-black px-6 py-10 text-white sm:px-8 lg:px-12 lg:py-12">
       <img
         src={commitmentImage}
         alt=""
@@ -1061,7 +1098,7 @@ function QuoteBanner() {
       <div className={`${CONTAINER} max-w-3xl`}>
         <GlassIconTile icon={Quotes} size={26} tileSize={56} />
 
-        <p className="mt-6 font-display text-2xl font-bold leading-snug sm:text-3xl">
+        <p className="mt-5 font-display text-2xl font-bold leading-snug sm:text-3xl">
           Success looks like communities who know their rights, institutions
           that answer to the people they serve, and a region where dignity is
           not conditional on circumstance.
@@ -1070,11 +1107,12 @@ function QuoteBanner() {
     </section>
   );
 }
+
 function Approach() {
   return (
     <section className={`bg-paper ${SECTION}`}>
       <div className={CONTAINER}>
-        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+        <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <SectionHeading title="Evidence. Advocacy. Action.">
             We combine knowledge, community power, institutional engagement and
             strategic legal action to advance human rights.
@@ -1088,13 +1126,13 @@ function Approach() {
           </Link>
         </div>
 
-        <div className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+        <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           {approaches.map((item) => {
             const Icon = item.icon;
             return (
-              <article key={item.title} className="border-t-4 border-[#8DC63F] pt-6">
+              <article key={item.title} className="border-t-4 border-[#8DC63F] pt-5">
                 <IconTile icon={Icon} gradient={COLOR_GRADIENTS[item.color]} size={26} tileSize={52} />
-                <h3 className="mt-5 font-display text-2xl font-bold text-forest">
+                <h3 className="mt-4 font-display text-2xl font-bold text-forest">
                   {item.title}
                 </h3>
                 <p className="mt-3 leading-7 text-ink/65">{item.description}</p>
@@ -1112,17 +1150,17 @@ function StoryAndChange() {
   return (
     <section className="bg-white">
       <div className={`${CONTAINER} grid lg:grid-cols-2`}>
-        <div className="flex flex-col justify-center px-6 py-14 sm:px-8 lg:px-12">
+        <div className="flex flex-col justify-center px-6 py-8 sm:px-8 lg:px-12">
           <h2 className="font-display text-3xl font-bold leading-tight text-forest sm:text-4xl">
             A decade-plus of turning rights into action
           </h2>
-          <p className="mt-5 max-w-lg leading-8 text-ink/70">
+          <p className="mt-4 max-w-lg leading-8 text-ink/70">
             Since 2010, our work has been rooted in the belief that dignity,
             equality and justice must be made real in people&apos;s daily lives.
           </p>
           <Link
             to="/who-we-are/our-story"
-            className="mt-7 inline-flex items-center gap-2 self-start bg-forest px-6 py-3.5 text-sm font-bold text-white transition hover:brightness-110"
+            className="mt-6 inline-flex items-center gap-2 self-start bg-forest px-6 py-3.5 text-sm font-bold text-white transition hover:brightness-110"
           >
             Read our story
             <ArrowRight size={17} />
@@ -1143,17 +1181,17 @@ function StoryAndChange() {
           aria-hidden="true"
           className="order-2 aspect-[3/2] w-full object-cover lg:order-1"
         />
-        <div className="order-1 flex flex-col justify-center px-6 py-14 sm:px-8 lg:order-2 lg:px-12">
+        <div className="order-1 flex flex-col justify-center px-6 py-8 sm:px-8 lg:order-2 lg:px-12">
           <h2 className="font-display text-3xl font-bold leading-tight text-forest sm:text-4xl">
             From evidence to lasting change
           </h2>
-          <p className="mt-5 max-w-lg leading-8 text-ink/70">
+          <p className="mt-4 max-w-lg leading-8 text-ink/70">
             Our Theory of Change connects the work we do today with the more
             just and equitable society we seek to build.
           </p>
           <Link
             to="/programmes/theory-of-change"
-            className="mt-7 inline-flex items-center gap-2 self-start border border-forest px-6 py-3.5 text-sm font-bold text-forest transition hover:bg-forest hover:text-white"
+            className="mt-6 inline-flex items-center gap-2 self-start border border-forest px-6 py-3.5 text-sm font-bold text-forest transition hover:bg-forest hover:text-white"
           >
             Explore our Theory of Change
             <ArrowRight size={17} />
@@ -1170,14 +1208,60 @@ function WhereWeWork() {
       <div className={CONTAINER}>
         <SectionHeading title="East African in scope Community-rooted in practice" />
 
-        <div className="mt-10 grid gap-px bg-forest/15 md:grid-cols-3">
+        <div className="mt-8 grid gap-px bg-forest/15 md:grid-cols-3">
           {regions.map((region) => (
-            <article key={region.country} className="bg-paper py-8 md:px-8 md:first:pl-0">
+            <article key={region.country} className="bg-paper py-6 md:px-8 md:first:pl-0">
               <h3 className="font-display text-4xl font-bold text-forest">
                 {region.country}
               </h3>
-              <p className="mt-4 max-w-xs leading-7 text-ink/65">
+              <p className="mt-3 max-w-xs leading-7 text-ink/65">
                 {region.description}
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** Countries we have worked in previously, shown directly below "Where we work". */
+function PreviousCountries() {
+  if (!previousCountries.length) return null;
+
+  return (
+    <section
+      aria-labelledby="previous-countries-title"
+      className="bg-white px-6 py-8 sm:px-8 lg:px-12 lg:py-10"
+    >
+      <div className={CONTAINER}>
+        <p className="flex items-center gap-3 text-sm font-semibold text-forest/60">
+          <span className="h-px w-10 bg-[#8DC63F]" />
+          Beyond our current footprint
+        </p>
+        <h2
+          id="previous-countries-title"
+          className="mt-4 font-display text-3xl font-bold leading-tight text-forest sm:text-4xl"
+        >
+          Countries we have worked in previously
+        </h2>
+
+        <div className="mt-8 grid gap-px bg-forest/15 md:grid-cols-3">
+          {previousCountries.map((item, index) => (
+            <article
+              key={`${item.country}-${index}`}
+              className="bg-white py-6 md:px-8 md:first:pl-0"
+            >
+              <h3 className="font-display text-3xl font-bold text-forest">
+                {item.country}
+              </h3>
+              {item.period && (
+                <p className="mt-1 text-sm font-semibold text-forest/60">
+                  {item.period}
+                </p>
+              )}
+              <p className="mt-3 max-w-xs leading-7 text-ink/65">
+                {item.description}
               </p>
             </article>
           ))}
@@ -1242,12 +1326,13 @@ export default function Home() {
         <Challenge />
         <Programmes />
         <StrategicPlanHighlight />
+        <FocusAreas />
         <Impact />
         <QuoteBanner />
         <Approach />
-        <FocusAreas />
         <StoryAndChange />
         <WhereWeWork />
+        <PreviousCountries />
         <Platforms />
       </main>
 

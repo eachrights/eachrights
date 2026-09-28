@@ -219,7 +219,7 @@ const staff = [
   {
     name: "Samson Mutange",
     role: "Finance and Operations Officer",
-    group: "Operations and Governance",
+    group: "Administration",
     bio: "Mr. Samson Mutange is the Finance, Administration and Operations Officer at EACHRights, where he plays a pivotal role in coordinating financial administration in alignment with donor and organizational regulations, emphasizing good governance practices. His responsibilities include planning, organizing, coordinating, and monitoring finance, human resources, administration, fieldwork logistics, supplies and procurement, security, and office management activities. Mr. Mutange ensures the proper implementation of EACHRights' policies and procedures, including Finance Management, Administration and Human Resources, Purchases, and Procurement Manuals. He oversees the availability of required cash for operational needs, facilitates the preparation of regular reports for project management, government entities, and other stakeholders. Mr. Mutange is known for his results-driven approach and meticulous attention to detail. With a Certified Public Accountants Certification and over 15 years of experience in the NGO sector, Mr. Mutange brings a wealth of expertise to his role. For inquiries, he can be reached at samson@eachrights.or.ke",
     photo: getPhoto("Samson.jpg"),
     email: "",
@@ -227,7 +227,7 @@ const staff = [
   {
     name: "Mirriam Mwongela",
     role: "Communications Officer",
-    group: "Operations and Governance",
+    group: "Administration",
     bio: "Mirriam is an experienced communication professional with a passion for using the power of communication through mass media and public relations to inform the public through journalism, broadcasting and public relations with the community. A strategic communication and public relations officer, offering proven leadership in creating comprehensive public relations and communication strategies to advance companies' visions and goals. Adept in all aspects of public relations, including media relations, internal communications, event planning and community programming. She is an experienced videographer and photographer with top-notch editing skills. In addition, she is a member of the Association of Women in Media in Kenya (AMWIK), which brings together over 300 women in media across the 47 counties to pool their professional skills in giving visibility to women's concerns. AMWIK recognizes that gender inequality and inequity undermine development and that media is a powerful tool for social change and agenda-setting, which is used to create awareness around key issues affecting women to ensure public support and appreciation. As a communications officer at EACHRights, Mirriam plays a vital role in managing the organization's online presence by developing and implementing its social media strategy. She leads campaigns and projects across a range of social media channels, producing and engaging content, analyzing usage data and facilitating customer service.",
     photo: getPhoto("Mirriam.jpg"),
     email: "",
@@ -235,7 +235,7 @@ const staff = [
   {
     name: "Pachu Ibrahim",
     role: "Administrative Assistant",
-    group: "Operations and Governance",
+    group: "Administration",
     bio: "As an Administrative Assistant at EACHRights, Ms. Pachu Ibrahim plays a crucial role in ensuring that the office operates smoothly. Her responsibilities include providing dedicated support to other staff, optimizing daily office functions for increased efficiency, and managing the organization's general administrative tasks. Ms. Ibrahim brings a robust skill set in office management and procedures, exceptional time management, strong organizational skills, and the capacity to handle multiple tasks effectively. Her attention to detail and proficiency in problem-solving underscore her commitment to maintaining a seamless workflow. Ms. Ibrahim is proficient in using various office equipment like printers and photocopying machines. All the aforementioned highlight her versatility and adaptability in administrative duties thereby significantly enhancing EACHRights' overall effectiveness and productivity. For inquiries, Ms. Pachu Ibrahim can be reached at pachu@eachrights.or.ke",
     photo: getPhoto("Pachu.jpg"),
     email: "",
@@ -259,7 +259,7 @@ function groupPeople(people) {
   const byGroup = {};
 
   people.forEach((person) => {
-    const key = person.group || "Team";
+    const key = (person.group || "Team").trim();
     if (!byGroup[key]) {
       byGroup[key] = [];
       order.push(key);
@@ -298,6 +298,10 @@ function preloadImage(src) {
 /* =========================================================
    SHARED HELPERS
 ========================================================= */
+
+/* Card grid used everywhere: compact 5-up on large screens so a group of
+   around ten people fits in two tidy rows. */
+const CARD_GRID = "grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5";
 
 function getInitials(name) {
   return name
@@ -371,6 +375,9 @@ function MemberCard({ person, onSelect }) {
   return (
     <motion.article
       variants={cardVariants}
+      initial="hidden"
+      whileInView="shown"
+      viewport={{ once: true, amount: 0.05 }}
       onClick={() => onSelect(person)}
       role="button"
       tabIndex={0}
@@ -380,10 +387,10 @@ function MemberCard({ person, onSelect }) {
       className="group cursor-pointer overflow-hidden bg-white shadow-sm transition hover:shadow-lg"
     >
       <Avatar name={person.name} photo={person.photo} />
-      <div className="p-4">
+      <div className="p-3">
         <h3 className="font-display text-base font-bold text-forest">{person.name}</h3>
         <p className="mt-1 text-sm leading-snug text-ink/60">{person.role}</p>
-        <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-accent">
+        <span className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-accent">
           View profile
           <ChevronRight
             size={14}
@@ -400,26 +407,20 @@ function MemberCard({ person, onSelect }) {
    ---------------------------------------------------------
    One department group: a small caps label followed by its
    row of MemberCards, mirroring Mizizi's "Executive Director
-   Office" / "Operations and Governance" / etc. sections.
+   Office" / "Administration" / etc. sections.
 ========================================================= */
 
 function TeamSection({ title, people, onSelect }) {
   return (
-    <div className="mb-16 last:mb-0">
-      <h3 className="mb-6 text-xs font-bold uppercase tracking-[0.2em] text-accent">
+    <div className="mb-10 last:mb-0">
+      <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-accent">
         {title}
       </h3>
-      <motion.div
-        initial="hidden"
-        whileInView="shown"
-        viewport={{ once: true, amount: 0.1 }}
-        variants={gridVariants}
-        className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4"
-      >
+      <div className={CARD_GRID}>
         {people.map((person) => (
           <MemberCard key={person.name} person={person} onSelect={onSelect} />
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -538,7 +539,7 @@ export default function Team() {
           above a long, descriptive H1.
       ===================================================== */}
 
-      <header className="relative flex min-h-[560px] items-center overflow-hidden bg-forest text-paper lg:min-h-[680px]">
+      <header className="relative flex min-h-[380px] items-center overflow-hidden bg-forest text-paper lg:min-h-[440px]">
         <img
           src={heroImage}
           alt=""
@@ -550,8 +551,8 @@ export default function Team() {
         <div className="pointer-events-none absolute -bottom-40 -left-40 h-80 w-80 rounded-full border-[25px] border-paper/5" />
         <div className="absolute left-0 right-0 top-0 z-20 h-1 bg-accent" />
 
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-20 sm:px-8 lg:px-12 lg:py-28">
-          <nav className="mb-6 flex items-center gap-2 text-sm font-medium text-white/60">
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-14 sm:px-8 lg:px-12 lg:py-16">
+          <nav className="mb-4 flex items-center gap-2 text-sm font-medium text-white/60">
             <Link to="/about" className="transition hover:text-white">
               Who We Are
             </Link>
@@ -559,12 +560,12 @@ export default function Team() {
             <span className="text-white/85">Team</span>
           </nav>
 
-          <h1 className="mt-4 max-w-3xl font-display text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-5xl">
+          <h1 className="mt-3 max-w-3xl font-display text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-5xl">
             The people advancing
             <span className="block text-accent">human rights every day.</span>
           </h1>
 
-          <p className="mt-6 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">
+          <p className="mt-5 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">
             EACHRights is powered by a board, leadership team and staff of researchers, advocates, legal experts
             and programme staff working together to advance Economic, Social and Cultural Rights across East
             Africa.
@@ -579,7 +580,7 @@ export default function Team() {
           and Governance" / etc. layout.
       ===================================================== */}
 
-      <section className="mx-auto max-w-7xl px-6 py-24 sm:py-28">
+      <section className="mx-auto max-w-7xl px-6 py-10 sm:py-12">
         {staffSections.map((section) => (
           <TeamSection
             key={section.group}
@@ -595,29 +596,23 @@ export default function Team() {
           card treatment.
       ===================================================== */}
 
-      <section className="bg-forest-light px-6 py-24 sm:py-28">
+      <section className="bg-forest-light px-6 py-10 sm:py-12">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-10 max-w-2xl">
+          <div className="mb-6 max-w-2xl">
             <h2 className="text-3xl font-bold tracking-tight text-forest sm:text-4xl font-display">
               Board of Directors
             </h2>
-            <p className="mt-3 leading-7 text-ink/65">
+            <p className="mt-2 leading-7 text-ink/65">
               Volunteer governance leaders who set EACHRights' strategic direction and hold the organisation
               accountable.
             </p>
           </div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="shown"
-            viewport={{ once: true, amount: 0.1 }}
-            variants={gridVariants}
-            className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4"
-          >
+          <div className={CARD_GRID}>
             {board.map((person) => (
               <MemberCard key={person.name} person={person} onSelect={setSelectedPerson} />
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -625,15 +620,15 @@ export default function Team() {
           JOIN THE TEAM CTA
       ===================================================== */}
 
-      <section className="relative overflow-hidden bg-forest-dark px-6 py-16 text-paper">
+      <section className="relative overflow-hidden bg-forest-dark px-6 py-10 text-paper">
         <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border-[25px] border-paper/10" />
 
-        <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center justify-between gap-8 text-center md:flex-row md:text-left">
+        <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 text-center md:flex-row md:text-left">
           <div>
             <h2 className="font-display text-3xl font-bold sm:text-4xl">
               Want to work with EACHRights?
             </h2>
-            <p className="mt-3 max-w-2xl leading-7 text-paper/80">
+            <p className="mt-2 max-w-2xl leading-7 text-paper/80">
               We're always looking for people who share our commitment to human rights and social justice. See
               our current openings.
             </p>
@@ -653,15 +648,15 @@ export default function Team() {
           FINAL CTA
       ===================================================== */}
 
-      <section className="bg-forest px-6 py-24 text-center text-paper">
+      <section className="bg-forest px-6 py-12 text-center text-paper">
         <div className="mx-auto max-w-3xl">
-          <Handshake size={48} strokeWidth={1.3} className="mx-auto text-accent" />
-          <h2 className="mt-6 text-4xl font-bold sm:text-5xl font-display">Be part of the change.</h2>
-          <p className="mx-auto mt-5 max-w-xl leading-8 text-paper/65">
+          <Handshake size={44} strokeWidth={1.3} className="mx-auto text-accent" />
+          <h2 className="mt-4 text-4xl font-bold sm:text-5xl font-display">Be part of the change.</h2>
+          <p className="mx-auto mt-4 max-w-xl leading-8 text-paper/65">
             Whether through partnership, advocacy, research or support, there is a role for everyone in advancing
             human rights and social justice.
           </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
+          <div className="mt-6 flex flex-wrap justify-center gap-4">
             <Link
               to="/contact"
               className="inline-flex items-center gap-2 bg-accent px-7 py-3.5 font-bold text-forest transition hover:brightness-105"
