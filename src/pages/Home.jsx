@@ -121,7 +121,7 @@ const focusAreas = [
   {
     icon: Leaf,
     color: "green",
-    title: "Economic Justice",
+    title: "Economic, Business and Human Rights",
     text: "Advancing economic and social rights for vulnerable and marginalized communities.",
   },
 ];
@@ -290,7 +290,7 @@ const regions = [
     country: "Kenya",
     description:
       "Home base for our national advocacy, research and litigation work.",
-    counties: ["Nairobi", "Kajiado", "Marsabit"],
+    counties: ["Nairobi", "Kajiado", "Marsabit", "Garissa", "Homa Bay", "Migori", "Kilifi", "Kwale"],
   },
   {
     country: "Uganda",
@@ -309,19 +309,32 @@ const regions = [
    lays them out automatically and hides itself if the list is empty. */
 const previousCountries = [
   {
-    country: "Country name",
-    period: "Years active",
-    description: "Briefly describe the work done here.",
+    country: "Rwanda",
+    //description: "Briefly describe the work done here.",
   },
   {
-    country: "Country name",
-    period: "Years active",
-    description: "Briefly describe the work done here.",
+    country: "Burundi",
+    //description: "Briefly describe the work done here.",
   },
   {
-    country: "Country name",
-    period: "Years active",
-    description: "Briefly describe the work done here.",
+    country: "Madagascar",
+    //description: "Briefly describe the work done here.",
+  },
+  {
+    country: "South Sudan",
+    //description: "Briefly describe the work done here.",
+  },
+  {
+    country: "Comoros",
+    //description: "Briefly describe the work done here.",
+  },
+  {
+    country: "Sudan",
+    //description: "Briefly describe the work done here.",
+  },
+  {
+    country: "Somalia",
+    //description: "Briefly describe the work done here.",
   },
 ];
 
