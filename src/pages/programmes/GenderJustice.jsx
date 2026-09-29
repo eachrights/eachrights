@@ -14,6 +14,9 @@ import {
   Search,
 } from "lucide-react";
 
+// Same image the Gender programme uses on the Home page.
+import genderImage from "../../assets/impact/impact-2.png";
+
 /* =========================================================
    The eight focus areas grouped into the four pillars they
    actually represent, rather than one uniform 4-up grid.
@@ -99,23 +102,21 @@ export default function GenderJustice() {
           HERO
       ===================================================== */}
       <section className="relative isolate overflow-hidden bg-forest text-white">
-        <div
-          className="pointer-events-none absolute -right-40 -top-40 h-[30rem] w-[30rem] rounded-full border border-white/10"
+        {/* Background photo (same image as the Home page programme card) */}
+        <img
+          src={genderImage}
+          alt=""
           aria-hidden="true"
-        />
-        <div
-          className="pointer-events-none absolute -bottom-48 -left-48 h-[30rem] w-[30rem] rounded-full border border-white/10"
-          aria-hidden="true"
+          className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
         />
 
-        <div className="relative mx-auto max-w-7xl px-6 py-12 sm:px-8 sm:py-14 lg:px-12 lg:py-16">
-          <Link
-            to="/our-work"
-            className="inline-flex items-center gap-2 text-sm font-medium text-white/70 transition hover:text-white"
-          >
-            <ArrowLeft size={16} />
-            Our Work
-          </Link>
+        {/* Legibility overlays */}
+        <div className="absolute inset-0 -z-10 bg-forest/40" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/75 via-black/45 to-black/10" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+
+        <div className="relative mx-auto max-w-7xl px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-28">
+    
 
           <motion.div
             initial={{ opacity: 0, y: 14 }}
@@ -123,7 +124,7 @@ export default function GenderJustice() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="mt-6 max-w-3xl"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 backdrop-blur-sm ring-1 ring-white/20">
               <Scale size={24} strokeWidth={1.7} />
             </div>
 
@@ -131,7 +132,7 @@ export default function GenderJustice() {
               Gender Justice Programme
             </h1>
 
-            <p className="mt-4 max-w-2xl text-sm leading-7 text-white/75 sm:text-base">
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-white/85 sm:text-base">
               Promoting gender equality, meaningful participation, access to
               justice, and equal opportunities for women and men.
             </p>
@@ -319,7 +320,6 @@ export default function GenderJustice() {
               Get Involved
               <ArrowRight size={18} />
             </Link>
-
           </div>
         </div>
       </section>

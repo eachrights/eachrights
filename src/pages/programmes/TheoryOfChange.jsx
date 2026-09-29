@@ -13,6 +13,9 @@ import {
   BriefcaseBusiness,
 } from "lucide-react";
 
+// Same image the Home page uses beside its Theory of Change block.
+import theoryOfChangeImage from "../../assets/videos/rightsintoaction.png";
+
 /* =========================================================
    THEORY OF CHANGE PAGE
 ========================================================= */
@@ -80,32 +83,29 @@ export default function TheoryOfChange() {
 
       <section className="relative isolate overflow-hidden bg-forest text-white">
 
-        <div
-          className="pointer-events-none absolute -right-40 -top-40 h-[30rem] w-[30rem] rounded-full border border-white/10"
+        {/* Background photo (same image as the Home page Theory of Change block) */}
+        <img
+          src={theoryOfChangeImage}
+          alt=""
           aria-hidden="true"
+          className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
         />
-        <div
-          className="pointer-events-none absolute -bottom-48 -left-48 h-[30rem] w-[30rem] rounded-full border border-white/10"
-          aria-hidden="true"
-        />
+
+        {/* Legibility overlays */}
+        <div className="absolute inset-0 -z-10 bg-forest/40" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/75 via-black/45 to-black/10" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
         <div className="relative mx-auto max-w-7xl px-6 py-24 sm:px-8 lg:px-12 lg:py-28">
 
-          <Link
-            to="/our-work"
-            className="inline-flex items-center gap-2 text-sm font-medium text-white/70 transition hover:text-white"
-          >
-            <ArrowLeft size={16} />
-            Our Work
-          </Link>
 
           <div className="mt-8 max-w-4xl">
 
-            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-white/10">
+            <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-white/10 backdrop-blur-sm ring-1 ring-white/20">
               <Compass size={28} strokeWidth={1.7} />
             </div>
 
-            <p className="mt-6 text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
+            <p className="mt-6 text-sm font-semibold uppercase tracking-[0.2em] text-white/75">
               Our Work / Programmes
             </p>
 
@@ -113,7 +113,7 @@ export default function TheoryOfChange() {
               Theory of Change
             </h1>
 
-            <p className="mt-6 max-w-2xl text-base leading-8 text-white/80">
+            <p className="mt-6 max-w-2xl text-base leading-8 text-white/85">
               Our Theory of Change outlines the approaches and intervention strategy
               pathways, which are reflected in the programmes and include the
               assumptions and the logical connections between the different levels
