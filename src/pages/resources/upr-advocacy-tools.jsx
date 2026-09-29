@@ -6,7 +6,7 @@ import {
   ArrowRight,
   ArrowUpRight,
   Download,
-  FileSpreadsheet,
+  Eye,
   FileText,
   Globe2,
   Mail,
@@ -16,185 +16,121 @@ import {
 
 import uprPhoto from "../../assets/impact/impact-9.png";
 
-/*
-|--------------------------------------------------------------------------
-| ADD YOUR UPR ADVOCACY FILES HERE
-|--------------------------------------------------------------------------
-| title       : the file's name as visitors should see it
-| description : one or two sentences on what it is and who it is for
-| category    : any group name you like, e.g. "Guides", "Templates",
-|               "Briefings", "Submissions". Tabs are created automatically
-|               from the categories you use here.
-| format      : "PDF" | "DOCX" | "XLSX" | "PPTX" | "LINK". Optional: if left
-|               out, it is worked out from the file extension in the url.
-| size        : optional, shown as written, e.g. "2.4 MB"
-| date        : optional, shown as written, e.g. "Mar 2026"
-| url         : where the file lives. Put files in your project's
-|               public/docs/upr/ folder and use "/docs/upr/file-name.pdf",
-|               or paste a full https:// link.
-|
-| The entries below are PLACEHOLDERS — replace them with your real files.
-| Delete every entry in a category and its tab disappears automatically.
-*/
+// The file list itself lives in its own JSON file, not here, so adding a
+// new PDF never means touching this component:
+//   src/data/upr-tools.json
+//
+// Each entry: { title, description, date, size, url }
+//   url : "/docs/upr/your-file.pdf" for a file placed in public/docs/upr/,
+//         or a full https:// link.
+//
+// A generator script keeps this file honest as you add PDFs — see
+// scripts/generate-upr-tools.mjs. Run it after dropping new files into
+// public/docs/upr/ and it appends a placeholder entry for anything the
+// JSON doesn't already list yet, without touching what you've already
+// written.
+import toolsData from "../../data/upr-tools.json";
 
-const tools = [
-  {
-    title: "UPR advocacy guide",
-    description:
-      "A step-by-step guide to engaging with each stage of the Universal Periodic Review cycle.",
-    category: "Guides",
-    format: "PDF",
-    size: "",
-    date: "2026",
-    url: "",
-  },
-  {
-    title: "Stakeholder submission template",
-    description:
-      "A ready-to-fill template for preparing a civil society submission to the UPR.",
-    category: "Templates",
-    format: "DOCX",
-    size: "",
-    date: "2026",
-    url: "",
-  },
-  {
-    title: "Recommendations tracking sheet",
-    description:
-      "A spreadsheet for recording UPR recommendations and tracking their implementation status.",
-    category: "Templates",
-    format: "XLSX",
-    size: "",
-    date: "2026",
-    url: "",
-  },
-  {
-    title: "Kenya UPR briefing note",
-    description:
-      "A short briefing on the recommendations Kenya has received and what they mean for communities.",
-    category: "Briefings",
-    format: "PDF",
-    size: "",
-    date: "2026",
-    url: "",
-  },
-  {
-    title: "Mid-term implementation report",
-    description:
-      "Civil society findings on progress made against accepted UPR recommendations.",
-    category: "Reports",
-    format: "PDF",
-    size: "",
-    date: "2026",
-    url: "",
-  },
-  {
-    title: "Community awareness slides",
-    description:
-      "A presentation for explaining the UPR and its recommendations in community meetings.",
-    category: "Presentations",
-    format: "PPTX",
-    size: "",
-    date: "2026",
-    url: "",
-  },
-];
+const PAGE_SIZE = 12;
 
-/* Works out the file format from the url when "format" is not set. */
-function getFormat(item) {
-  if (item.format) return item.format.toUpperCase();
-  const match = item.url?.match(/\.([a-z0-9]+)(?:\?|#|$)/i);
-  return match ? match[1].toUpperCase() : "LINK";
+function formatDate(value) {
+  return value || "";
 }
 
-function FileIcon({ format, size = 22 }) {
-  const Icon = format === "XLSX" || format === "CSV" ? FileSpreadsheet : FileText;
-  return <Icon size={size} strokeWidth={1.7} />;
-}
-
-/** A single file card. */
-function ToolCard({ item }) {
-  const format = getFormat(item);
+/** A single file row. Rows, not cards — much easier to scan when there
+    are many, undivided files. Each row offers two separate actions:
+    "View" opens the PDF in a new tab to preview, "Download" saves it
+    straight to disk. External (https://) links only get "Open", since
+    the download attribute is unreliable across origins and the file
+    isn't actually ours to force-save. */
+function ToolRow({ item }) {
   const isExternal = /^https?:\/\//i.test(item.url || "");
-  const meta = [item.date, item.size].filter(Boolean).join("  ·  ");
+  const meta = [formatDate(item.date), item.size].filter(Boolean).join("  ·  ");
 
-  const body = (
-    <>
-      <div className="flex items-start justify-between gap-3">
-        <span className="flex h-12 w-12 items-center justify-center bg-forest text-accent transition group-hover:bg-accent group-hover:text-forest">
-          <FileIcon format={format} />
-        </span>
-        <span className="border border-forest/20 px-2 py-0.5 text-xs font-bold text-forest/70">
-          {format}
-        </span>
-      </div>
-
-      <p className="mt-5 text-sm font-semibold text-forest/55">{item.category}</p>
-
-      <h3 className="mt-1.5 font-display text-xl font-bold leading-snug text-forest">
-        {item.title}
-      </h3>
-
-      <p className="mt-3 flex-1 text-sm leading-7 text-ink/65">{item.description}</p>
-
-      <div className="mt-6 flex items-center justify-between gap-3 border-t border-forest/10 pt-4 text-xs">
-        <span className="text-ink/50">{meta}</span>
-        {item.url ? (
-          <span className="inline-flex items-center gap-1.5 text-sm font-bold text-forest">
-            {isExternal ? "Open" : "Download"}
-            {isExternal ? <ArrowUpRight size={15} /> : <Download size={15} />}
-          </span>
-        ) : (
-          <span className="text-ink/40">Coming soon</span>
-        )}
-      </div>
-    </>
-  );
-
-  const cardClass =
-    "group flex h-full flex-col border border-forest/12 border-t-4 border-t-accent bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-t-forest hover:shadow-xl";
-
-  return item.url ? (
-    <a
-      href={item.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      {...(!isExternal ? { download: true } : {})}
-      className={cardClass}
-    >
-      {body}
-      <span className="sr-only">
-        {isExternal ? "(opens in a new tab)" : "(downloads the file)"}
+  return (
+    <div className="flex items-center gap-4 border border-forest/12 bg-white px-5 py-4 transition duration-200 hover:border-forest hover:shadow-md">
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-forest text-accent">
+        <FileText size={20} strokeWidth={1.7} />
       </span>
-    </a>
-  ) : (
-    <div className={cardClass}>{body}</div>
+
+      <div className="min-w-0 flex-1">
+        <h3 className="truncate font-display text-base font-bold text-forest sm:text-lg">
+          {item.title}
+        </h3>
+        <p className="mt-0.5 line-clamp-1 text-sm leading-6 text-ink/60">
+          {item.description}
+        </p>
+      </div>
+
+      <div className="hidden shrink-0 text-xs text-ink/50 sm:block">{meta}</div>
+
+      {item.url ? (
+        isExternal ? (
+          <a
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex shrink-0 items-center gap-1.5 border border-forest/25 px-3 py-1.5 text-sm font-bold text-forest transition hover:border-forest hover:bg-forest hover:text-white"
+          >
+            Open
+            <ArrowUpRight size={15} />
+            <span className="sr-only">(opens in a new tab)</span>
+          </a>
+        ) : (
+          <div className="flex shrink-0 items-center gap-2">
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 border border-forest/25 px-3 py-1.5 text-sm font-bold text-forest transition hover:border-forest hover:bg-forest hover:text-white"
+            >
+              <Eye size={15} />
+              <span className="hidden sm:inline">View</span>
+              <span className="sr-only sm:hidden">
+                View (opens in a new tab)
+              </span>
+            </a>
+            <a
+              href={item.url}
+              download
+              className="inline-flex items-center gap-1.5 bg-forest px-3 py-1.5 text-sm font-bold text-white transition hover:bg-forest-dark"
+            >
+              <Download size={15} />
+              <span className="hidden sm:inline">Download</span>
+              <span className="sr-only sm:hidden">Download</span>
+            </a>
+          </div>
+        )
+      ) : (
+        <span className="shrink-0 text-xs text-ink/40">Coming soon</span>
+      )}
+    </div>
   );
 }
 
 export default function UprAdvocacyTools() {
-  const [category, setCategory] = useState("All");
   const [query, setQuery] = useState("");
+  const [sort, setSort] = useState("az"); // "az" | "za" | "newest" | "oldest"
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const prefersReducedMotion = useReducedMotion();
 
-  // Only show tabs for categories that have entries.
-  const categories = useMemo(
-    () => ["All", ...Array.from(new Set(tools.map((tool) => tool.category)))],
-    []
-  );
-
-  const visibleTools = useMemo(() => {
+  const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return tools.filter((tool) => {
-      const inCategory = category === "All" || tool.category === category;
-      const inSearch =
-        !q ||
-        `${tool.title} ${tool.description} ${tool.category}`
-          .toLowerCase()
-          .includes(q);
-      return inCategory && inSearch;
-    });
-  }, [category, query]);
+    const list = !q
+      ? toolsData
+      : toolsData.filter((tool) =>
+          `${tool.title} ${tool.description}`.toLowerCase().includes(q)
+        );
+
+    const sorted = [...list];
+    if (sort === "az") sorted.sort((a, b) => a.title.localeCompare(b.title));
+    if (sort === "za") sorted.sort((a, b) => b.title.localeCompare(a.title));
+    if (sort === "newest") sorted.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+    if (sort === "oldest") sorted.sort((a, b) => (a.date || "").localeCompare(b.date || ""));
+    return sorted;
+  }, [query, sort]);
+
+  const visible = filtered.slice(0, visibleCount);
 
   return (
     <main className="min-h-screen bg-paper font-sans text-ink">
@@ -264,22 +200,22 @@ export default function UprAdvocacyTools() {
 
       <section
         id="tools"
-        className="mx-auto max-w-7xl px-6 py-16 sm:px-8 lg:px-12 lg:py-20"
+        className="mx-auto max-w-5xl px-6 py-16 sm:px-8 lg:px-12 lg:py-20"
       >
-        <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-          <div className="max-w-2xl">
-            <span className="block h-1 w-14 bg-accent" />
-            <h2 className="mt-5 font-display text-3xl font-bold tracking-tight text-forest sm:text-4xl">
-              All advocacy files
-            </h2>
-            <p className="mt-4 leading-8 text-ink/70">
-              Search by name or filter by type. Files open or download
-              directly.
-            </p>
-          </div>
+        <div className="max-w-2xl">
+          <span className="block h-1 w-14 bg-accent" />
+          <h2 className="mt-5 font-display text-3xl font-bold tracking-tight text-forest sm:text-4xl">
+            All advocacy files
+          </h2>
+          <p className="mt-4 leading-8 text-ink/70">
+            {toolsData.length} file{toolsData.length === 1 ? "" : "s"} available.
+            Search by name, or sort the list below.
+          </p>
+        </div>
 
-          {/* Search */}
-          <label className="relative block w-full lg:w-80">
+        {/* Search + sort */}
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <label className="relative block flex-1">
             <span className="sr-only">Search advocacy files</span>
             <Search
               size={16}
@@ -288,69 +224,49 @@ export default function UprAdvocacyTools() {
             <input
               type="search"
               value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search files"
+              onChange={(event) => {
+                setQuery(event.target.value);
+                setVisibleCount(PAGE_SIZE);
+              }}
+              placeholder="Search files by name"
               className="w-full border border-forest/25 bg-white py-3 pl-10 pr-4 text-sm text-ink placeholder:text-ink/40 focus:border-forest focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </label>
-        </div>
 
-        {/* Category tabs */}
-        <div
-          role="tablist"
-          aria-label="Filter files by type"
-          className="mt-8 flex flex-wrap gap-2"
-        >
-          {categories.map((tab) => {
-            const isActive = category === tab;
-            const count =
-              tab === "All"
-                ? tools.length
-                : tools.filter((tool) => tool.category === tab).length;
-
-            return (
-              <button
-                key={tab}
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                onClick={() => setCategory(tab)}
-                className={`inline-flex items-center gap-2 border px-4 py-2 text-sm font-bold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-                  isActive
-                    ? "border-forest bg-forest text-white"
-                    : "border-forest/25 bg-white text-forest hover:border-forest"
-                }`}
-              >
-                {tab}
-                <span
-                  className={`text-xs font-semibold ${
-                    isActive ? "text-white/70" : "text-forest/50"
-                  }`}
-                >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
+          <label className="relative block sm:w-52">
+            <span className="sr-only">Sort files</span>
+            <select
+              value={sort}
+              onChange={(event) => setSort(event.target.value)}
+              className="w-full appearance-none border border-forest/25 bg-white py-3 pl-4 pr-9 text-sm font-semibold text-forest focus:border-forest focus:outline-none focus:ring-2 focus:ring-accent"
+            >
+              <option value="az">Name (A–Z)</option>
+              <option value="za">Name (Z–A)</option>
+              <option value="newest">Newest first</option>
+              <option value="oldest">Oldest first</option>
+            </select>
+          </label>
         </div>
 
         <p className="mt-6 text-sm text-ink/55" aria-live="polite">
-          Showing {visibleTools.length} of {tools.length} files
+          Showing {visible.length} of {filtered.length} file
+          {filtered.length === 1 ? "" : "s"}
+          {query && ` matching "${query}"`}
         </p>
 
         <AnimatePresence mode="wait">
           <motion.div
-            key={`${category}-${query}`}
-            initial={{ opacity: prefersReducedMotion ? 1 : 0, y: prefersReducedMotion ? 0 : 12 }}
+            key={`${sort}-${query}`}
+            initial={{ opacity: prefersReducedMotion ? 1 : 0, y: prefersReducedMotion ? 0 : 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: prefersReducedMotion ? 1 : 0 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.25 }}
-            className="mt-6"
+            transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
+            className="mt-4"
           >
-            {visibleTools.length > 0 ? (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {visibleTools.map((item, index) => (
-                  <ToolCard key={`${item.title}-${index}`} item={item} />
+            {visible.length > 0 ? (
+              <div className="flex flex-col gap-3">
+                {visible.map((item, index) => (
+                  <ToolRow key={`${item.title}-${index}`} item={item} />
                 ))}
               </div>
             ) : (
@@ -363,10 +279,7 @@ export default function UprAdvocacyTools() {
                 </p>
                 <button
                   type="button"
-                  onClick={() => {
-                    setQuery("");
-                    setCategory("All");
-                  }}
+                  onClick={() => setQuery("")}
                   className="mt-5 inline-flex items-center gap-2 bg-forest px-5 py-2.5 text-sm font-bold text-white transition hover:bg-forest-dark"
                 >
                   Show all files
@@ -375,6 +288,18 @@ export default function UprAdvocacyTools() {
             )}
           </motion.div>
         </AnimatePresence>
+
+        {visibleCount < filtered.length && (
+          <div className="mt-8 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setVisibleCount((count) => count + PAGE_SIZE)}
+              className="inline-flex items-center gap-2 border border-forest px-6 py-3 text-sm font-bold text-forest transition hover:bg-forest hover:text-white"
+            >
+              Show {Math.min(PAGE_SIZE, filtered.length - visibleCount)} more
+            </button>
+          </div>
+        )}
       </section>
 
       {/* =====================================================
@@ -382,7 +307,7 @@ export default function UprAdvocacyTools() {
       ===================================================== */}
 
       <section className="bg-forest-soft px-6 py-12 sm:px-8 lg:px-12">
-        <div className="mx-auto flex max-w-7xl flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto flex max-w-5xl flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-3">
             <div className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-forest text-white">
               <Sparkles size={16} />

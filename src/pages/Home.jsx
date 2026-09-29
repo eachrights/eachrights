@@ -1239,41 +1239,42 @@ function StoryAndChange() {
   );
 }
 
+/** East African scope: kept compact — a tight three-column strip rather than
+    a full section, so it reads as a quick fact row under the story/change
+    blocks rather than another full-height section. */
 function WhereWeWork() {
   return (
-    <section className={`bg-paper ${SECTION}`}>
+    <section className="border-y border-forest/10 bg-paper px-6 py-6 sm:px-8 lg:px-12">
       <div className={CONTAINER}>
-        <SectionHeading title="East African in scope Community-rooted in practice" />
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+          <h2 className="font-display text-xl font-bold leading-tight text-forest sm:text-2xl">
+            East African in scope, community-rooted in practice
+          </h2>
+        </div>
 
-        <div className="mt-8 grid gap-px bg-forest/15 md:grid-cols-3">
+        <div className="mt-4 grid gap-x-8 gap-y-4 sm:grid-cols-3">
           {regions.map((region) => (
-            <article key={region.country} className="bg-paper py-6 md:px-8 md:first:pl-0">
-              <h3 className="font-display text-4xl font-bold text-forest">
+            <div key={region.country} className="border-t-2 border-[#8DC63F] pt-3">
+              <h3 className="font-display text-lg font-bold text-forest">
                 {region.country}
               </h3>
-              <p className="mt-3 max-w-xs leading-7 text-ink/65">
+              <p className="mt-1 text-sm leading-6 text-ink/60">
                 {region.description}
               </p>
 
               {region.counties?.length > 0 && (
-                <div className="mt-5">
-                  <p className="text-xs font-bold uppercase tracking-[0.15em] text-forest/60">
-                    Counties
-                  </p>
-                  <ul className="mt-3 flex flex-wrap gap-2">
-                    {region.counties.map((county) => (
-                      <li
-                        key={county}
-                        className="inline-flex items-center gap-1.5 border border-forest/20 bg-white px-3 py-1.5 text-sm font-semibold text-forest"
-                      >
-                        <MapPin size={14} weight="duotone" className="text-[#8DC63F]" />
-                        {county}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                <ul className="mt-2.5 flex flex-wrap gap-1.5">
+                  {region.counties.map((county) => (
+                    <li
+                      key={county}
+                      className="border border-forest/15 bg-white px-2 py-0.5 text-xs font-medium text-forest/80"
+                    >
+                      {county}
+                    </li>
+                  ))}
+                </ul>
               )}
-            </article>
+            </div>
           ))}
         </div>
       </div>
