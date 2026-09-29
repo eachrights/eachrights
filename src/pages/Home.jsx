@@ -71,7 +71,7 @@ const heroSlides = [
     title: "Rights realized",
     highlight: "not just recognized",
     description:
-      "EACHRights works to promote, protect and advance Economic, Social and Cultural Rights across East Africa.",
+      "EACHRights works to promote, protect, and advance social and economic rights across East Africa.",
     image: hero1,
   },
   {
@@ -166,7 +166,7 @@ const programmes = [
     link: "/programmes/health-justice",
   },
   {
-    title: "Environment and Climate change justice",
+    title: "Environment and Climate Change",
     description:
       "Supporting communities to address environmental challenges and climate-related injustices.",
     icon: Leaf,
@@ -757,8 +757,7 @@ function Introduction() {
           </h2>
 
           <p className="mt-5 max-w-xl font-display text-2xl font-bold leading-snug text-forest sm:text-3xl">
-            The East African Centre for Human Rights promotes, protects and
-            advances Economic, Social and Cultural Rights
+            The East African Centre for Human Rights seeks to promote, protect, and advance social and economic rights 
           </p>
 
           <p className="mt-5 max-w-xl text-lg leading-8 text-ink/70">
@@ -906,43 +905,6 @@ function StrategicPlanHighlight() {
   );
 }
 
-function FocusAreas() {
-  return (
-    <section className={`bg-white ${SECTION}`} aria-labelledby="focus-title">
-      <div className={`${CONTAINER} grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16`}>
-        <div>
-          <h2
-            id="focus-title"
-            className="font-display text-4xl font-bold leading-tight text-forest sm:text-5xl"
-          >
-            Where we focus our efforts
-          </h2>
-          <p className="mt-4 max-w-md text-lg leading-8 text-ink/65">
-            Four areas where we help communities claim their rights.
-          </p>
-        </div>
-
-        <dl className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
-          {focusAreas.map((area) => {
-            const Icon = area.icon;
-            return (
-              <div key={area.title} className="flex gap-5">
-                <IconTile icon={Icon} gradient={COLOR_GRADIENTS[area.color]} size={22} tileSize={48} />
-                <div>
-                  <dt className="font-display text-xl font-bold text-forest">
-                    {area.title}
-                  </dt>
-                  <dd className="mt-2 leading-7 text-ink/65">{area.text}</dd>
-                </div>
-              </div>
-            );
-          })}
-        </dl>
-      </div>
-    </section>
-  );
-}
-
 /** Programme explorer: choose from the list, preview on the right (large screens). */
 function Programmes() {
   const reduce = useReducedMotion();
@@ -954,8 +916,7 @@ function Programmes() {
       <div className={CONTAINER}>
         <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <SectionHeading title="Seven Strategic Focus Areas, One commitment to justice">
-            Our programmes address the structural barriers that prevent
-            communities from fully realizing their rights.
+            All our areas of work seek to address the structural barriers that prevent communities from fully realizing their rights.
           </SectionHeading>
           <Link
             to="/what-we-do"
@@ -1447,12 +1408,11 @@ export default function Home() {
         <Introduction />
         <Challenge />
         <Programmes />
-        <StrategicPlanHighlight />
-        <FocusAreas />
         <Impact />
         <QuoteBanner />
         <Approach />
         <StoryAndChange />
+        <StrategicPlanHighlight />
         <WhereWeWork />
         <PreviousCountries />
         <Platforms />
