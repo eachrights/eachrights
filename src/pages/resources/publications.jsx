@@ -252,7 +252,7 @@ function PublicationThumb({ src, alt }) {
 }
 
 // ============================================================
-// PUBLICATION CARD — full size, with description
+// PUBLICATION CARD — portrait cover, compact, 4 per row on desktop
 // ============================================================
 
 function PublicationCard({ publication, index }) {
@@ -263,35 +263,39 @@ function PublicationCard({ publication, index }) {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.45, delay: Math.min(index * 0.04, 0.2) }}
-      className="group flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
+      transition={{ duration: 0.45, delay: Math.min(index * 0.05, 0.2) }}
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-forest/30 hover:shadow-xl"
     >
-      <div className="relative aspect-[4/3] w-full overflow-hidden border-b border-gray-100">
-        <PublicationThumb src={publication.thumb} alt={`${publication.title} publication cover`} />
+      {/* COVER */}
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-forest-soft">
+        <div className="h-full w-full transition duration-500 group-hover:scale-[1.03]">
+          <PublicationThumb src={publication.thumb} alt={`${publication.title} publication cover`} />
+        </div>
 
-        <span className="absolute right-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gray-600 shadow-sm">
+        <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold text-forest shadow-sm">
+          <CalendarDays size={11} aria-hidden="true" />
+          {publication.year}
+        </span>
+
+        <span className="absolute right-3 top-3 rounded-full bg-ink/80 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-sm">
           PDF
         </span>
       </div>
 
+      {/* BODY */}
       <div className="flex flex-1 flex-col p-5">
         <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-forest">{badgeLabel}</p>
 
         <h3 className="mt-2 line-clamp-2 text-sm font-bold leading-snug text-ink">{publication.title}</h3>
 
-        <div className="mt-3 flex items-center gap-1.5 text-xs text-gray-500">
-          <CalendarDays size={13} aria-hidden="true" />
-          <span>Published {publication.year}</span>
-        </div>
+        <p className="mt-2 line-clamp-3 flex-1 text-xs leading-5 text-gray-600">{publication.description}</p>
 
-        <p className="mt-3 line-clamp-4 flex-1 text-xs leading-5 text-gray-600">{publication.description}</p>
-
-        <div className="mt-5 flex flex-wrap gap-2 border-t border-gray-100 pt-4">
+        <div className="mt-5 grid grid-cols-2 gap-2 border-t border-gray-100 pt-4">
           <a
             href={publication.pdf}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-forest px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-forest-dark focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
+            className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-forest px-3 py-2 text-xs font-semibold text-white transition hover:bg-forest-dark focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
           >
             <ExternalLink size={13} />
             View
@@ -300,7 +304,7 @@ function PublicationCard({ publication, index }) {
           <a
             href={publication.pdf}
             download
-            className="inline-flex items-center gap-1.5 rounded-lg border border-forest/20 px-3.5 py-2 text-xs font-semibold text-forest transition hover:bg-forest-soft focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
+            className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-forest/20 px-3 py-2 text-xs font-semibold text-forest transition hover:bg-forest-soft focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
           >
             <Download size={13} />
             Download
@@ -312,14 +316,36 @@ function PublicationCard({ publication, index }) {
 }
 
 // ============================================================
-// A GRID OF CARDS — reused for every group below
+// SECTION HEADER — accent bar, title, description, count
+// ============================================================
+
+function SectionHeader({ title, description, count }) {
+  return (
+    <div className="flex flex-col gap-3 border-b border-gray-200 pb-5 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <span className="block h-1 w-10 rounded-full bg-accent" aria-hidden="true" />
+        <h2 className="mt-4 font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">{title}</h2>
+        <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/60">{description}</p>
+      </div>
+
+      {count !== undefined && (
+        <span className="inline-flex w-fit items-center rounded-full bg-forest-soft px-3 py-1 text-xs font-semibold text-forest">
+          {count} {count === 1 ? "publication" : "publications"}
+        </span>
+      )}
+    </div>
+  );
+}
+
+// ============================================================
+// A GRID OF CARDS — 1 / 2 / 4 columns, reused for every group
 // ============================================================
 
 function PublicationGrid({ items }) {
   if (items.length === 0) return null;
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {items.map((publication, index) => (
         <PublicationCard key={publication.title} publication={publication} index={index} />
       ))}
@@ -547,7 +573,7 @@ export default function Publications() {
       ====================================================== */}
 
       <section className="px-6 pt-10 sm:px-8 lg:px-12" aria-label="Filter publications">
-        <div className="mx-auto max-w-7xl rounded-xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="mx-auto max-w-7xl rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
           <div className="flex items-center gap-2 text-forest">
             <SlidersHorizontal size={16} aria-hidden="true" />
             <h2 className="text-sm font-bold">Filter publications</h2>
@@ -658,12 +684,13 @@ export default function Publications() {
         return (
           <section key={section.category} className="px-6 pt-16 sm:px-8 lg:px-12">
             <div className="mx-auto max-w-7xl">
-              <h2 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-                {section.category}
-              </h2>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/60">{section.description}</p>
+              <SectionHeader
+                title={section.category}
+                description={section.description}
+                count={items.length}
+              />
 
-              <div className="mt-6">
+              <div className="mt-8">
                 <PublicationGrid items={items} />
               </div>
             </div>
@@ -678,10 +705,11 @@ export default function Publications() {
       {hasProgrammePubs ? (
       <section className="px-6 py-16 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-7xl">
-          <h2 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">Programmes</h2>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/60">
-            Baseline research, mid-term reports and policy &amp; advocacy briefs from each of our five programmes.
-          </p>
+          <SectionHeader
+            title="Programmes"
+            description="Baseline research, mid-term reports and policy & advocacy briefs from each of our five programmes."
+            count={filteredPublications.filter((p) => p.programme).length}
+          />
 
           <div className="mt-10 flex flex-col gap-14">
             {PROGRAMMES.map((programme) => {
@@ -690,7 +718,7 @@ export default function Publications() {
 
               return (
                 <div key={programme}>
-                  <h3 className="font-display text-xl font-bold text-forest">{programme}</h3>
+                  <h3 className="border-l-4 border-accent pl-3 font-display text-xl font-bold text-forest">{programme}</h3>
 
                   <div className="mt-5 flex flex-col gap-8">
                     {DOC_TYPES.map((docType) => {
