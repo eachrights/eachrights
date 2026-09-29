@@ -20,9 +20,12 @@ import uprPhoto from "../../assets/impact/impact-9.png";
 // new PDF never means touching this component:
 //   src/data/upr-tools.json
 //
-// Each entry: { title, description, date, size, url }
-//   url : "/docs/upr/your-file.pdf" for a file placed in public/docs/upr/,
-//         or a full https:// link.
+// Each entry: { title, description, date, size, url, thumbnail? }
+//   url       : "/docs/upr/your-file.pdf" for a file placed in public/docs/upr/,
+//               or a full https:// link.
+//   thumbnail : optional. "/docs/upr/thumbs/your-file.jpg" (a cover image
+//               placed in public/docs/upr/thumbs/). If missing or broken,
+//               a neutral document icon is shown instead.
 //
 // A generator script keeps this file honest as you add PDFs — see
 // scripts/generate-upr-tools.mjs. Run it after dropping new files into
@@ -32,6 +35,145 @@ import uprPhoto from "../../assets/impact/impact-9.png";
 import toolsData from "../../data/upr-tools.json";
 
 const PAGE_SIZE = 12;
+
+/* Seconds of scroll time allotted to each item. Bigger = slower.
+   The total duration grows with the number of items so the speed stays
+   comfortable whether there are 5 files or 50. */
+const TICKER_SECONDS_PER_ITEM = 7;
+const TICKER_MIN_SECONDS = 60;
+
+/* Right-to-left ticker, like a news/advert banner. The track holds two
+   identical sets of items; translating by half its width loops seamlessly.
+   Pauses on hover/focus so it doesn't fight someone trying to click or read. */
+const TICKER_CSS = `
+@keyframes eachr-ticker-rtl {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.eachr-ticker-track {
+  animation: eachr-ticker-rtl var(--ticker-duration, 90s) linear infinite;
+  will-change: transform;
+}
+.eachr-ticker:hover .eachr-ticker-track,
+.eachr-ticker:focus-within .eachr-ticker-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .eachr-ticker-track { animation: none; }
+  .eachr-ticker { overflow-x: auto; }
+  .eachr-ticker-dup { display: none; }
+}
+`;
+
+/** Thumbnail image with a graceful fallback icon if there's no image or it
+    fails to load. */
+function Thumb({ src, className = "", iconSize = 20 }) {
+  const [failed, setFailed] = useState(false);
+
+  if (src && !failed) {
+    return (
+      <img
+        src={src}
+        alt=""
+        loading="lazy"
+        onError={() => setFailed(true)}
+        className={`object-cover ${className}`}
+      />
+    );
+  }
+
+  return (
+    <span
+      className={`flex items-center justify-center bg-forest text-accent ${className}`}
+    >
+      <FileText size={iconSize} strokeWidth={1.7} />
+    </span>
+  );
+}
+
+/** One clickable card in the ticker: cover thumbnail + title. */
+function TickerItem({ item, hidden }) {
+  const content = (
+    <>
+      <Thumb
+        src={item.thumbnail}
+        className="h-16 w-12 shrink-0 border border-forest/15"
+        iconSize={18}
+      />
+      <span className="line-clamp-3 w-44 text-left text-sm font-semibold leading-snug text-forest">
+        {item.title}
+      </span>
+    </>
+  );
+
+  const base =
+    "mx-2 flex shrink-0 items-center gap-3 border border-forest/12 bg-white p-2 pr-4";
+
+  if (!item.url) {
+    return <div className={base}>{content}</div>;
+  }
+
+  return (
+    <a
+      href={item.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      tabIndex={hidden ? -1 : undefined}
+      title={item.title}
+      className={`${base} transition duration-200 hover:-translate-y-0.5 hover:border-forest hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-accent`}
+    >
+      {content}
+      {!hidden && <span className="sr-only">(opens in a new tab)</span>}
+    </a>
+  );
+}
+
+/** Scrolling strip of files, right to left, like an advert banner. Each
+    item shows its thumbnail and is clickable (opens the file in a new tab).
+    The second copy of the list is hidden from assistive tech and the tab
+    order so screen-reader and keyboard users only meet each file once. */
+function FileTicker({ items }) {
+  if (!items.length) return null;
+
+  const duration = Math.max(
+    TICKER_MIN_SECONDS,
+    items.length * TICKER_SECONDS_PER_ITEM
+  );
+
+  const renderItems = (hidden = false) =>
+    items.map((item, index) => (
+      <TickerItem
+        key={`${item.title}-${index}${hidden ? "-dup" : ""}`}
+        item={item}
+        hidden={hidden}
+      />
+    ));
+
+  return (
+    <div
+      role="region"
+      aria-label="Featured advocacy files"
+      className="eachr-ticker relative overflow-hidden border-y border-forest/10 bg-forest-light py-4"
+      style={{
+        maskImage:
+          "linear-gradient(to right, transparent, #000 6%, #000 94%, transparent)",
+        WebkitMaskImage:
+          "linear-gradient(to right, transparent, #000 6%, #000 94%, transparent)",
+      }}
+    >
+      <style>{TICKER_CSS}</style>
+      <div
+        className="eachr-ticker-track flex w-max"
+        style={{ "--ticker-duration": `${duration}s` }}
+      >
+        <div className="flex shrink-0">{renderItems()}</div>
+        <div className="eachr-ticker-dup flex shrink-0" aria-hidden="true">
+          {renderItems(true)}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function formatDate(value) {
   return value || "";
@@ -49,9 +191,11 @@ function ToolRow({ item }) {
 
   return (
     <div className="flex items-center gap-4 border border-forest/12 bg-white px-5 py-4 transition duration-200 hover:border-forest hover:shadow-md">
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-forest text-accent">
-        <FileText size={20} strokeWidth={1.7} />
-      </span>
+      <Thumb
+        src={item.thumbnail}
+        className="h-14 w-11 shrink-0"
+        iconSize={20}
+      />
 
       <div className="min-w-0 flex-1">
         <h3 className="truncate font-display text-base font-bold text-forest sm:text-lg">
@@ -193,6 +337,8 @@ export default function UprAdvocacyTools() {
           </div>
         </div>
       </header>
+
+      <FileTicker items={toolsData} />
 
       {/* =====================================================
           FILE LIBRARY
