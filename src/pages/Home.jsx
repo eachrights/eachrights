@@ -310,31 +310,31 @@ const regions = [
 const previousCountries = [
   {
     country: "Rwanda",
-    description: "Briefly describe the work done here.",
+    //description: "Briefly describe the work done here.",
   },
   {
     country: "Burundi",
-    description: "Briefly describe the work done here.",
+    //description: "Briefly describe the work done here.",
   },
   {
     country: "Madagascar",
-    description: "Briefly describe the work done here.",
+    //description: "Briefly describe the work done here.",
   },
   {
     country: "South Sudan",
-    description: "Briefly describe the work done here.",
+    //description: "Briefly describe the work done here.",
   },
   {
     country: "Comoros",
-    description: "Briefly describe the work done here.",
+    //description: "Briefly describe the work done here.",
   },
   {
     country: "Sudan",
-    description: "Briefly describe the work done here.",
+    //description: "Briefly describe the work done here.",
   },
   {
     country: "Somalia",
-    description: "Briefly describe the work done here.",
+    //description: "Briefly describe the work done here.",
   },
 ];
 

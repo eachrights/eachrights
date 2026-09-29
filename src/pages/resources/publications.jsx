@@ -10,6 +10,8 @@ import {
   ArrowUpRight,
   CalendarDays,
   BookOpen,
+  SlidersHorizontal,
+  X,
 } from "lucide-react";
 
 import publicationsHero from "../../assets/publications/publications-hero.png";
@@ -19,10 +21,13 @@ import publicationsHero from "../../assets/publications/publications-hero.png";
 // ============================================================
 
 import strategicPlan2026 from "../../assets/publications/STRATEGIC PLAN 2026-2030.pdf";
+import strategicPlan2019 from "../../assets/publications/EACHRights Trust Strategic Plan 3 (2017-2019).pdf";
+import strategicPlan2016 from "../../assets/publications/EACHRights Trust Strategic Plan 2 (2014-2016).pdf";
+import strategicPlan2012 from "../../assets/publications/EACHRights Trust Strategic Plan 1 (2011-2012).pdf";
+import conceptpaper from "../../assets/publications/EACHRights Trust Concept Paper.pdf";
 import educationSchools from "../../assets/publications/Build Us More Schools (Full Version).pdf";
 import surveyReport from "../../assets/publications/EACHRights Perception Survey Report.pdf";
 import strategicPlan2023 from "../../assets/publications/EACHRights Trust Strategic Plan 4 (2019-2023).pdf";
-import strategicPlan2011 from "../../assets/publications/EACHRights_Trust_Strategic_Plan_2011-2012.pdf";
 import annualReport2020 from "../../assets/publications/EACHRights-Annual-Report-2020.pdf";
 import ssnfgm from "../../assets/publications/Shifts in Social Norms Around FGMC in Garissa County.pdf";
 
@@ -34,9 +39,12 @@ import strategicPlan2026Thumb from "../../assets/publication-thumbs/STRATEGIC PL
 import educationSchoolsThumb from "../../assets/publication-thumbs/Build Us More Schools (Full Version).png";
 import surveyReportThumb from "../../assets/publication-thumbs/EACHRights Perception Survey Report.png";
 import strategicPlan2023Thumb from "../../assets/publication-thumbs/EACHRights Trust Strategic Plan 4 (2019-2023).png";
-import strategicPlan2011Thumb from "../../assets/publication-thumbs/EACHRights_Trust_Strategic_Plan_2011-2012.png";
 import annualReport2020Thumb from "../../assets/publication-thumbs/EACHRights-Annual-Report-2020.png";
 import ssnfgmThumb from "../../assets/publication-thumbs/Shifts in Social Norms Around FGMC in Garissa County.png";
+import strategicPlan2019Thumb from "../../assets/publication-thumbs/EACHRights Trust Strategic Plan 3 (2017-2019).png";
+import strategicPlan2016Thumb from "../../assets/publication-thumbs/EACHRights Trust Strategic Plan 2 (2014-2016).png";
+import strategicPlan2012Thumb from "../../assets/publication-thumbs/EACHRights Trust Strategic Plan 1 (2011-2012).png";
+import conceptpaperThumb from "../../assets/publication-thumbs/EACHRights Trust Concept Paper.png";
 
 /*
 |--------------------------------------------------------------------------
@@ -88,13 +96,40 @@ const publications = [
     thumb: strategicPlan2023Thumb,
   },
   {
+    title: "Strategic Plan 2017–2019",
+    category: "Strategic Plans",
+    year: "2017",
+    description:
+      "EACHRights' third strategic plan, setting out the organisation's direction and priorities for promoting human rights and social justice between 2017 and 2019.",
+    pdf: strategicPlan2019,
+    thumb: strategicPlan2019Thumb,
+  },
+  {
+    title: "Strategic Plan 2014–2016",
+    category: "Strategic Plans",
+    year: "2014",
+    description:
+      "EACHRights' second strategic plan, outlining the organisation's goals and priorities for advancing human rights and social justice between 2014 and 2016.",
+    pdf: strategicPlan2016,
+    thumb: strategicPlan2016Thumb,
+  },
+  {
     title: "Strategic Plan 2011–2012",
     category: "Strategic Plans",
     year: "2011",
     description:
       "EACHRights' first strategic plan established the organisation's direction for promoting human rights, with particular emphasis on economic, social and cultural rights and social justice.",
-    pdf: strategicPlan2011,
-    thumb: strategicPlan2011Thumb,
+    pdf: strategicPlan2012,
+    thumb: strategicPlan2012Thumb,
+  },
+  {
+    title: "EACHRights Trust Concept Paper",
+    category: "Strategic Plans",
+    year: "2010", // TODO: confirm the actual year
+    description:
+      "The founding concept paper of EACHRights Trust, setting out the vision, mission and rationale for the organisation's work on human rights and social justice.",
+    pdf: conceptpaper,
+    thumb: conceptpaperThumb,
   },
   {
     title: "EACHRights Annual Report 2020",
@@ -142,6 +177,37 @@ const heroPublications = [...publications]
   .slice(0, 4);
 
 const HERO_PUB_INTERVAL = 5000;
+
+// ============================================================
+// FILTERS
+// ============================================================
+
+const ALL = "All";
+
+// Sections for category-based publications (order = page order)
+const CATEGORY_SECTIONS = [
+  {
+    category: "Strategic Plans",
+    description: "Our roadmaps for advancing human rights, dignity and social justice.",
+  },
+  {
+    category: "Annual Reports",
+    description: "A year-by-year record of our programmes, partnerships and impact.",
+  },
+  {
+    category: "Economic and Social Rights",
+    description: "Research and survey work on economic, social and cultural rights.",
+  },
+];
+
+// Every filterable category: the category sections + the 5 programmes
+const CATEGORY_OPTIONS = [...CATEGORY_SECTIONS.map((s) => s.category), ...PROGRAMMES];
+
+// A publication belongs to either a category or a programme
+const getGroup = (publication) => publication.category || publication.programme;
+
+// Unique years, newest first (derived from the data, so it never goes stale)
+const YEAR_OPTIONS = [...new Set(publications.map((p) => p.year))].sort((a, b) => Number(b) - Number(a));
 
 // ============================================================
 // PUBLICATION THUMBNAIL COMPONENT
@@ -270,9 +336,22 @@ export default function Publications() {
   const heroPubTimerRef = useRef(null);
   const prefersReducedMotion = useReducedMotion();
 
-  const strategicPlans = publications.filter((p) => p.category === "Strategic Plans");
-  const annualReports = publications.filter((p) => p.category === "Annual Reports");
-  const economicSocialRights = publications.filter((p) => p.category === "Economic and Social Rights");
+  const [selectedCategory, setSelectedCategory] = useState(ALL);
+  const [selectedYear, setSelectedYear] = useState(ALL);
+
+  const filteredPublications = publications.filter(
+    (p) =>
+      (selectedCategory === ALL || getGroup(p) === selectedCategory) &&
+      (selectedYear === ALL || p.year === selectedYear)
+  );
+
+  const hasProgrammePubs = filteredPublications.some((p) => p.programme);
+  const filtersActive = selectedCategory !== ALL || selectedYear !== ALL;
+
+  const resetFilters = () => {
+    setSelectedCategory(ALL);
+    setSelectedYear(ALL);
+  };
 
   // ----------------------------------------------------------
   // HERO CAROUSEL
@@ -464,66 +543,139 @@ export default function Publications() {
       </section>
 
       {/* ======================================================
-          1. STRATEGIC PLANS
+          FILTERS — category + year
       ====================================================== */}
 
-      <section className="px-6 pt-16 sm:px-8 lg:px-12">
-        <div className="mx-auto max-w-7xl">
-          <h2 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-            Strategic Plans
-          </h2>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/60">
-            Our roadmaps for advancing human rights, dignity and social justice.
-          </p>
+      <section className="px-6 pt-10 sm:px-8 lg:px-12" aria-label="Filter publications">
+        <div className="mx-auto max-w-7xl rounded-xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
+          <div className="flex items-center gap-2 text-forest">
+            <SlidersHorizontal size={16} aria-hidden="true" />
+            <h2 className="text-sm font-bold">Filter publications</h2>
+          </div>
 
-          <div className="mt-6">
-            <PublicationGrid items={strategicPlans} />
+          <div className="mt-5 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+            {/* CATEGORY CHIPS */}
+            <div className="flex-1">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-forest/60">Category</p>
+
+              <div className="mt-3 flex flex-wrap gap-2">
+                {[ALL, ...CATEGORY_OPTIONS].map((option) => {
+                  const active = selectedCategory === option;
+
+                  return (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => setSelectedCategory(option)}
+                      aria-pressed={active}
+                      className={`rounded-full border px-3.5 py-1.5 text-xs font-semibold transition focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 ${
+                        active
+                          ? "border-forest bg-forest text-white"
+                          : "border-forest/20 bg-white text-forest hover:bg-forest-soft"
+                      }`}
+                    >
+                      {option}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* YEAR SELECT */}
+            <div className="w-full lg:w-48">
+              <label
+                htmlFor="publication-year-filter"
+                className="text-[11px] font-semibold uppercase tracking-[0.15em] text-forest/60"
+              >
+                Year
+              </label>
+
+              <select
+                id="publication-year-filter"
+                value={selectedYear}
+                onChange={(event) => setSelectedYear(event.target.value)}
+                className="mt-3 w-full rounded-lg border border-forest/20 bg-white px-3.5 py-2 text-xs font-semibold text-forest focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
+              >
+                <option value={ALL}>All years</option>
+                {YEAR_OPTIONS.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="mt-5 flex items-center justify-between gap-4 border-t border-gray-100 pt-4">
+            <p className="text-xs text-gray-500" aria-live="polite">
+              Showing {filteredPublications.length} of {publications.length} publications
+            </p>
+
+            {filtersActive && (
+              <button
+                type="button"
+                onClick={resetFilters}
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-forest transition hover:text-forest-dark focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
+              >
+                <X size={13} aria-hidden="true" />
+                Clear filters
+              </button>
+            )}
           </div>
         </div>
       </section>
 
       {/* ======================================================
-          2. ANNUAL REPORTS
+          NO RESULTS
       ====================================================== */}
 
-      <section className="px-6 pt-16 sm:px-8 lg:px-12">
-        <div className="mx-auto max-w-7xl">
-          <h2 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-            Annual Reports
-          </h2>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/60">
-            A year-by-year record of our programmes, partnerships and impact.
-          </p>
-
-          <div className="mt-6">
-            <PublicationGrid items={annualReports} />
+      {filteredPublications.length === 0 && (
+        <section className="px-6 pt-16 sm:px-8 lg:px-12">
+          <div className="mx-auto max-w-7xl rounded-xl border border-dashed border-gray-300 px-6 py-14 text-center">
+            <FileText size={32} className="mx-auto text-forest/40" strokeWidth={1.5} aria-hidden="true" />
+            <p className="mt-4 text-sm font-semibold text-ink">No publications match these filters</p>
+            <p className="mt-1 text-xs text-gray-500">Try a different category or year.</p>
+            <button
+              type="button"
+              onClick={resetFilters}
+              className="mt-5 inline-flex items-center gap-1.5 rounded-lg bg-forest px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-forest-dark focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
+            >
+              Clear filters
+            </button>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ======================================================
-          3. ECONOMIC AND SOCIAL RIGHTS
+          1-3. CATEGORY SECTIONS — Strategic Plans, Annual Reports,
+          Economic and Social Rights (empty ones don't render)
       ====================================================== */}
 
-      <section className="px-6 pt-16 sm:px-8 lg:px-12">
-        <div className="mx-auto max-w-7xl">
-          <h2 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-            Economic and Social Rights
-          </h2>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/60">
-            Research and survey work on economic, social and cultural rights.
-          </p>
+      {CATEGORY_SECTIONS.map((section) => {
+        const items = filteredPublications.filter((p) => p.category === section.category);
+        if (items.length === 0) return null;
 
-          <div className="mt-6">
-            <PublicationGrid items={economicSocialRights} />
-          </div>
-        </div>
-      </section>
+        return (
+          <section key={section.category} className="px-6 pt-16 sm:px-8 lg:px-12">
+            <div className="mx-auto max-w-7xl">
+              <h2 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+                {section.category}
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-ink/60">{section.description}</p>
+
+              <div className="mt-6">
+                <PublicationGrid items={items} />
+              </div>
+            </div>
+          </section>
+        );
+      })}
 
       {/* ======================================================
           4. PROGRAMMES — 5 programmes, each split by doc type
       ====================================================== */}
 
+      {hasProgrammePubs ? (
       <section className="px-6 py-16 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-7xl">
           <h2 className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">Programmes</h2>
@@ -533,7 +685,7 @@ export default function Publications() {
 
           <div className="mt-10 flex flex-col gap-14">
             {PROGRAMMES.map((programme) => {
-              const programmePubs = publications.filter((p) => p.programme === programme);
+              const programmePubs = filteredPublications.filter((p) => p.programme === programme);
               if (programmePubs.length === 0) return null;
 
               return (
@@ -564,6 +716,9 @@ export default function Publications() {
           </div>
         </div>
       </section>
+      ) : (
+        <div className="h-16" aria-hidden="true" />
+      )}
 
       {/* ======================================================
           ACCESS INFORMATION
