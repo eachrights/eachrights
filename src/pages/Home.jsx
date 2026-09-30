@@ -301,7 +301,7 @@ const regions = [
     country: "Kenya",
     description:
       "Home base for our national advocacy, research and litigation work.",
-    counties: ["Nairobi", "Kajiado", "Marsabit", "Garissa", "Homa Bay", "Migori", "Kilifi", "Kwale"],
+    counties: ["Nairobi", "Kajiado", "Marsabit", "Garissa", "Homa Bay", "Migori", "Kilifi", "Kwale", "Turkana"],
   },
   {
     country: "Uganda",
