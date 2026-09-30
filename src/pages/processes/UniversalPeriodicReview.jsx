@@ -124,7 +124,7 @@ export default function UniversalPeriodicReview() {
 
             <h1 className="mt-6 text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
               Universal Periodic
-              <span className="block text-gold">Review</span>
+              <span className="block text-gold">Review (UPR KENYA)</span>
             </h1>
 
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/85 sm:text-lg">
