@@ -69,8 +69,6 @@ const outcomes = [
   "Increased participation of vulnerable communities in environmental decision-making.",
   "Improved accountability for environmental and climate commitments.",
   "Stronger implementation of environmental and climate policies and laws.",
-  "Increased youth and community engagement in climate action.",
-  "Improved protection and sustainable management of natural resources.",
   "Stronger evidence-based environmental and climate advocacy.",
 ];
 

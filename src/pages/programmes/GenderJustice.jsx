@@ -20,7 +20,7 @@ import {
 import genderImage from "../../assets/impact/impact-2.png";
 
 /* =========================================================
-   The eight focus areas grouped into the four pillars they
+   The focus areas grouped into the four pillars they
    actually represent, rather than one uniform 4-up grid.
 ========================================================= */
 
@@ -33,12 +33,12 @@ const pillars = [
       {
         icon: Scale,
         title: "Gender Equality & Social Norms",
-        text: "Address intersecting issues of gender norms, discrimination, gender inequality, and harmful practices that limit the rights and opportunities of women and girls.",
+        text: "Challenge discriminatory social and cultural norms and promote gender equality at community, institutional, and national levels.",
       },
       {
         icon: ShieldCheck,
-        title: "Gender-Based Violence",
-        text: "Promote prevention, protection, access to justice, and accountability in addressing gender-based violence and supporting survivors.",
+        title: "Ending Violence Against Women & Girls",
+        text: "Addressing violence against women and girls.",
       },
     ],
   },
@@ -79,17 +79,17 @@ const pillars = [
   {
     icon: BookOpen,
     color: "#2563EB",
-    title: "Knowledge & Capacity",
+    title: "Evidence & Accountability",
     items: [
       {
-        icon: BookOpen,
-        title: "Capacity Building",
-        text: "Build the capacity of communities, institutions, duty bearers, and other stakeholders to promote and protect gender equality.",
+        icon: Search,
+        title: "Research & Evidence",
+        text: "Generate and use evidence on gender gaps and rights violations to inform advocacy, policy, and programming.",
       },
       {
-        icon: Search,
-        title: "Research & Advocacy",
-        text: "Generate evidence on gender justice issues and use research, advocacy, partnerships, and public engagement to influence positive change.",
+        icon: ShieldCheck,
+        title: "Duty-Bearer Accountability",
+        text: "Hold institutions and duty bearers accountable for their gender equality and human rights commitments.",
       },
     ],
   },

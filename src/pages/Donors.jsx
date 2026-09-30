@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { ArrowLeft, ArrowRight, Handshake, ShieldCheck } from "lucide-react";
 
 const heroImage = "/donors/donors-hero.png";
 
@@ -7,6 +8,12 @@ const currentDonors = [
   {
     name: "Oxfam IBIS",
     logo: "/donors/OXFAM.jpg",
+    description:
+      "A current development partner supporting efforts that advance social justice, equality and human rights.",
+  },
+  {
+    name: "CORD",
+    logo: "/donors/cord.png",
     description:
       "A current development partner supporting efforts that advance social justice, equality and human rights.",
   },
@@ -93,29 +100,39 @@ const pastDonors = [
   },
 ];
 
-function DonorCard({ donor }) {
+const fadeUp = {
+  initial: { opacity: 0, y: 22 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2 },
+};
+
+function DonorCard({ donor, current = false }) {
   return (
     <motion.article
-      whileHover={{ y: -5 }}
+      whileHover={{ y: -6 }}
       transition={{ duration: 0.2 }}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:shadow-xl"
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-forest/10 bg-white shadow-sm transition-shadow duration-300 hover:shadow-xl"
     >
+      {/* accent bar */}
+      <div className="h-1.5 w-full bg-gradient-to-r from-forest via-[#8DC63F] to-gold" />
+
       {/* LOGO */}
-      <div className="flex min-h-[230px] items-center justify-center border-b border-gray-100 bg-white px-8 py-10">
-        <div className="flex h-[175px] w-full items-center justify-center rounded-2xl bg-gray-50 px-8 py-7 transition-colors duration-300 group-hover:bg-gray-100">
+      <div className="px-7 pt-7">
+        <div className="flex h-[170px] w-full items-center justify-center rounded-xl bg-gray-50 px-6 py-6 transition-colors duration-300 group-hover:bg-forest-soft">
           {donor.logo ? (
             <img
               src={donor.logo}
               alt={`${donor.name} logo`}
               loading="lazy"
-              className="block h-auto max-h-[135px] w-auto max-w-[290px] object-contain"
+              className="block h-auto max-h-[130px] w-auto max-w-full object-contain"
             />
           ) : (
             <div
-              className="flex h-full w-full items-center justify-center px-5 text-center"
+              className="flex h-full w-full flex-col items-center justify-center gap-3 px-3 text-center"
               aria-label={`${donor.name} logo unavailable`}
             >
-              <span className="text-xl font-bold leading-snug text-gray-400">
+              <Handshake size={28} strokeWidth={1.5} className="text-forest/30" />
+              <span className="text-lg font-bold leading-snug text-gray-400">
                 {donor.name}
               </span>
             </div>
@@ -125,7 +142,7 @@ function DonorCard({ donor }) {
 
       {/* CONTENT */}
       <div className="flex flex-1 flex-col p-7">
-        <h3 className="text-xl font-bold leading-snug text-ink">
+        <h3 className="text-xl font-bold leading-snug text-forest">
           {donor.name}
         </h3>
 
@@ -134,8 +151,19 @@ function DonorCard({ donor }) {
         </p>
 
         <div className="mt-6 border-t border-gray-100 pt-4">
-          <span className="text-sm font-semibold text-forest">
-            Development Partner
+          <span
+            className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${
+              current
+                ? "bg-[#8DC63F]/15 text-forest"
+                : "bg-gray-100 text-gray-600"
+            }`}
+          >
+            <span
+              className={`h-1.5 w-1.5 rounded-full ${
+                current ? "bg-[#8DC63F]" : "bg-gray-400"
+              }`}
+            />
+            {current ? "Current partner" : "Former partner"}
           </span>
         </div>
       </div>
@@ -143,200 +171,264 @@ function DonorCard({ donor }) {
   );
 }
 
-function DonorGrid({ donors }) {
+function DonorGrid({ donors, current = false }) {
   return (
-    <div className="grid gap-7 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {donors.map((donor, index) => (
         <motion.div
           key={donor.name}
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          {...fadeUp}
           viewport={{ once: true, amount: 0.1 }}
-          transition={{
-            duration: 0.5,
-            delay: Math.min(index * 0.08, 0.4),
-          }}
+          transition={{ duration: 0.5, delay: Math.min((index % 3) * 0.08, 0.3) }}
         >
-          <DonorCard donor={donor} />
+          <DonorCard donor={donor} current={current} />
         </motion.div>
       ))}
     </div>
   );
 }
 
+function SectionHeading({ eyebrow, title, text }) {
+  return (
+    <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="mx-auto max-w-2xl text-center">
+      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-forest">
+        {eyebrow}
+      </p>
+      <h2 className="mt-3 text-3xl font-bold leading-tight text-ink sm:text-4xl">
+        {title}
+      </h2>
+      <p className="mt-4 leading-7 text-gray-600">{text}</p>
+    </motion.div>
+  );
+}
+
 function Donors() {
   return (
-    <main className="min-h-screen bg-white">
-      {/* HERO */}
-      <section className="relative overflow-hidden bg-gray-900 py-20 text-white lg:py-28">
+    <main className="min-h-screen bg-white font-sans text-ink">
+
+      {/* =====================================================
+          HERO
+      ===================================================== */}
+      <section className="relative isolate overflow-hidden bg-neutral-900 text-white">
         <img
           src={heroImage}
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/25" />
+        {/* Legibility overlays */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/50 to-black/10" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-        <div className="absolute inset-0 opacity-10" aria-hidden="true">
-          <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full border-[40px] border-white" />
-          <div className="absolute -bottom-32 -left-20 h-96 w-96 rounded-full border-[50px] border-white" />
-        </div>
-
-        <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-6 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-32">
           <motion.div
-            initial={{ opacity: 0, y: 25 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-3xl"
           >
             <Link
               to="/"
-              className="mb-8 inline-flex items-center text-sm font-medium text-white/80 transition hover:text-white"
+              className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-white/75 transition hover:text-white"
             >
-              ← Back to Home
+              <ArrowLeft size={16} />
+              Back to Home
             </Link>
 
-            <p className="mb-5 text-sm font-bold uppercase tracking-[0.2em] text-white/80">
-              Partnerships & Support
-            </p>
+            <div className="flex items-center gap-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-white/10 backdrop-blur-sm ring-1 ring-white/20">
+                <Handshake size={28} strokeWidth={1.7} />
+              </div>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/75">
+                Partnerships &amp; Support
+              </p>
+            </div>
 
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-              Our Donors & Partners
+            <h1 className="mt-6 text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
+              Our Donors
+              <span className="block text-gold">&amp; Partners</span>
             </h1>
 
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/85">
+            <p className="mt-6 max-w-2xl text-base leading-8 text-white/85 sm:text-lg">
               Our work is made possible through the commitment and support of
-              development partners, philanthropic organizations and institutions
-              that share our vision for a just and equitable society.
+              development partners, philanthropic organizations and
+              institutions that share our vision for a just and equitable
+              society.
             </p>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* INTRO */}
-      <section className="py-16 lg:py-20">
-        <div className="mx-auto max-w-4xl px-6 text-center lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="text-sm font-bold uppercase tracking-[0.18em] text-forest">
-              Working Together
-            </span>
-
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-              Partnerships That Advance Justice
-            </h2>
-
-            <p className="mt-5 text-lg leading-8 text-gray-600">
-              EACHRights values strategic partnerships that strengthen our
-              ability to promote and protect human rights, amplify community
-              voices and create meaningful change. We are grateful to the
-              organizations that have supported our work and contributed to
-              advancing social and economic justice.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* CURRENT DONORS */}
-      <section className="bg-forest-soft py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mb-10 max-w-2xl">
-            <div className="flex items-center gap-3">
-              <span className="h-1 w-12 rounded-full bg-forest" />
-
-              <span className="text-sm font-bold uppercase tracking-[0.18em] text-forest">
-                Current Partners
-              </span>
-            </div>
-
-            <h2 className="mt-4 text-3xl font-bold text-ink sm:text-4xl">
-              Current Donors
-            </h2>
-
-            <p className="mt-4 leading-7 text-gray-600">
-              We acknowledge the current partners whose support contributes to
-              the implementation and sustainability of our programmes.
-            </p>
-          </div>
-
-          <DonorGrid donors={currentDonors} />
-        </div>
-      </section>
-
-      {/* PAST DONORS */}
-      <section className="py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mb-10 max-w-2xl">
-            <div className="flex items-center gap-3">
-              <span className="h-1 w-12 rounded-full bg-forest" />
-
-              <span className="text-sm font-bold uppercase tracking-[0.18em] text-forest">
-                Previous Partnerships
-              </span>
-            </div>
-
-            <h2 className="mt-4 text-3xl font-bold text-ink sm:text-4xl">
-              Past Donors
-            </h2>
-
-            <p className="mt-4 leading-7 text-gray-600">
-              We remain grateful to organizations that have previously
-              partnered with EACHRights and contributed to our work and
-              institutional development.
-            </p>
-          </div>
-
-          <DonorGrid donors={pastDonors} />
-        </div>
-      </section>
-
-      {/* PARTNERSHIP MESSAGE */}
-      <section className="border-t border-gray-100 bg-gray-50 py-16 lg:py-20">
-        <div className="mx-auto max-w-5xl px-6 lg:px-8">
-          <div className="rounded-3xl bg-forest p-8 text-white shadow-xl sm:p-12 lg:p-14">
-            <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
-              <div>
-                <p className="mb-4 text-sm font-bold uppercase tracking-[0.18em] text-white/70">
-                  Strategic Partnerships
-                </p>
-
-                <h2 className="text-3xl font-bold sm:text-4xl">
-                  Partner With EACHRights
-                </h2>
-
-                <p className="mt-4 max-w-2xl text-base leading-7 text-white/80">
-                  We welcome partnerships with organizations and institutions
-                  that share our commitment to human dignity, equality,
-                  inclusion and social justice across East Africa.
-                </p>
-              </div>
-
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a
+                href="#current"
+                className="inline-flex items-center gap-2 bg-gold px-6 py-3 font-semibold text-forest transition hover:brightness-105"
+              >
+                Meet our partners
+                <ArrowRight size={18} />
+              </a>
               <Link
                 to="/contact"
-                className="inline-flex items-center justify-center rounded-xl bg-white px-6 py-3.5 font-semibold text-forest transition hover:bg-gray-100"
+                className="inline-flex items-center gap-2 border-2 border-white/40 px-6 py-3 font-semibold text-white transition hover:bg-white/10"
               >
-                Get in Touch →
+                Partner with us
               </Link>
             </div>
+          </motion.div>
+
+          {/* Key figures */}
+          <motion.dl
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.25 }}
+            className="mt-14 grid max-w-md grid-cols-2 gap-4 border-t border-white/15 pt-8"
+          >
+            <div>
+              <dt className="font-display text-3xl font-bold text-gold sm:text-4xl">
+                {currentDonors.length}
+              </dt>
+              <dd className="mt-1 text-xs leading-5 text-white/70 sm:text-sm">
+                Current partners
+              </dd>
+            </div>
+            <div>
+              <dt className="font-display text-3xl font-bold text-gold sm:text-4xl">
+                {pastDonors.length}
+              </dt>
+              <dd className="mt-1 text-xs leading-5 text-white/70 sm:text-sm">
+                Past partners
+              </dd>
+            </div>
+          </motion.dl>
+        </div>
+
+        <div
+          className="absolute bottom-0 left-0 h-8 w-full bg-white"
+          style={{ clipPath: "polygon(0 100%, 100% 0, 100% 100%)" }}
+          aria-hidden="true"
+        />
+      </section>
+
+      {/* =====================================================
+          INTRO
+      ===================================================== */}
+      <section className="px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
+        <div className="mx-auto max-w-4xl">
+          <motion.div
+            {...fadeUp}
+            transition={{ duration: 0.6 }}
+            className="relative overflow-hidden rounded-2xl bg-forest p-8 text-center text-white shadow-xl sm:p-12"
+          >
+            <Handshake
+              size={140}
+              strokeWidth={1.1}
+              className="pointer-events-none absolute -right-6 -top-6 text-white/10"
+              aria-hidden="true"
+            />
+            <div className="relative">
+              <div className="mx-auto h-1 w-12 rounded-full bg-gold" />
+              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-gold">
+                Working together
+              </p>
+              <h2 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">
+                Partnerships that advance justice
+              </h2>
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-white/85 sm:text-lg">
+                EACHRights values strategic partnerships that strengthen our
+                ability to promote and protect human rights, amplify community
+                voices and create meaningful change. We are grateful to the
+                organizations that have supported our work and contributed to
+                advancing social and economic justice.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          CURRENT DONORS
+      ===================================================== */}
+      <section id="current" className="scroll-mt-20 bg-forest-soft/40 px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
+        <div className="mx-auto max-w-6xl">
+          <SectionHeading
+            eyebrow="Current partners"
+            title="Current Donors"
+            text="We acknowledge the current partners whose support contributes to the implementation and sustainability of our programmes."
+          />
+          <div className="mt-14">
+            <DonorGrid donors={currentDonors} current />
           </div>
         </div>
       </section>
 
-      {/* TRANSPARENCY */}
-      <section className="py-14">
-        <div className="mx-auto max-w-4xl px-6 text-center lg:px-8">
-          <p className="text-sm leading-7 text-gray-500">
+      {/* =====================================================
+          PAST DONORS
+      ===================================================== */}
+      <section className="px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
+        <div className="mx-auto max-w-6xl">
+          <SectionHeading
+            eyebrow="Previous partnerships"
+            title="Past Donors"
+            text="We remain grateful to organizations that have previously partnered with EACHRights and contributed to our work and institutional development."
+          />
+          <div className="mt-14">
+            <DonorGrid donors={pastDonors} />
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          TRANSPARENCY
+      ===================================================== */}
+      <section className="px-6 pb-20 sm:px-8 lg:px-12 lg:pb-24">
+        <motion.div
+          {...fadeUp}
+          transition={{ duration: 0.6 }}
+          className="mx-auto flex max-w-4xl flex-col items-start gap-5 rounded-2xl border border-forest/10 bg-forest-soft p-7 sm:flex-row sm:items-center sm:p-9"
+        >
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-forest/10 text-forest">
+            <ShieldCheck size={26} strokeWidth={1.7} />
+          </div>
+          <p className="text-sm leading-7 text-gray-700 sm:text-base">
             EACHRights is committed to responsible partnerships, transparency
             and accountability in the implementation of programmes supported
             through donor and development partner funding.
           </p>
-        </div>
+        </motion.div>
       </section>
+
+      {/* =====================================================
+          CTA
+      ===================================================== */}
+      <section className="bg-forest px-6 py-16 text-center text-white sm:px-8 lg:px-12 lg:py-20">
+        <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="mx-auto max-w-2xl">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/20">
+            <Handshake size={26} strokeWidth={1.7} />
+          </div>
+
+          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-gold">
+            Strategic partnerships
+          </p>
+          <h2 className="mt-2 text-2xl font-bold sm:text-3xl">
+            Partner with EACHRights
+          </h2>
+
+          <p className="mx-auto mt-4 max-w-xl leading-7 text-white/70">
+            We welcome partnerships with organizations and institutions that
+            share our commitment to human dignity, equality, inclusion and
+            social justice across East Africa.
+          </p>
+
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 bg-gold px-6 py-3 font-semibold text-forest transition hover:brightness-105"
+            >
+              Get in Touch
+              <ArrowRight size={18} />
+            </Link>
+          </div>
+        </motion.div>
+      </section>
+
     </main>
   );
 }

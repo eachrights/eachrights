@@ -81,7 +81,7 @@ const heroSlides = [
     title: "Dignity begins",
     highlight: "with equal opportunity",
     description:
-      "We work with vulnerable and marginalized communities to build an environment where people can claim their rights and live with dignity.",
+      "We work with groups and communities to build an environment where people can claim their rights and live with dignity.",
     image: hero2,
   },
   {
@@ -97,7 +97,7 @@ const heroSlides = [
     title: "Advancing Rights",
     highlight: "Strengthening Systems Transforming Lives",
     description:
-      "EACHRights strengthens systems that enable people to realise their rights. We work with communities, civil society, government and other stakeholders to improve policies, institutional capacity, accountability, financing, evidence, participation and coordination, creating more responsive, inclusive and sustainable systems for the delivery of social and economic rights.",
+      "EACHRights strengthens systems that enable people to realise their rights. We work with groups and communities, civil society, government and other stakeholders to improve policies, institutional capacity, accountability, financing, evidence, participation and coordination, creating more responsive, inclusive and sustainable systems for the delivery of social and economic rights.",
     image: hero4,
   },
 ];
@@ -109,13 +109,13 @@ const focusAreas = [
     icon: GraduationCap,
     color: "sky",
     title: "Education",
-    text: "Enabling communities to fully realize their right to education.",
+    text: "Enabling groups and communities to fully realize their right to education.",
   },
   {
     icon: Heartbeat,
     color: "rose",
     title: "Health",
-    text: "Enabling communities to fully realize their right to health.",
+    text: "Enabling groups and communities to fully realize their right to health.",
   },
   {
     icon: Scales,
@@ -133,7 +133,7 @@ const focusAreas = [
     icon: Leaf,
     color: "green",
     title: "Economic, Business and Human Rights",
-    text: "Advancing economic and social rights for vulnerable and marginalized communities.",
+    text: "Advancing economic and social rights for groups and communities.",
   },
 ];
 
@@ -179,7 +179,7 @@ const programmes = [
   {
     title: "Environment and Climate Change",
     description:
-      "Supporting communities to address environmental challenges and climate-related injustices.",
+      "Supporting groups and communities to address environmental challenges and climate-related injustices.",
     icon: Leaf,
     color: "green",
     image: impact4,
@@ -188,7 +188,7 @@ const programmes = [
   {
     title: "Economic Justice, Business and Human Rights",
     description:
-      "Advancing economic and social rights for vulnerable and marginalized communities.",
+      "Advancing economic and social rights for groups and communities.",
     icon: Briefcase,
     color: "amber",
     image: impact5,
@@ -235,21 +235,21 @@ const approaches = [
   {
     title: "Networking, collaboration, and partnerships",
     description:
-      "Working with CSOs, NGOs, INGOs, government and the private sector to advance rights for vulnerable communities.",
+      "Working with CSOs, NGOs, INGOs, government and the private sector to advance rights for groups and communities.",
     icon: Handshake,
     color: "teal",
   },
   {
     title: "Social movement building and grassroots community mobilization",
     description:
-      "Supporting communities to organize around common concerns and lead citizen-driven campaigns.",
+      "Supporting groups and communities to organize around common concerns and lead citizen-driven campaigns.",
     icon: UsersThree,
     color: "violet",
   },
   {
     title: "Training and capacity building",
     description:
-      "Strengthening the knowledge and skills of communities, CSOs, local leaders, government agencies and partners.",
+      "Strengthening the knowledge and skills of groups and communities, CSOs, local leaders, government agencies and partners.",
     icon: ChalkboardTeacher,
     color: "sky",
   },
@@ -271,17 +271,17 @@ const approaches = [
 
 /** Who bears the weight when rights guaranteed on paper aren't realized in practice. */
 const challengeGroups = [
-  "Communities living in poverty, with the least power to demand accountability.",
+  "Groups and communities living in poverty, with the least power to demand accountability.",
   "Women and girls facing gender-based discrimination and exclusion.",
   "Informal workers with little legal protection or bargaining power.",
-  "Communities on the frontline of environmental and climate harm.",
+  "Groups and communities on the frontline of environmental and climate harm.",
 ];
 
 /** The three outcomes the Strategic Plan 2026–2030 is built to deliver. */
 const strategicAims = [
   {
     icon: Users,
-    text: "Communities equipped to know, claim and defend their economic, social and cultural rights.",
+    text: "Groups and communities equipped to know, claim and defend their economic, social and cultural rights.",
   },
   {
     icon: Bank,
@@ -306,7 +306,7 @@ const regions = [
   {
     country: "Uganda",
     description:
-      "Partnerships supporting community-level rights education and monitoring.",
+      "Partnerships supporting group and community-level rights education and monitoring.",
   },
   {
     country: "Tanzania",
@@ -1402,7 +1402,7 @@ export default function Home() {
         </title>
         <meta
           name="description"
-          content="EACHRights promotes and protects Economic, Social and Cultural Rights for vulnerable and marginalized communities across East Africa."
+          content="EACHRights promotes and protects Economic, Social and Cultural Rights for groups and communities across East Africa."
         />
       </Helmet>
 

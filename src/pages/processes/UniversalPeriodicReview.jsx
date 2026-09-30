@@ -26,12 +26,14 @@ const cycles = [
     year: "2010",
     label: "1st Cycle",
     color: "#0F9D8A",
+    //detail: " recommendations received · 192 accepted,",
+
   },
   {
     year: "2015",
     label: "2nd Cycle",
     color: "#F59E0B",
-    detail: "253 recommendations received · 192 (76%) accepted",
+    detail: "253 recommendations received · 192 accepted, 61 noted",
   },
   {
     year: "2020",
@@ -43,7 +45,7 @@ const cycles = [
     year: "2025",
     label: "4th Cycle",
     color: "#2563EB",
-    detail: "Kenya's next review, expected April 2025",
+    detail: "339 recommendations received · 233 accepted, 106 noted",
   },
 ];
 
@@ -257,12 +259,11 @@ export default function UniversalPeriodicReview() {
               Kenya&rsquo;s Universal Periodic Review process
             </p>
             <h2 className="mt-3 text-3xl font-bold leading-tight text-ink sm:text-4xl">
-              Three cycles of review.
+              Four cycles of review.
             </h2>
             <p className="mt-4 leading-7 text-gray-600">
               Kenya&rsquo;s human rights record has been reviewed by the UN
-              Human Rights Council three times, with a fourth cycle set for
-              April 2025. Select a cycle to explore it.
+              Human Rights Council four times, . Select a cycle to explore it.
             </p>
           </motion.div>
 

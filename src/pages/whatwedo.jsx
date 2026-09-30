@@ -342,8 +342,8 @@ export default function WhatWeDo() {
           </h1>
 
           <p className="mt-4 max-w-3xl text-base leading-8 text-white/80 sm:text-lg">
-            EACHRights promotes, protects and advances Economic, Social and
-            Cultural Rights across East Africa. We work with communities,
+            EACHRights promotes, protects and advances Economic and Social Rights
+           across East Africa. We work with groups and communities,
             institutions and partners to address barriers to rights,
             strengthen accountability and support lasting social justice.
           </p>
@@ -407,7 +407,7 @@ export default function WhatWeDo() {
               public interest litigation with community engagement and
               institutional partnerships. Across our programmes, we focus on
               the structural barriers that prevent people from fully enjoying
-              their Economic, Social and Cultural Rights.
+              their Economic and Social Rights.
             </p>
           </div>
         </div>
@@ -430,7 +430,7 @@ export default function WhatWeDo() {
 
           <p className="mt-5 text-lg leading-8 text-ink/65">
             Our programmes respond to interconnected rights challenges
-            affecting communities across East Africa. Each programme combines
+            affecting groups and communities across East Africa. Each programme combines
             evidence, community engagement, advocacy and partnerships to
             advance practical and sustainable change.
           </p>
