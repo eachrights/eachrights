@@ -19,7 +19,7 @@ import {
    PROGRAMME PHOTO IMPORTS
 ========================================================= */
 
-import educationPhoto from "../assets/impact/impact-1.png";
+import educationPhoto from "../assets/impact/impact-1.jpg";
 import genderPhoto from "../assets/impact/impact-2.png";
 import healthPhoto from "../assets/impact/impact-3.png";
 import environmentalPhoto from "../assets/impact/impact-4.png";
@@ -69,7 +69,7 @@ const programmes = [
       "Advocating for equitable access to health services and the realization of the right to health, including Sexual and Reproductive Health and Rights.",
   },
   {
-    name: "Environmental and Climate Change",
+    name: "Environment and Climate Change",
     path: "/programmes/environmental-climate-justice",
     icon: Leaf,
     photo: environmentalPhoto,

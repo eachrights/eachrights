@@ -37,7 +37,7 @@ import hero2 from "../assets/hero/hero-2.png";
 import hero3 from "../assets/hero/hero-3.png";
 import hero4 from "../assets/hero/hero-4.png";
 
-import impact1 from "../assets/impact/impact-1.png";
+import impact1 from "../assets/impact/impact-1.jpg";
 import impact2 from "../assets/impact/impact-2.png";
 import impact3 from "../assets/impact/impact-3.png";
 import impact4 from "../assets/impact/impact-4.png";

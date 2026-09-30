@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 // Same image the Education programme uses on the Home page.
-import educationImage from "../../assets/impact/impact-1.png";
+import educationImage from "../../assets/impact/impact-1.jpg";
 
 /* =========================================================
    The twelve focus areas grouped into the four pillars they

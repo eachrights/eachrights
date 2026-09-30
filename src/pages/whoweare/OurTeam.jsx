@@ -99,7 +99,7 @@ Mr. Kinama also possesses a Diploma in Business Management from Sigalagala Polyt
 Mr. Onyango holds an LL.B Degree from Dr. BAM University, Aurangabad, India, and was admitted to the Kenyan Bar in 2002. He also obtained a Master's of Science (M.Sc.) Degree in Management and Organisational Development from United States International University, Africa (USIU-A) in 2008, and a Master's of Arts (M.A.) Degree in Development Studies with a major in Human Rights, Development, and Social Justice from the International Institute of Social Studies (ISS) at Erasmus University, Rotterdam in 2012.
 Throughout his career, Mr. Onyango has pursued professional development in various areas including child rights, human rights, law, development, strategic planning and management, human resource management, project evaluation, and grant making. His steadfast dedication to human rights and substantial contributions to the development sector underscore Mr. Onyango's commitment to driving positive change, guiding EACHRights' growth and impact through his leadership.
 For inquiries, Mr. Gilbert Onyango can be reached at director@eachrights.or.ke`,
-    email: "director@eachrights.or.ke",
+    email: "",
   },
   {
     name: "Christine Alai",
@@ -121,12 +121,10 @@ She holds a Master of Arts Degree in International Relations from the University
     email: "",
   },
   {
-    name: "Martin Ray T. Mavenjina",
+    name: "Martin Mavenjina",
     role: "Board Member",
     photo: getPhoto("Martin.jpg"),
-    bio: `MARTIN RAY T. MAVENJINA
-Board Member
-Mr. Martin Mavenjina is a seasoned Constitutional and Human Rights lawyer, specializing in research, policy review, and advocacy on Civic Space, Security Governance, Counter Terrorism, and Transitional Justice at National, Regional, and International levels. Currently employed as the Senior Program Advisor Transitional Justice at the Kenya Human Rights Commission, he holds a Bachelor of Laws Degree from Nkumba University, a Post Graduate Diploma in Legal Practice from the Kenya School of Law, and a Graduate Certificate in Advanced Human Rights Course on Police Oversight and Vulnerable Groups from the University of Pretoria. Mr. Mavenjina is also pursuing a Master of Laws at the University of Nairobi.
+    bio: `Martin Mavenjina Board MemberMr. Martin Mavenjina is a seasoned Constitutional and Human Rights lawyer, specializing in research, policy review, and advocacy on Civic Space, Security Governance, Counter Terrorism, and Transitional Justice at National, Regional, and International levels. Currently employed as the Senior Program Advisor Transitional Justice at the Kenya Human Rights Commission, he holds a Bachelor of Laws Degree from Nkumba University, a Post Graduate Diploma in Legal Practice from the Kenya School of Law, and a Graduate Certificate in Advanced Human Rights Course on Police Oversight and Vulnerable Groups from the University of Pretoria. Mr. Mavenjina is also pursuing a Master of Laws at the University of Nairobi.
 His engagements with prominent peer review mechanisms like the United Nations Human Rights Council, the African Commission on Human and Peoples Rights, and the Assembly of State Parties have resulted in numerous positive resolutions benefiting victims of human rights violations.
 Mr. Mavenjina has spearheaded successful campaigns at national and international levels, significantly impacting the lives of victims of systemic human rights violations. He has also played a key role in forming coalitions advocating for victims' rights and has contributed to seminal research on transitional justice, civic space, freedom of expression, protest rights, and surveillance, published both locally and globally.
 Mr. Mavenjina is a member of the Law Society of Kenya, the East African Law Society, the Chartered Institute of Arbitrators, and the International Commission of Jurists, Mr. Mavenjina currently chairs the Democracy Without Borders-Kenya Chapter. He also serves on various committees of the East African Law Society, including Trade and Regional Integration, Business and Human Rights, Technology, Media and Telecom, and Oil and Gas.`,
@@ -171,7 +169,7 @@ const leadership = [
     group: "Executive Director Office",
     bio: "Mr. Gilbert Onyango is the Founder and a member of the Board of Trustees at EACHRights. His journey in the non-governmental sector began in 2002 as a legal intern with The CRADLE – The Children's Foundation, where he later became the Deputy Director. He then served as the Regional Deputy Director for the Canadian Bar Association's Strengthening Access to Justice in Eastern Africa (SAJEA) Programme in Dar es Salaam, Tanzania, from June to December 2010. Following this, Mr. Onyango assumed the role of Regional Director at EACHRights from December 2010 to May 2015, after which he joined UPR Info, a Swiss NGO, as the Regional Director for Africa from June 2015 to December 2020. He resumed his position as Executive Director of EACHRights in November 2022. Mr. Onyango holds an LL.B. degree from Dr. BAM University, Aurangabad, India, and was admitted to the Kenyan Bar in 2002. He also obtained a Master's of Science (M.Sc.) Degree in Management and Organisational Development from United States International University, Africa (USIU-A) in 2008, and a Master's of Arts (M.A.) Degree in Development Studies with a major in Human Rights, Development, and Social Justice from the International Institute of Social Studies (ISS) at Erasmus University, Rotterdam, in 2012. Throughout his career, Mr. Onyango has pursued professional development in various areas, including child rights, human rights, law, development, strategic planning and management, human resource management, project evaluation, and grant making. His steadfast dedication to human rights and substantial contributions to the development sector underscore Mr. Onyango's commitment to driving positive change, guiding EACHRights' growth and impact through his leadership.",
     photo: getPhoto("Gilbert.jpg"),
-    email: "director@eachrights.or.ke",
+    email: "",
   },
 ];
 
@@ -567,7 +565,7 @@ export default function Team() {
 
           <p className="mt-5 max-w-2xl text-base leading-8 text-white/80 sm:text-lg">
             EACHRights is powered by a board, leadership team and staff of researchers, advocates, legal experts
-            and programme staff working together to advance Economic, Social and Cultural Rights across East
+            and programme staff working together to advance Economic and Social Rights across East
             Africa.
           </p>
         </div>

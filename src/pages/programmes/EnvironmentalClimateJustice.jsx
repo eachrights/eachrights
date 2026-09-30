@@ -121,7 +121,7 @@ export default function EnvironmentalClimateJustice() {
             </div>
 
             <h1 className="mt-6 text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
-              Environmental &amp; Climate Justice
+              Environment &amp; Climate Justice
               <span className="block text-gold">Programme</span>
             </h1>
 
