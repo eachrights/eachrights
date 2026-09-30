@@ -116,7 +116,7 @@ export default function OurStory() {
           <div className="mb-4 h-1 w-20 bg-[#8DC63F]" />
 
           <h1 className="max-w-4xl font-display text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
-            Our story rooted in dignity and justice
+            Our story, rooted in dignity and justice
           </h1>
         </motion.div>
       </section>
@@ -130,7 +130,7 @@ export default function OurStory() {
           <p className="font-display text-3xl leading-snug text-forest sm:text-4xl">
             EACHRights promotes and protects human dignity through the
             realization of social and economic rights for vulnerable and
-            marginalized groups and communities
+            marginalized groups and communities.
           </p>
 
           <p className="text-lg leading-8 text-ink/75 lg:pt-3">

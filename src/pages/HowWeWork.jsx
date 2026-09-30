@@ -11,7 +11,7 @@ const approaches = [
     title: "Research",
     image: researchImg,
     alt: "EACHRights team conducting research in the field",
-    body: "EACHRights is recognizing that research is critical in understanding and addressing the challenges faced by vulnerable and marginalized groups and communities. To this end, the organization is undertaking various forms of research, including baseline studies, perception surveys, position papers, and policy briefs. Through this approach, EACHRights has to established itself as a credible institution that leverages field experiences and knowledge to shape opinions, promote learning, and drive innovation. Additionally, the organization is prioritizing the design and implementation of research-driven, evidence-based programs.",
+    body: "EACHRights recognizes that research is critical in understanding and addressing the challenges faced by vulnerable and marginalized groups and communities. To this end, the organization is undertaking various forms of research, including baseline studies, perception surveys, position papers, and policy briefs. Through this approach, EACHRights is establishing itself as a credible institution that leverages field experiences and knowledge to shape opinions, promote learning, and drive innovation. Additionally, the organization prioritizes the design and implementation of research-driven, evidence-based programs.",
   },
   {
     id: "partnerships",
@@ -25,7 +25,7 @@ const approaches = [
     title: "Social movement building and grassroots community mobilization",
     image: movementsImg,
     alt: "Community members organizing together",
-    body: "EACHRights is supporting and empowering groups and communities to organize around their common concerns and challenges, as well as citizen-driven campaigns targeting national and county-based citizen-led advocacy initiatives. This approach is enabling social movements to conduct media campaigns, lobby, educate the public, and advocate to raise awareness. They are also engaging in public actions, mobilizing communities, and creating and submitting petitions to duty bearers.",
+    body: "EACHRights is supporting and empowering groups and communities to self-organize around their common concerns and challenges, as well as engage in citizen-driven campaigns at the national and county levels. This approach is enabling social movements to actively engage in the media campaigns, lobbying, public education, advocacy, and awareness-raising on human rights issues. The movements are further strengthened to take actions and mobilize communities to submit memoranda and petitions to the various duty bearers both at national and county levels.",
   },
   {
     id: "training",

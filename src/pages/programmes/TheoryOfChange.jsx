@@ -207,8 +207,8 @@ export default function TheoryOfChange() {
             </p>
 
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/85">
-              Our Theory of Change outlines the approaches and intervention strategy
-              pathways, which are reflected in the programmes and include the
+              Our Theory of Change outlines the approaches and intervention strategic
+              pathways, reflected in the programmes and include the
               assumptions and the logical connections between the different levels
               of the organisation&rsquo;s Vision, Mission, and Goal Statement.
             </p>

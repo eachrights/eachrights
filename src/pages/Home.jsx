@@ -775,7 +775,7 @@ function Introduction() {
             EACHRights is a non-partisan regional non-governmental organisation
             working with vulnerable and marginalized communities. Through
             research, advocacy, capacity building and public interest
-            litigation, we work to build an environment where people can claim
+            litigation, we work to build a society where people can claim
             their rights and live with dignity.
           </p>
 
@@ -817,7 +817,7 @@ function Challenge() {
             Constitutions and international treaties across East Africa
             recognize economic, social and cultural rights. But recognition on
             its own does not put food on a table, keep a clinic stocked, or
-            protect land from being taken.
+            get children to school.
           </p>
           <p className="mt-3 max-w-xl leading-7 text-ink/65">
             This is not because these rights are aspirational. It is because

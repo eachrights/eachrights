@@ -50,7 +50,7 @@ const processLinks = [
 // Surfaced in a slim utility bar above the main nav, modelled on how
 // mizizielimu.org surfaces its "Microdata Portal" link above their nav.
 const srhrAdvocacyLink = {
-  name: "SRHR Portal",
+  name: "SRHR Project Portal",
   description: "Visit our dedicated SRHR advocacy portal",
   url: "https://eachrights.github.io/srhr/",
 };

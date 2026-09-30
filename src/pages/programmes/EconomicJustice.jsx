@@ -28,8 +28,8 @@ const pillars = [
     title: "Decent Work & Economic Inclusion",
     items: [
       "Promote the right to decent work and employment.",
-      "Protect labour rights and workplace equality.",
-      "Promote inclusive economic opportunities for vulnerable and marginalised groups.",
+      "Protect labour rights, workplace equality and lifelong learning for young people including numeracy and literacy.",
+      //"Promote inclusive economic opportunities for vulnerable and marginalised groups.",
     ],
   },
   {
