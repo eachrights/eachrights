@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import SEO from "../components/SEO";
@@ -29,8 +29,6 @@ import {
   Newspaper,
   MapPin,
 } from "@phosphor-icons/react";
-
-import CountUp from "../components/CountUp.jsx";
 
 import hero1 from "../assets/hero/hero-1.png";
 import hero2 from "../assets/hero/hero-2.png";
@@ -215,12 +213,22 @@ const programmes = [
 ];
 
 const impactStats = [
-  { value: 120, suffix: "+", label: "Research initiatives" },
-  { value: 4500, suffix: "+", label: "Networking, collaboration and partnerships" },
-  { value: 32, suffix: "", label: "Social movement and grassroots initiatives" },
-  { value: 67, suffix: "%", label: "Training and capacity building" },
-  { value: 67, suffix: "%", label: "Lobbying and advocacy" },
-  { value: 67, suffix: "%", label: "Community and public awareness" },
+  { value: 10, suffix: "+", label: "Research initiatives" },
+  { value: 300, suffix: "+", label: "Networking, collaboration and partnerships" },
+  { value: 40, suffix: "+", label: "Social movement and grassroots initiatives" },
+  { value: 11938, suffix: "", label: "Training and capacity building" },
+  {
+    value: 25,
+    suffix: "+",
+    label: "Lobbying and advocacy (laws, policies and standards influenced)",
+  },
+  {
+    title: "Community and Awareness",
+    parts: [
+      { value: 18000000, suffix: "", label: "Children" },
+      { value: 11038, suffix: "", label: "People" },
+    ],
+  },
 ];
 
 /* Mirrors the six approaches on the How We Work page. */
@@ -353,7 +361,7 @@ const previousCountries = [
 const platforms = [
   {
     type: "Portal",
-    title: "SRHR Portal",
+    title: "SRHR Project Advocacy Portal",
     description:
       "Explore EACHRights' Sexual and Reproductive Health and Rights portal.",
     icon: Heartbeat,
@@ -1025,6 +1033,76 @@ function Programmes() {
   );
 }
 
+/** Shortens very large figures so they fit their cell: 18000000 -> "18M". */
+function formatStat(n) {
+  if (n >= 1_000_000) {
+    const m = n / 1_000_000;
+    return `${Number.isInteger(m) ? m : m.toFixed(1)}M`;
+  }
+  return n.toLocaleString("en-US");
+}
+
+/** Counts up from 0 to `value` the first time it scrolls into view.
+    Self-contained (no CountUp component), honours reduced-motion, and falls
+    back to the final number if IntersectionObserver is unavailable. */
+function StatNumber({ value, suffix = "", className = "" }) {
+  const ref = useRef(null);
+  const reduce = useReducedMotion();
+  const [shown, setShown] = useState(0);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+
+    if (reduce || typeof IntersectionObserver === "undefined") {
+      setShown(value);
+      return undefined;
+    }
+
+    let frame;
+    const run = () => {
+      const start = performance.now();
+      const duration = 1600;
+      const tick = (now) => {
+        const t = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        setShown(Math.round(value * eased));
+        if (t < 1) frame = requestAnimationFrame(tick);
+      };
+      frame = requestAnimationFrame(tick);
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          run();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, [value, reduce]);
+
+  return (
+    <span
+      ref={ref}
+      className={`block font-display font-bold leading-none tracking-tight text-white ${className}`}
+    >
+      {formatStat(shown)}
+      {suffix}
+    </span>
+  );
+}
+
+/** Impact figures in a ruled grid: hairline dividers (a 1px gap over a tinted
+    backdrop), a lime accent on each cell, and a grouped cell for stats that
+    break down into several counters. */
 function Impact() {
   return (
     <section className="relative isolate overflow-hidden bg-ink px-6 py-8 text-white sm:px-8 lg:px-12 lg:py-10">
@@ -1048,21 +1126,53 @@ function Impact() {
           </p>
         </div>
 
-        <dl className="mt-6 grid border-t border-white/15 sm:grid-cols-2 lg:grid-cols-3">
-          {impactStats.map((stat) => (
-            <div
-              key={stat.label}
-              className="border-b border-white/15 py-4 sm:pr-6 lg:[&:not(:nth-child(3n+1))]:border-l lg:[&:not(:nth-child(3n+1))]:pl-6"
-            >
-              <dd className="font-display text-3xl font-bold text-white sm:text-4xl">
-                <CountUp end={stat.value} duration={2} separator="," />
-                {stat.suffix}
-              </dd>
-              <dt className="mt-1 max-w-xs text-sm leading-6 text-white/75">
-                {stat.label}
-              </dt>
-            </div>
-          ))}
+        <dl className="mt-8 grid gap-px border border-white/15 bg-white/15 sm:grid-cols-2 lg:grid-cols-3">
+          {impactStats.map((stat) =>
+            stat.parts ? (
+              /* Grouped stat: title above, sub-counters side by side */
+              <div
+                key={stat.title}
+                className="flex flex-col justify-between gap-6 border-t-2 border-[#8DC63F] bg-ink p-6 sm:p-8"
+              >
+                <dt className="max-w-xs text-sm font-semibold leading-6 text-white/75">
+                  {stat.title}
+                </dt>
+
+                <dd className="grid grid-cols-2 gap-6">
+                  {stat.parts.map((part) => (
+                    <span key={part.label} className="block">
+                      <StatNumber
+                        value={part.value}
+                        suffix={part.suffix}
+                        className="text-3xl sm:text-4xl"
+                      />
+                      <span className="mt-3 block text-sm font-semibold text-[#8DC63F]">
+                        {part.label}
+                      </span>
+                    </span>
+                  ))}
+                </dd>
+              </div>
+            ) : (
+              /* Single stat: number first visually, label read first by
+                 assistive tech (dt before dd in the DOM) */
+              <div
+                key={stat.label}
+                className="flex flex-col-reverse justify-between gap-6 border-t-2 border-[#8DC63F] bg-ink p-6 sm:p-8"
+              >
+                <dt className="max-w-xs text-sm font-semibold leading-6 text-white/75">
+                  {stat.label}
+                </dt>
+                <dd>
+                  <StatNumber
+                    value={stat.value}
+                    suffix={stat.suffix}
+                    className="text-5xl sm:text-6xl"
+                  />
+                </dd>
+              </div>
+            )
+          )}
         </dl>
 
         <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-4">

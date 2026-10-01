@@ -327,7 +327,7 @@ export default function WhatWeDo() {
           </div>
 
           <h1 className="mt-3 max-w-4xl font-display text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-7xl">
-            What we do
+            What We Do
           </h1>
 
           <p className="mt-4 max-w-3xl text-base leading-8 text-white/80 sm:text-lg">
