@@ -30,6 +30,10 @@ import surveyReport from "../../assets/publications/EACHRights Perception Survey
 import strategicPlan2023 from "../../assets/publications/EACHRights Trust Strategic Plan 4 (2019-2023).pdf";
 import annualReport2020 from "../../assets/publications/EACHRights-Annual-Report-2020.pdf";
 import ssnfgm from "../../assets/publications/Shifts in Social Norms Around FGMC in Garissa County.pdf";
+import health1 from "../../assets/publications/BASELINE SURVEY, NETWORKING GRANT.pdf";
+import gender1 from "../../assets/publications/BASELINE SURVEY,SAFER FUTURES PROJECT.pdf";
+import education1 from "../../assets/publications/EACHRight POSITION PAPER ON SPONSORED SCHOOLS N KENYA  2021.pdf";
+
 
 // ============================================================
 // PUBLICATION THUMBNAILS
@@ -45,6 +49,10 @@ import strategicPlan2019Thumb from "../../assets/publication-thumbs/EACHRights T
 import strategicPlan2016Thumb from "../../assets/publication-thumbs/EACHRights Trust Strategic Plan 2 (2014-2016).png";
 import strategicPlan2012Thumb from "../../assets/publication-thumbs/EACHRights Trust Strategic Plan 1 (2011-2012).png";
 import conceptpaperThumb from "../../assets/publication-thumbs/EACHRights Trust Concept Paper.png";
+import health1Thumb from "../../assets/publication-thumbs/BASELINE SURVEY, NETWORKING GRANT.png";
+import gender1Thumb from "../../assets/publication-thumbs/BASELINE SURVEY,SAFER FUTURES PROJECT.png";
+import education1Thumb from "../../assets/publication-thumbs/EACHRight POSITION PAPER ON SPONSORED SCHOOLS N KENYA  2021.png";
+
 
 /*
 |--------------------------------------------------------------------------
@@ -169,6 +177,37 @@ const publications = [
     pdf: ssnfgm,
     thumb: ssnfgmThumb,
   },
+    {
+    title: "Baseline Survey: Networking Grant",
+    programme: "Health Justice",
+    docType: "Baseline Research",
+    year: "2024", // TODO: confirm the actual year
+    description:
+      "A baseline survey for the Networking Grant, establishing the starting data and benchmarks for EACHRights' health justice work.",
+    pdf: health1,
+    thumb: health1Thumb, // TODO: add thumbnail
+  },
+  {
+    title: "Baseline Survey: Safer Futures Project",
+    programme: "Gender Justice",
+    docType: "Baseline Research",
+    year: "2024", // TODO: confirm the actual year
+    description:
+      "A baseline survey for the Safer Futures Project, establishing the starting data and benchmarks for EACHRights' gender justice work.",
+    pdf: gender1,
+    thumb: gender1Thumb, // TODO: add thumbnail
+  },
+  {
+    title: "Position Paper on Sponsored Schools in Kenya",
+    programme: "Education Justice",
+    docType: "Policy & Advocacy Briefs",
+    year: "2021",
+    description:
+      "EACHRights' 2021 position paper on sponsored schools in Kenya, setting out the organisation's analysis and recommendations on education policy.",
+    pdf: education1,
+    thumb: education1Thumb, // TODO: add thumbnail
+  },
+  
 ];
 
 // Publications featured in the hero carousel — newest first.

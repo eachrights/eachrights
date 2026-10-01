@@ -8,6 +8,8 @@ import {
   Globe2,
   Scale,
   Users,
+  Layers,
+  FileText,
   FileCheck2,
   TrendingUp,
   CheckCircle2,
@@ -49,10 +51,12 @@ const cycles = [
   },
 ];
 
+// Hero figures — the reach of the UPR Kenya coalition.
 const heroStats = [
-  { value: "194", label: "UN Member States reviewed" },
-  { value: "5 yrs", label: "Between each review" },
-  { value: "200+", label: "NGOs in the Kenya Coalition" },
+  { icon: Users, value: "300+", label: "Member organisations coordinated in Kenya" },
+  { icon: Layers, value: "32+", label: "Thematic groups" },
+  { icon: FileText, value: "40+", label: "Civil society reports submitted in the 4th cycle" },
+  { icon: Globe2, value: "20+", label: "Countries supported" },
 ];
 
 const achievements = [
@@ -98,7 +102,7 @@ export default function UniversalPeriodicReview() {
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/50 to-black/10" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-        <div className="relative mx-auto max-w-7xl px-6 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-32">
+        <div className="relative mx-auto max-w-7xl px-6 pb-16 pt-20 sm:px-8 sm:pb-20 sm:pt-24 lg:px-12 lg:pb-24 lg:pt-28">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -150,23 +154,36 @@ export default function UniversalPeriodicReview() {
             </div>
           </motion.div>
 
-          {/* Key figures */}
+          {/* Key figures — one frosted panel, hairline dividers between cells */}
           <motion.dl
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.25 }}
-            className="mt-14 grid max-w-3xl grid-cols-3 gap-4 border-t border-white/15 pt-8"
+            aria-label="UPR Kenya in numbers"
+            className="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/15 bg-white/15 shadow-2xl lg:grid-cols-4"
           >
-            {heroStats.map((stat) => (
-              <div key={stat.label}>
-                <dt className="font-display text-3xl font-bold text-gold sm:text-4xl">
-                  {stat.value}
-                </dt>
-                <dd className="mt-1 text-xs leading-5 text-white/70 sm:text-sm">
-                  {stat.label}
-                </dd>
-              </div>
-            ))}
+            {heroStats.map((stat) => {
+              const Icon = stat.icon;
+              return (
+                <div
+                  key={stat.label}
+                  className="bg-black/45 p-5 backdrop-blur-md sm:p-6"
+                >
+                  <span
+                    className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-gold ring-1 ring-white/20"
+                    aria-hidden="true"
+                  >
+                    <Icon size={20} strokeWidth={1.7} />
+                  </span>
+                  <dt className="mt-4 font-display text-4xl font-bold leading-none text-gold sm:text-5xl">
+                    {stat.value}
+                  </dt>
+                  <dd className="mt-2 text-sm leading-5 text-white/80">
+                    {stat.label}
+                  </dd>
+                </div>
+              );
+            })}
           </motion.dl>
         </div>
 
@@ -263,7 +280,7 @@ export default function UniversalPeriodicReview() {
             </h2>
             <p className="mt-4 leading-7 text-gray-600">
               Kenya&rsquo;s human rights record has been reviewed by the UN
-              Human Rights Council four times, . Select a cycle to explore it.
+              Human Rights Council four times. Select a cycle to explore it.
             </p>
           </motion.div>
 
@@ -405,7 +422,7 @@ export default function UniversalPeriodicReview() {
             <div className="mt-8 space-y-5 text-base leading-8 text-gray-600">
               <p>
                 The Coalition, known as UPR Kenya, brings together a
-                membership of over 200 NGOs. It is led by a Steering
+                membership of over 300 organisations. It is led by a Steering
                 Committee with technical support from the Kenya National
                 Commission on Human Rights (KNCHR) and the UN Office of the
                 High Commissioner on Human Rights (OHCHR).
@@ -419,7 +436,7 @@ export default function UniversalPeriodicReview() {
 
           <div className="grid gap-5 sm:grid-cols-2">
             {[
-              { icon: Users, big: "200+", small: "Member NGOs" },
+              { icon: Users, big: "300+", small: "Member organisations" },
               { icon: Scale, big: "EACHRights", small: "Coalition Secretariat" },
             ].map((card, index) => {
               const Icon = card.icon;

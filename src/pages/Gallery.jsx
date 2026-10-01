@@ -25,9 +25,16 @@ import photo1 from "../assets/gallery/photo-1.jpg";
 import photo2 from "../assets/gallery/photo-2.jpg";
 import photo3 from "../assets/gallery/photo-3.png";
 import photo4 from "../assets/gallery/photo-4.jpg";
+import photo5 from "../assets/gallery/photo-5.jpg";
+import photo6 from "../assets/gallery/photo-6.jpg";
+import photo7 from "../assets/gallery/photo-7.jpg";
+import photo8 from "../assets/gallery/photo-8.jpg";
+import photo9 from "../assets/gallery/photo-9.jpg";
+import photo10 from "../assets/gallery/photo-10.jpg";
+import photo11 from "../assets/gallery/photo-11.jpg";
 
 const photos = [
-  {
+  /*{
     image: photo1,
     title: "Kenya Children's Assemblies Launch",
     description: "The launch of the Kenya Children's Assemblies (KCA) in Marsabit County.",
@@ -46,6 +53,41 @@ const photos = [
     image: photo4,
     title: "Field Visit, Marsabit",
     description: "The EACHRights team meeting with community leaders in Marsabit County.",
+  },*/
+   {
+    image: photo5,
+    title: "",
+    description: "Training of Community Child Protection Champions in Marsabit County.",
+  },
+   {
+    image: photo6,
+    title: "",
+    description: "UPR Child Rights and Education Cluster Stakeholders’ Meeting to Advance the Finalisation of CSO Action Points on the State UPR Implementation Plan.",
+  },
+   {
+    image: photo7,
+    title: "",
+    description: "Eco-Justice Club Members Nurturing Gardens at Paranae Primary School, Kajiado County.",
+  },
+   {
+    image: photo8,
+    title: "",
+    description: "Training Learners on Climate Change Mitigation at Kikambala Primary School, Kilifi County.",
+  },
+   {
+    image: photo9,
+    title: "",
+    description: "Multi-Stakeholder Meeting to Review and Strengthen the Draft Kilifi County Adolescent and Young People (AYP) Health Strategy 2025–2030.",
+  },
+   {
+    image: photo10,
+    title: "",
+    description: "Consultative Meeting with the Sexual Violence UPR Thematic Group.",
+  },
+   {
+    image: photo11,
+    title: "",
+    description: "Community dialogue with school BoM and residence in Tusrkana county.",
   },
 ];
 
@@ -198,8 +240,8 @@ const videos = [
 | date   : shown as written, e.g. "12 Mar 2026"
 | url    : link to the article, clip or recording. Leave "" if there is none
 |          and the card will show without a link.
+|          YouTube links (youtube.com or youtu.be) play inline on the card.
 |
-| The entries below are PLACEHOLDERS — replace them with real coverage.
 | Delete a whole group's entries and its tab disappears automatically.
 */
 
@@ -210,47 +252,26 @@ const MEDIA_TYPES = {
 };
 
 const mediaCoverage = [
-  {
+   {
     type: "Newspaper",
-    outlet: "Newspaper name",
-    title: "Headline of the article featuring EACHRights",
-    date: "2026",
-    url: "",
-  },
-  {
-    type: "Newspaper",
-    outlet: "Newspaper name",
-    title: "Headline of the article featuring EACHRights",
-    date: "2026",
-    url: "",
+    outlet: "High Flyer Report",
+    title: "Exclusive: Uganda Faces 4th UN Human Rights Review, Why Strong Laws Are Failing on the Ground",
+    date: "2 Jun 2026",
+    url: "https://highflyerreport.com/2026/06/02/exclusive-uganda-faces-4th-un-human-rights-review-why-strong-laws-are-failing-on-the-ground/",
   },
   {
     type: "Television",
-    outlet: "TV station name",
-    title: "Programme or segment title",
-    date: "2026",
-    url: "",
+    outlet: "TV station name", // TODO
+    title: "Programme or segment title", // TODO
+    date: "2026", // TODO
+    url: "https://youtu.be/1AcJKP-YwzU",
   },
   {
     type: "Television",
-    outlet: "TV station name",
-    title: "Programme or segment title",
-    date: "2026",
-    url: "",
-  },
-  {
-    type: "Radio",
-    outlet: "Radio station name",
-    title: "Interview or programme title",
-    date: "2026",
-    url: "",
-  },
-  {
-    type: "Radio",
-    outlet: "Radio station name",
-    title: "Interview or programme title",
-    date: "2026",
-    url: "",
+    outlet: "TV station name", // TODO
+    title: "Programme or segment title", // TODO
+    date: "2026", // TODO
+    url: "https://youtu.be/t3asXtTT9nc",
   },
 ];
 
@@ -292,7 +313,70 @@ function getYouTubeVideoId(url) {
 /** A single newspaper / television / radio coverage card. */
 function MediaCard({ item }) {
   const { icon: Icon, action } = MEDIA_TYPES[item.type];
+  const videoId = getYouTubeVideoId(item.url);
+  const [playing, setPlaying] = useState(false);
 
+  // ---------- YOUTUBE ENTRIES: playable inline, like the Videos section ----------
+  if (videoId) {
+    return (
+      <article className="group flex h-full flex-col overflow-hidden border border-forest/15 border-t-4 border-t-[#8DC63F] bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-t-forest hover:shadow-xl">
+        <div className="relative aspect-video overflow-hidden bg-black">
+          {playing ? (
+            <iframe
+              src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&autoplay=1`}
+              title={item.title}
+              className="absolute inset-0 h-full w-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          ) : (
+            <button
+              type="button"
+              onClick={() => setPlaying(true)}
+              className="absolute inset-0 h-full w-full"
+              aria-label={`Play ${item.title}`}
+            >
+              <img
+                src={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
+                alt={item.title}
+                loading="lazy"
+                className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+                onError={(event) => {
+                  event.currentTarget.src = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+                }}
+              />
+
+              <div className="absolute inset-0 bg-black/10 transition group-hover:bg-black/20" />
+
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#8DC63F] text-forest shadow-xl transition duration-300 group-hover:scale-110 sm:h-14 sm:w-14">
+                  <PlayCircle size={26} strokeWidth={2} className="sm:h-7 sm:w-7" />
+                </span>
+              </div>
+            </button>
+          )}
+        </div>
+
+        <div className="flex flex-1 flex-col p-5">
+          <div className="flex items-center justify-between gap-3">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-forest/50">
+              <Icon size={14} strokeWidth={1.75} />
+              {item.type}
+            </span>
+            <span className="text-xs text-ink/50">{item.date}</span>
+          </div>
+
+          <p className="mt-4 text-sm font-bold text-forest-dark">{item.outlet}</p>
+
+          <h3 className="mt-2 line-clamp-3 font-display text-lg font-bold leading-snug text-forest">
+            {item.title}
+          </h3>
+        </div>
+      </article>
+    );
+  }
+
+  // ---------- EVERYTHING ELSE: original link card ----------
   const body = (
     <>
       <div className="flex items-center justify-between gap-3">
