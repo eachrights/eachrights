@@ -1,4 +1,30 @@
 {
+  "redirects": [
+    { "source": "/staff", "destination": "/who-we-are/team", "permanent": true },
+    { "source": "/staff/", "destination": "/who-we-are/team", "permanent": true },
+    { "source": "/our-team", "destination": "/who-we-are/team", "permanent": true },
+    { "source": "/our-team/", "destination": "/who-we-are/team", "permanent": true },
+
+    { "source": "/about", "destination": "/who-we-are/our-story", "permanent": true },
+    { "source": "/about/", "destination": "/who-we-are/our-story", "permanent": true },
+    { "source": "/about-us", "destination": "/who-we-are/our-story", "permanent": true },
+    { "source": "/about-us/", "destination": "/who-we-are/our-story", "permanent": true },
+    { "source": "/vision-and-mission", "destination": "/who-we-are/our-story", "permanent": true },
+    { "source": "/vision-and-mission/", "destination": "/who-we-are/our-story", "permanent": true },
+    { "source": "/mission", "destination": "/who-we-are/our-story", "permanent": true },
+
+    { "source": "/contact-us", "destination": "/contact", "permanent": true },
+    { "source": "/contact-us/", "destination": "/contact", "permanent": true },
+    { "source": "/contact/", "destination": "/contact", "permanent": true },
+
+    { "source": "/careers", "destination": "/opportunities", "permanent": true },
+    { "source": "/careers/", "destination": "/opportunities", "permanent": true },
+    { "source": "/jobs", "destination": "/opportunities", "permanent": true },
+    { "source": "/jobs/:path*", "destination": "/opportunities", "permanent": true },
+
+    { "source": "/wp-admin/:path*", "destination": "/", "permanent": false },
+    { "source": "/wp-login.php", "destination": "/", "permanent": false }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",

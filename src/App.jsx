@@ -11,6 +11,7 @@ import Gallery from "./pages/Gallery";
 import Opportunities from "./pages/Opportunities";
 import Donors from "./pages/Donors";
 import Contact from "./pages/Contact";
+import NotFound from "./pages/NotFound";
 
 // Who We Are
 import OurStory from "./pages/whoweare/OurStory";
@@ -102,6 +103,9 @@ function App() {
           path="/processes/universal-periodic-review"
           element={<UniversalPeriodicReview />}
         />
+
+        {/* 404 */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       <Footer />

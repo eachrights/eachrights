@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import SEO from "../components/SEO";
 
 import {
   ArrowRight,
@@ -1396,15 +1396,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-paper font-sans text-ink">
-      <Helmet>
-        <title>
-          EACHRights | Advancing Human Rights & Social Justice in East Africa
-        </title>
-        <meta
-          name="description"
-          content="EACHRights promotes and protects Economic, Social and Cultural Rights for groups and communities across East Africa."
-        />
-      </Helmet>
+      <SEO
+        fullTitle="EACHRights | Advancing Human Rights & Social Justice in East Africa"
+        description="EACHRights promotes and protects Economic, Social and Cultural Rights for groups and communities across East Africa."
+        path="/"
+      />
 
       <a
         href="#main-content"
