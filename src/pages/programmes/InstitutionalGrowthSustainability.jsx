@@ -41,7 +41,7 @@ const interventions = [
   {
     icon: Users2,
     color: "#7C3AED",
-    label: "People & Systems",
+    label: "People and Systems",
     title: "Invest in people and systems",
     text: "Build staff capacity, knowledge management and operational systems that keep the organisation effective as it grows.",
   },
@@ -55,7 +55,7 @@ const interventions = [
   {
     icon: Database,
     color: "#3FA535",
-    label: "Data & Security",
+    label: "Data and Security",
     title: "Data and Information System Management and Security",
     text: "Data and information system management and security is a critical aspect of institutional growth and sustainability. It involves implementing robust data management practices, ensuring data privacy and security, and leveraging technology to enhance operational efficiency.",
   },

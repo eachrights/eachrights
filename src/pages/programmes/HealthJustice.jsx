@@ -25,7 +25,7 @@ const pillars = [
   {
     icon: Users,
     color: "#0F9D8A",
-    title: "Access & Equity in Healthcare",
+    title: "Access and Equity in Healthcare",
     items: [
       "Advocate for equitable access to quality, affordable, accessible, and acceptable healthcare services.",
       "Address social, economic, geographical, and institutional barriers to healthcare.",
@@ -35,7 +35,7 @@ const pillars = [
   {
     icon: Baby,
     color: "#F59E0B",
-    title: "Sexual, Reproductive & Maternal Health",
+    title: "Sexual, Reproductive and Maternal Health",
     items: [
       "Promote the realization of sexual and reproductive health and rights (SRHR).",
       "Advocate for improved access to maternal, newborn, child, and adolescent health services.",
@@ -44,7 +44,7 @@ const pillars = [
   {
     icon: Scale,
     color: "#7C3AED",
-    title: "Governance & Accountability",
+    title: "Governance and Accountability",
     items: [
       "Strengthen meaningful community participation in health governance and decision-making.",
       "Promote accountability among health institutions and duty bearers.",
@@ -54,7 +54,7 @@ const pillars = [
   {
     icon: Search,
     color: "#2563EB",
-    title: "Rights, Research & Advocacy",
+    title: "Rights, Research and Advocacy",
     items: [
       "Promote the realization of the right to the highest attainable standard of health.",
       "Conduct research, advocacy, capacity building, and partnerships to advance health justice.",

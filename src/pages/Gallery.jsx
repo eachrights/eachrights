@@ -516,7 +516,7 @@ function Gallery() {
           </div>
 
           <h1 className="mt-3 max-w-4xl font-display text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-7xl">
-            Stories, Voices &amp; Moments
+            Stories, Voices and Moments
           </h1>
 
           <p className="mt-4 max-w-3xl text-base leading-8 text-white/80 sm:text-lg">
@@ -860,7 +860,7 @@ function Gallery() {
                   id="media-title"
                   className="mt-2 font-display text-3xl font-bold text-forest sm:text-4xl"
                 >
-                  Newspaper, Television &amp; Radio
+                  Newspaper, Television and Radio
                 </h2>
                 <p className="mt-4 leading-8 text-ink/70">
                   Coverage of EACHRights' work and the issues we champion in

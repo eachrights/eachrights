@@ -20,7 +20,7 @@ import resourcesPhoto from "../assets/hero/resources-photo.png";
 const resourceLinks = [
   {
     title: "Portals",
-    tagline: "Dashboards & tools",
+    tagline: "Dashboards and tools",
     description:
       "Our live dashboards and tracking tools, including the SRHR Portal and the UPR Recommendations Tracking Dashboard.",
     chips: ["SRHR Portal", "UPR Dashboard"],
@@ -31,7 +31,7 @@ const resourceLinks = [
   },
   {
     title: "Publications",
-    tagline: "Research & reports",
+    tagline: "Research and reports",
     description:
       "Strategic plans, annual reports and programme research produced by EACHRights — organised by cluster, ready to read or download.",
     chips: ["Strategic Plans", "Annual Reports", "Programmes"],
@@ -102,7 +102,7 @@ export default function Resources() {
             </p>
 
             <h1 className="mt-4 text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-7xl">
-              Resources<span className="text-gold">.</span>
+              Resources<span className="text-gold"></span>
             </h1>
 
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/85 sm:text-lg">
@@ -147,7 +147,7 @@ export default function Resources() {
               Explore
             </p>
             <h2 className="mt-3 text-3xl font-bold leading-tight text-ink sm:text-4xl">
-              Three ways into our work.
+              Three ways into our work
             </h2>
             <p className="mt-4 leading-7 text-gray-600">
               Choose a collection to start exploring our dashboards, research

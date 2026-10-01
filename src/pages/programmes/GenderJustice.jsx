@@ -28,16 +28,16 @@ const pillars = [
   {
     icon: Scale,
     color: "#0F9D8A",
-    title: "Equality, Norms & Protection",
+    title: "Equality, Norms and Protection",
     items: [
       {
         icon: Scale,
-        title: "Gender Equality & Social Norms",
+        title: "Gender Equality and Social Norms",
         text: "Challenge discriminatory social and cultural norms and promote gender equality at community, institutional, and national levels.",
       },
       {
         icon: ShieldCheck,
-        title: "Ending Violence Against Women & Girls",
+        title: "Ending Violence Against Women and Girls",
         text: "Addressing violence against women and girls.",
       },
     ],
@@ -45,7 +45,7 @@ const pillars = [
   {
     icon: Landmark,
     color: "#F59E0B",
-    title: "Participation & Policy",
+    title: "Participation and Policy",
     items: [
       {
         icon: Users,
@@ -62,7 +62,7 @@ const pillars = [
   {
     icon: Gavel,
     color: "#7C3AED",
-    title: "Justice & Economic Empowerment",
+    title: "Justice and Economic Empowerment",
     items: [
       {
         icon: Gavel,
@@ -79,11 +79,11 @@ const pillars = [
   {
     icon: BookOpen,
     color: "#2563EB",
-    title: "Evidence & Accountability",
+    title: "Evidence and Accountability",
     items: [
       {
         icon: Search,
-        title: "Research & Evidence",
+        title: "Research and Evidence",
         text: "Generate and use evidence on gender gaps and rights violations to inform advocacy, policy, and programming.",
       },
       {

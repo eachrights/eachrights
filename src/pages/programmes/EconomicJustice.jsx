@@ -25,7 +25,7 @@ const pillars = [
   {
     icon: Users,
     color: "#0F9D8A",
-    title: "Decent Work & Economic Inclusion",
+    title: "Decent Work and Economic Inclusion",
     items: [
       "Promote the right to decent work and employment.",
       "Protect labour rights, workplace equality and lifelong learning for young people including numeracy and literacy.",
@@ -35,7 +35,7 @@ const pillars = [
   {
     icon: Scale,
     color: "#F59E0B",
-    title: "Responsible Business & Corporate Accountability",
+    title: "Responsible Business and Corporate Accountability",
     items: [
       "Enhance adherence to the Guiding Principles on Business and Human Rights.",
       "Promote adherence to the Environmental, Social and Governance Framework.",
@@ -46,7 +46,7 @@ const pillars = [
   {
     icon: Handshake,
     color: "#7C3AED",
-    title: "Community Rights & Access to Remedy",
+    title: "Community Rights and Access to Remedy",
     items: [
       "Promote community rights and meaningful participation.",
       "Promote access to remedy and justice for affected communities.",
@@ -56,7 +56,7 @@ const pillars = [
   {
     icon: Search,
     color: "#2563EB",
-    title: "Knowledge, Advocacy & Capacity",
+    title: "Knowledge, Advocacy and Capacity",
     items: [
       "Conduct research, advocacy and policy engagement.",
       "Build capacity and awareness on economic rights and responsible business.",

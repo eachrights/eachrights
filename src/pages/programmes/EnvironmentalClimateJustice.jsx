@@ -25,7 +25,7 @@ const pillars = [
   {
     icon: Sprout,
     color: "#0F9D8A",
-    title: "Climate Resilience & Adaptation",
+    title: "Climate Resilience and Adaptation",
     items: [
       "Promote environmental and climate adaptation and mitigation strategies.",
       "Build climate resilience among vulnerable and marginalised communities.",
@@ -35,7 +35,7 @@ const pillars = [
   {
     icon: Scale,
     color: "#F59E0B",
-    title: "Rights, Policy & Accountability",
+    title: "Rights, Policy and Accountability",
     items: [
       "Strengthen environmental and climate accountability.",
       "Promote environmental rights and justice.",
@@ -45,7 +45,7 @@ const pillars = [
   {
     icon: Users,
     color: "#7C3AED",
-    title: "Community & Youth Participation",
+    title: "Community and Youth Participation",
     items: [
       "Promote youth and community participation in climate action.",
       "Support community-led environmental protection and conservation initiatives.",
@@ -54,7 +54,7 @@ const pillars = [
   {
     icon: Search,
     color: "#2563EB",
-    title: "Awareness, Research & Advocacy",
+    title: "Awareness, Research and Advocacy",
     items: [
       "Increase climate change awareness and environmental education.",
       "Conduct research, advocacy and evidence generation.",
@@ -121,7 +121,7 @@ export default function EnvironmentalClimateJustice() {
             </div>
 
             <h1 className="mt-6 text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
-              Environment &amp; Climate Justice
+              Environment and Climate Justice
               <span className="block text-gold">Programme</span>
             </h1>
 

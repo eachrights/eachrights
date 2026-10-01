@@ -241,13 +241,13 @@ function Donors() {
                 <Handshake size={28} strokeWidth={1.7} />
               </div>
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/75">
-                Partnerships &amp; Support
+                Partnerships and Support
               </p>
             </div>
 
             <h1 className="mt-6 text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
               Our Donors
-              <span className="block text-gold">&amp; Partners</span>
+              <span className="block text-gold">and Partners</span>
             </h1>
 
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/85 sm:text-lg">

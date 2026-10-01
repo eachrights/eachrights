@@ -37,8 +37,9 @@ const SRHR_PORTAL_URL = "https://eachrights.github.io/srhr/";
 /* =========================================================
    PROGRAMMES
 ========================================================= */
-// Not a sequence — a set of focus areas — so cards below are
-// unordered and identified by name, not by a numeric marker.
+// The five thematic programmes. Institutional Growth and the
+// Universal Periodic Review are NOT programmes — they live in
+// `crossCutting` below.
 
 const programmes = [
   {
@@ -46,7 +47,6 @@ const programmes = [
     path: "/programmes/education-justice",
     icon: BookOpenCheck,
     photo: educationPhoto,
-    stat: "Access & quality",
     blurb:
       "Advancing equitable access to quality education and strengthening the right to learn, working with schools, communities and duty-bearers to address barriers to education.",
   },
@@ -55,7 +55,6 @@ const programmes = [
     path: "/programmes/gender-justice",
     icon: Users,
     photo: genderPhoto,
-    stat: "Equality & protection",
     blurb:
       "Promoting gender equality, dignity and protection for women, girls and vulnerable groups while challenging harmful practices and gender-based violence.",
   },
@@ -64,7 +63,6 @@ const programmes = [
     path: "/programmes/health-justice",
     icon: HeartPulse,
     photo: healthPhoto,
-    stat: "Health & SRHR",
     blurb:
       "Advocating for equitable access to health services and the realization of the right to health, including Sexual and Reproductive Health and Rights.",
   },
@@ -73,7 +71,6 @@ const programmes = [
     path: "/programmes/environmental-climate-justice",
     icon: Leaf,
     photo: environmentalPhoto,
-    stat: "Accountability & resilience",
     blurb:
       "Supporting communities to address environmental challenges and climate-related injustices while promoting rights-based approaches to environmental protection.",
   },
@@ -82,16 +79,24 @@ const programmes = [
     path: "/programmes/economic-justice",
     icon: Briefcase,
     photo: economicPhoto,
-    stat: "Rights & accountability",
     blurb:
       "Advancing economic and social rights while promoting responsible business conduct and accountability for human rights impacts affecting communities.",
   },
+];
+
+/* =========================================================
+   CROSS-CUTTING WORK (NOT PROGRAMMES)
+========================================================= */
+// Institutional Growth and Sustainability is organisational
+// strengthening; the UPR is a UN process we engage with.
+
+const crossCutting = [
   {
     name: "Institutional Growth and Sustainability",
     path: "/programmes/institutional-growth-sustainability",
     icon: ShieldCheck,
     photo: institutionalPhoto,
-    stat: "Capacity & sustainability",
+    cta: "Learn more",
     blurb:
       "Strengthening organisational capacity, governance, partnerships and resource mobilisation to sustain EACHRights' long-term impact and effectiveness.",
   },
@@ -100,22 +105,7 @@ const programmes = [
     path: "/processes/universal-periodic-review",
     icon: Globe2,
     photo: uprPhoto,
-    stat: "UN human rights engagement",
-    blurb:
-      "Engaging with the United Nations Universal Periodic Review mechanism to contribute evidence, strengthen accountability and advance human rights commitments.",
-  },
-];
-
-/* =========================================================
-   PROCESSES / HUMAN RIGHTS ENGAGEMENT
-========================================================= */
-
-const processes = [
-  {
-    name: "Universal Periodic Review",
-    path: "/processes/universal-periodic-review",
-    icon: Globe2,
-    stat: "UN engagement",
+    cta: "Learn More",
     blurb:
       "Engaging with the United Nations Universal Periodic Review mechanism to contribute evidence, strengthen accountability and advance human rights commitments.",
   },
@@ -138,7 +128,7 @@ const srhrAdvocacyLink = {
 
 const heroFacts = [
   {
-    value: "07",
+    value: "05",
     label: "Core programmes",
   },
   {
@@ -181,14 +171,9 @@ const cardVariants = {
 /* =========================================================
    PROGRAMME CARD
 ========================================================= */
-// Photo (or icon panel, when no photo exists) sits in a fixed
-// frame at the top; name and blurb live in a legible panel
-// below it. Border + icon-shift on hover, not a full recolor —
-// the same restrained language as ProcessCard, so the two
-// sections read as one system rather than two different kits.
-//
-// The frame is 3:2 to match the source photos' native ratio
-// (1536×1024), so object-cover never has to crop them.
+// Photo sits in a fixed 3:2 frame at the top (matching the
+// source photos' 1536×1024 ratio); name and blurb live in a
+// legible panel below it.
 
 function ProgrammeCard({ name, blurb, icon: Icon, photo, stat, path }) {
   return (
@@ -244,53 +229,57 @@ function ProgrammeCard({ name, blurb, icon: Icon, photo, stat, path }) {
 }
 
 /* =========================================================
-   PROCESS CARD
+   PROCESS CARD (cross-cutting work)
 ========================================================= */
 
-function ProcessCard({
-  name,
-  blurb,
-  icon: Icon,
-  path,
-  stat,
-}) {
+function ProcessCard({ name, blurb, icon: Icon, photo, path, stat, cta }) {
   return (
-    <motion.article variants={cardVariants}>
+    <motion.article variants={cardVariants} className="h-full">
       <Link
         to={path}
-        className="group block h-full border border-forest/10 bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:border-forest hover:shadow-lg"
+        className="group flex h-full flex-col overflow-hidden border border-forest/10 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-forest hover:shadow-lg"
       >
-        <div className="flex items-start justify-between">
-          <span className="flex h-12 w-12 items-center justify-center bg-forest-light">
-            <Icon
-              size={24}
-              className="text-forest"
-              strokeWidth={1.7}
-            />
-          </span>
+        <div className="relative aspect-[3/2] w-full overflow-hidden bg-forest-light">
+          {photo ? (
+            <>
+              <img
+                src={photo}
+                alt=""
+                aria-hidden="true"
+                className="h-full w-full object-cover grayscale-[30%] transition-all duration-500 ease-out group-hover:scale-[1.04] group-hover:grayscale-0"
+              />
+              <span className="pointer-events-none absolute inset-0 bg-forest/15 mix-blend-multiply transition-opacity duration-300 group-hover:opacity-0" />
+            </>
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-forest">
+              <Icon size={32} strokeWidth={1.4} className="text-accent" />
+            </div>
+          )}
 
-          <ArrowRight
-            size={18}
-            className="text-forest/40 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-forest"
-          />
+          {photo && (
+            <span className="absolute bottom-3 left-3 flex h-9 w-9 items-center justify-center bg-white text-forest shadow-sm">
+              <Icon size={17} strokeWidth={1.8} />
+            </span>
+          )}
         </div>
 
-        <p className="mt-7 text-sm font-semibold text-forest/60">
-          {stat}
-        </p>
+        <div className="flex flex-1 flex-col p-7">
+          <p className="text-sm font-semibold text-forest/60">{stat}</p>
 
-        <h3 className="mt-2 font-display text-2xl font-bold text-forest">
-          {name}
-        </h3>
+          <h3 className="mt-2 font-display text-2xl font-bold text-forest">
+            {name}
+          </h3>
 
-        <p className="mt-3 text-sm leading-7 text-ink/65">
-          {blurb}
-        </p>
+          <p className="mt-3 flex-1 text-sm leading-7 text-ink/65">{blurb}</p>
 
-        <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-forest">
-          Explore this process
-          <ArrowRight size={15} />
-        </span>
+          <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-forest">
+            {cta}
+            <ArrowRight
+              size={15}
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            />
+          </span>
+        </div>
       </Link>
     </motion.article>
   );
@@ -425,7 +414,7 @@ export default function WhatWeDo() {
           <span className="block h-1 w-14 bg-accent" />
 
           <h2 className="mt-5 font-display text-4xl font-bold tracking-tight text-forest sm:text-5xl">
-            Seven Strategic Focus Areas, One commitment to justice
+            Five programmes, one commitment to justice
           </h2>
 
           <p className="mt-5 text-lg leading-8 text-ink/65">
@@ -436,6 +425,8 @@ export default function WhatWeDo() {
           </p>
         </div>
 
+        {/* gap-6 (no tinted background) so the last row of a 5-card
+            grid doesn't leave filled empty cells */}
         <motion.div
           initial="hidden"
           whileInView="shown"
@@ -444,7 +435,7 @@ export default function WhatWeDo() {
             amount: 0.1,
           }}
           variants={gridVariants}
-          className="mt-9 grid gap-px bg-forest/12 sm:grid-cols-2 lg:grid-cols-3"
+          className="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
           {programmes.map((programme) => (
             <ProgrammeCard
@@ -453,7 +444,50 @@ export default function WhatWeDo() {
             />
           ))}
         </motion.div>
-      </section>   
+      </section>
+
+      {/* =====================================================
+          CROSS-CUTTING WORK: INSTITUTIONAL GROWTH & UPR
+      ===================================================== */}
+
+      <section
+        id="cross-cutting"
+        className="border-t border-forest/10 bg-white px-6 py-16 sm:px-8 sm:py-18 lg:px-12"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="max-w-3xl">
+            <span className="block h-1 w-14 bg-accent" />
+
+            <h2 className="mt-5 font-display text-4xl font-bold tracking-tight text-forest sm:text-5xl">
+              Beyond our programmes
+            </h2>
+
+            <p className="mt-5 text-lg leading-8 text-ink/65">
+              Alongside our programmes, we invest in the organisation that
+              delivers them and engage with the international human rights
+              system to hold duty-bearers to account.
+            </p>
+          </div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="shown"
+            viewport={{
+              once: true,
+              amount: 0.1,
+            }}
+            variants={gridVariants}
+            className="mt-9 grid gap-6 md:grid-cols-2"
+          >
+            {crossCutting.map((item) => (
+              <ProcessCard
+                key={item.path}
+                {...item}
+              />
+            ))}
+          </motion.div>
+        </div>
+      </section>
 
     </main>
   );
