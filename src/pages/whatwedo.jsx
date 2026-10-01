@@ -129,7 +129,11 @@ const srhrAdvocacyLink = {
 const heroFacts = [
   {
     value: "05",
-    label: "Core programmes",
+    label: "Thematic areas",
+  },
+  {
+    value: "09",
+    label: "Counties",
   },
   {
     value: "East Africa",
@@ -207,7 +211,7 @@ function ProgrammeCard({ name, blurb, icon: Icon, photo, stat, path }) {
         </div>
 
         <div className="flex flex-1 flex-col p-6 sm:p-7">
-          <p className="text-sm font-semibold text-forest/55">{stat}</p>
+          {stat && <p className="text-sm font-semibold text-forest/55">{stat}</p>}
 
           <h3 className="mt-2 font-display text-xl font-bold leading-snug text-forest sm:text-2xl">
             {name}
@@ -264,7 +268,7 @@ function ProcessCard({ name, blurb, icon: Icon, photo, path, stat, cta }) {
         </div>
 
         <div className="flex flex-1 flex-col p-7">
-          <p className="text-sm font-semibold text-forest/60">{stat}</p>
+          {stat && <p className="text-sm font-semibold text-forest/60">{stat}</p>}
 
           <h3 className="mt-2 font-display text-2xl font-bold text-forest">
             {name}
@@ -355,7 +359,7 @@ export default function WhatWeDo() {
           </div>
 
           {/* Credibility strip */}
-          <div className="mt-8 grid max-w-3xl grid-cols-3 gap-x-4 gap-y-6 border-t border-white/15 pt-6 sm:flex sm:flex-wrap sm:gap-x-10">
+          <div className="mt-8 grid max-w-3xl grid-cols-2 gap-x-4 gap-y-6 border-t border-white/15 pt-6 sm:flex sm:flex-wrap sm:gap-x-10">
             {heroFacts.map((fact) => (
               <div key={fact.label}>
                 <p className="font-display text-2xl font-bold text-white sm:text-3xl">

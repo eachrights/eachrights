@@ -23,6 +23,8 @@ import uprHeroImage from "../../assets/videos/rightsintoaction.png";
    DATA
 ========================================================= */
 
+// A cycle can optionally carry a `link` ({ to, label }); when present it is
+// shown as a button under the cycle's detail text.
 const cycles = [
   {
     year: "2010",
@@ -42,6 +44,10 @@ const cycles = [
     label: "3rd Cycle",
     color: "#7C3AED",
     detail: "319 recommendations received · 261 accepted, 53 noted",
+    link: {
+      to: "/resources/upr-advocacy-tools",
+      label: "UPR Advocacy Tools",
+    },
   },
   {
     year: "2025",
@@ -364,6 +370,17 @@ export default function UniversalPeriodicReview() {
 
                 {current.detail && (
                   <p className="mt-5 text-lg leading-8 text-gray-600">{current.detail}</p>
+                )}
+
+                {current.link && (
+                  <Link
+                    to={current.link.to}
+                    className="mt-5 inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
+                    style={{ backgroundColor: current.color }}
+                  >
+                    {current.link.label}
+                    <ArrowRight size={16} />
+                  </Link>
                 )}
 
                 <div className="mt-6 flex items-center justify-between">
