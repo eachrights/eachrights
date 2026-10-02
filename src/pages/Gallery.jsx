@@ -33,6 +33,24 @@ import photo9 from "../assets/gallery/photo-9.jpg";
 import photo10 from "../assets/gallery/photo-10.jpg";
 import photo11 from "../assets/gallery/photo-11.jpg";
 
+/*
+|--------------------------------------------------------------------------
+| ADD YOUR LOCAL (DOWNLOADED) MEDIA VIDEOS HERE
+|--------------------------------------------------------------------------
+| 1. Put the video files in src/assets/gallery/media/ (mp4 works best).
+| 2. Import each one below, e.g.
+|      import ntvClip from "../assets/gallery/media/ntv-clip.mp4";
+|      import ntvPoster from "../assets/gallery/media/ntv-clip.jpg"; // optional
+| 3. Reference it in the mediaCoverage list further down with
+|      video: ntvClip,
+|      poster: ntvPoster,   // optional thumbnail
+*/
+
+import tvClip1 from "../assets/gallery/media/tv-clip-1.mp4";
+import tvClip2 from "../assets/gallery/media/tv-clip-2.mp4";
+import tvClip3 from "../assets/gallery/media/tv-clip-3.mp4";
+import radioClip1 from "../assets/gallery/media/radio-clip-1.mp3";
+
 const photos = [
   /*{
     image: photo1,
@@ -241,6 +259,11 @@ const videos = [
 | url    : link to the article, clip or recording. Leave "" if there is none
 |          and the card will show without a link.
 |          YouTube links (youtube.com or youtu.be) play inline on the card.
+| video  : (optional) a downloaded video file imported at the top of this
+|          file. It plays inline on the card, no url needed.
+| poster : (optional) thumbnail image shown before a local video plays.
+| audio  : (optional) a downloaded mp3 imported at the top of this file.
+|          Shows a built-in audio player on the card (use with "Radio").
 |
 | Delete a whole group's entries and its tab disappears automatically.
 */
@@ -272,6 +295,36 @@ const mediaCoverage = [
     title: "Programme or segment title", // TODO
     date: "2026", // TODO
     url: "https://youtu.be/t3asXtTT9nc",
+  },
+
+  // ---------- Downloaded clips (files in src/assets/gallery/media/) ----------
+  {
+    type: "Television",
+    outlet: "", // TODO
+    title: "Programme or segment title", // TODO
+    date: "2026", // TODO
+    video: tvClip1,
+  },
+  {
+    type: "Television",
+    outlet: "", // TODO
+    title: "First national conference on privatization of education", // TODO
+    date: "2026", // TODO
+    video: tvClip2,
+  },
+  {
+    type: "Television",
+    outlet: "RADIO CITIZEN", // TODO
+    title: "Launching of the strategic plan", // TODO
+    date: "2026", // TODO
+    video: tvClip3,
+  },
+  {
+    type: "Radio",
+    outlet: "Bahari FM", // TODO
+    title: "Dissemination of RMNCAH ACT", // TODO
+    date: "2026", // TODO
+    audio: radioClip1,
   },
 ];
 
@@ -315,6 +368,81 @@ function MediaCard({ item }) {
   const { icon: Icon, action } = MEDIA_TYPES[item.type];
   const videoId = getYouTubeVideoId(item.url);
   const [playing, setPlaying] = useState(false);
+
+  // ---------- LOCAL VIDEO FILES: downloaded clips imported into the project ----------
+  if (item.video) {
+    return (
+      <article className="group flex h-full flex-col overflow-hidden border border-forest/15 border-t-4 border-t-[#8DC63F] bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-t-forest hover:shadow-xl">
+        <div className="relative aspect-video overflow-hidden bg-black">
+          <video
+            src={item.video}
+            poster={item.poster}
+            controls
+            playsInline
+            preload="metadata"
+            title={item.title}
+            className="absolute inset-0 h-full w-full object-contain"
+          >
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <div className="flex flex-1 flex-col p-5">
+          <div className="flex items-center justify-between gap-3">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-forest/50">
+              <Icon size={14} strokeWidth={1.75} />
+              {item.type}
+            </span>
+            <span className="text-xs text-ink/50">{item.date}</span>
+          </div>
+
+          <p className="mt-4 text-sm font-bold text-forest-dark">{item.outlet}</p>
+
+          <h3 className="mt-2 line-clamp-3 font-display text-lg font-bold leading-snug text-forest">
+            {item.title}
+          </h3>
+        </div>
+      </article>
+    );
+  }
+
+  // ---------- LOCAL AUDIO FILES: downloaded mp3 clips ----------
+  if (item.audio) {
+    return (
+      <article className="group flex h-full flex-col overflow-hidden border border-forest/15 border-t-4 border-t-[#8DC63F] bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-t-forest hover:shadow-xl">
+        <div className="flex aspect-video items-center justify-center bg-forest">
+          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[#8DC63F] text-forest shadow-xl">
+            <Icon size={28} strokeWidth={1.75} />
+          </span>
+        </div>
+
+        <div className="flex flex-1 flex-col p-5">
+          <div className="flex items-center justify-between gap-3">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-forest/50">
+              <Icon size={14} strokeWidth={1.75} />
+              {item.type}
+            </span>
+            <span className="text-xs text-ink/50">{item.date}</span>
+          </div>
+
+          <p className="mt-4 text-sm font-bold text-forest-dark">{item.outlet}</p>
+
+          <h3 className="mt-2 line-clamp-3 font-display text-lg font-bold leading-snug text-forest">
+            {item.title}
+          </h3>
+
+          <audio
+            src={item.audio}
+            controls
+            preload="metadata"
+            className="mt-auto w-full pt-5"
+          >
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+      </article>
+    );
+  }
 
   // ---------- YOUTUBE ENTRIES: playable inline, like the Videos section ----------
   if (videoId) {
