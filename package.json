@@ -10,7 +10,8 @@
     "prebuild": "npm run generate:thumbnails",
     "lint": "oxlint",
     "preview": "vite preview",
-    "generate:thumbnails": "node scripts/generate-pdf-thumbnails.mjs"
+    "generate:thumbnails": "node scripts/generate-pdf-thumbnails.mjs",
+    "generate:health": "node scripts/generate-health-tools.mjs"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -33,4 +34,5 @@
     "pdf-to-img": "^7.0.0",
     "vite": "^8.3.0"
   }
+  
 }

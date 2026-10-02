@@ -8,6 +8,11 @@ import {
   ArrowRight,
   ArrowLeft,
   Mail,
+  GraduationCap,
+  Users,
+  HeartPulse,
+  Coins,
+  Leaf,
 } from "lucide-react";
 
 import resourcesPhoto from "../assets/hero/resources-photo.png";
@@ -50,6 +55,52 @@ const resourceLinks = [
     to: "/resources/upr-advocacy-tools",
     from: "#2563EB",
     to2: "#1E40AF",
+  },
+];
+
+// ============================================================
+// THEMATIC AREAS
+// Change THEMATIC_BASE if your routes live somewhere else.
+// Each link resolves to `${THEMATIC_BASE}/${slug}`.
+// ============================================================
+
+const THEMATIC_BASE = "/resources/upr-advocacy-tools";
+
+const thematicAreas = [
+  {
+    title: "Education",
+    slug: "education",
+    icon: GraduationCap,
+    from: "#F59E0B",
+    to2: "#B45309",
+  },
+  {
+    title: "Gender",
+    slug: "gender",
+    icon: Users,
+    from: "#EC4899",
+    to2: "#9D174D",
+  },
+  {
+    title: "Health",
+    slug: "health",
+    icon: HeartPulse,
+    from: "#EF4444",
+    to2: "#991B1B",
+  },
+  {
+    title: "Economic",
+    slug: "economic",
+    icon: Coins,
+    from: "#0EA5E9",
+    to2: "#075985",
+  },
+  {
+    title: "Environment & Climate Change",
+    slug: "environment-climate-change",
+    icon: Leaf,
+    from: "#22C55E",
+    to2: "#166534",
   },
 ];
 
@@ -219,6 +270,77 @@ export default function Resources() {
                           size={16}
                           className="transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                         />
+                      </span>
+                    </div>
+                  </Link>
+                </motion.div>
+              )
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* ======================================================
+          THEMATIC AREAS
+      ====================================================== */}
+
+      <section
+        id="thematic-areas"
+        className="scroll-mt-20 bg-gray-50 px-6 py-20 sm:px-8 lg:px-12 lg:py-24"
+      >
+        <div className="mx-auto max-w-6xl">
+
+          <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-forest">
+              Thematic Areas
+            </p>
+            <h2 className="mt-3 text-3xl font-bold leading-tight text-ink sm:text-4xl">
+              Advocacy tools by theme
+            </h2>
+            <p className="mt-4 leading-7 text-gray-600">
+              Jump straight to the tools and recommendations for the issue you
+              care about.
+            </p>
+          </motion.div>
+
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-6">
+            {thematicAreas.map(
+              ({ title, slug, icon: Icon, from, to2 }, index) => (
+                <motion.div
+                  key={slug}
+                  {...fadeUp}
+                  transition={{ duration: 0.45, delay: index * 0.08 }}
+                  // 3 on the first row, 2 centred on the second (lg)
+                  className={`lg:col-span-2 ${
+                    index === 3 ? "lg:col-start-2" : ""
+                  }`}
+                >
+                  <Link
+                    to={`${THEMATIC_BASE}/${slug}`}
+                    className="group relative flex h-full items-center gap-5 overflow-hidden rounded-2xl p-6 text-white shadow-md transition duration-300 hover:-translate-y-1.5"
+                    style={{
+                      backgroundImage: `linear-gradient(145deg, ${from} 0%, ${to2} 100%)`,
+                      boxShadow: `0 14px 32px -18px ${to2}`,
+                    }}
+                  >
+                    <Icon
+                      size={120}
+                      strokeWidth={0.8}
+                      className="pointer-events-none absolute -right-6 -top-6 text-white/10 transition duration-500 group-hover:scale-110 group-hover:rotate-6"
+                      aria-hidden="true"
+                    />
+
+                    <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-white/15 ring-1 ring-white/25 transition duration-300 group-hover:bg-white/25">
+                      <Icon size={26} strokeWidth={1.7} />
+                    </div>
+
+                    <div className="relative flex-1">
+                      <h3 className="font-display text-lg font-bold leading-snug sm:text-xl">
+                        {title}
+                      </h3>
+                      <span className="mt-1 inline-flex items-center gap-1.5 text-sm font-medium text-white/85 transition duration-300 group-hover:gap-2.5">
+                        View tools
+                        <ArrowRight size={14} />
                       </span>
                     </div>
                   </Link>

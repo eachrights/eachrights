@@ -285,7 +285,7 @@ const mediaCoverage = [
   {
     type: "Television",
     outlet: "TV47", // TODO
-    title: "Programme or segment title", // TODO
+    title: "Kwale county gender and social inclusion policy", // TODO
     date: "2026", // TODO
     url: "https://youtu.be/1AcJKP-YwzU",
   },

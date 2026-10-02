@@ -24,6 +24,7 @@ import WhatWeDo from "./pages/whatwedo";
 import Publications from "./pages/resources/publications";
 import Portals from "./pages/resources/portals";
 import UprAdvocacyTools from "./pages/resources/upr-advocacy-tools";
+import Health from "./pages/resources/Health"; // file: src/pages/resources/Health.jsx
 
 // Programmes
 import EducationJustice from "./pages/programmes/EducationJustice";
@@ -66,6 +67,12 @@ function App() {
         <Route
           path="/resources/upr-advocacy-tools"
           element={<UprAdvocacyTools />}
+        />
+
+        {/* Resources: UPR advocacy tools by thematic area */}
+        <Route
+          path="/resources/upr-advocacy-tools/health"
+          element={<Health />}
         />
 
         {/* Programmes */}
