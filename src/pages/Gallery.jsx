@@ -301,7 +301,7 @@ const mediaCoverage = [
   {
     type: "Television",
     outlet: "Radio Citizen Tv", // TODO
-    title: "Launching of the strategic plan", // TODO
+    title: "Launching of the strategic plan (2026-2030) ", // TODO
     date: "2026", // TODO
     video: tvClip1,
   },
@@ -315,7 +315,7 @@ const mediaCoverage = [
   {
     type: "Television",
     outlet: "RADIO CITIZEN", // TODO
-    title: "Launching of the strategic plan", // TODO
+    title: "Launching of the strategic plan (2026-2030) ", // TODO
     date: "2026", // TODO
     video: tvClip3,
   },
