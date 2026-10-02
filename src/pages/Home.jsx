@@ -222,13 +222,15 @@ const impactStats = [
     suffix: "+",
     label: "Lobbying and advocacy (laws, policies and standards influenced)",
   },
-  {
-    title: "Community and Awareness",
+    { value: 11038, suffix: "", label: "Community and public awareness" },
+
+ /* {
+    title: "Community and Public Awareness",
     parts: [
-      { value: 18000000, suffix: "", label: "Children" },
-      { value: 11038, suffix: "", label: "People" },
+      //{ value: 18000000, suffix: "", label: "Children" },
+      //{ value: 11038, suffix: "", label: "People" },
     ],
-  },
+  },*/
 ];
 
 /* Mirrors the six approaches on the How We Work page. */
