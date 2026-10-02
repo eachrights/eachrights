@@ -1,9 +1,40 @@
 import { motion } from "framer-motion";
+import { useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Handshake } from "lucide-react";
 import heroImage from "../assets/hero/contact-hero.png";
 
 function Contact() {
+  const form = useRef();
+  const [sending, setSending] = useState(false);
+  const [status, setStatus] = useState("");
+
+  const sendEmail = async (e) => {
+    e.preventDefault();
+    setSending(true);
+    setStatus("");
+
+    try {
+      await emailjs.sendForm(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        form.current,
+        {
+          publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+        }
+      );
+
+      setStatus("success");
+      e.target.reset();
+    } catch (error) {
+      console.error("EmailJS error:", error);
+      setStatus("error");
+    } finally {
+      setSending(false);
+    }
+  };
+
   return (
     <main className="min-h-screen bg-white">
 
@@ -185,7 +216,7 @@ function Contact() {
                 </p>
               </div>
 
-              <form className="space-y-6">
+              <form ref={form} onSubmit={sendEmail} className="space-y-6">
 
                 {/* NAME */}
                 <div>
@@ -318,12 +349,25 @@ function Contact() {
                 {/* SUBMIT */}
                 <button
                   type="submit"
-                  className="w-full bg-forest px-6 py-4 font-semibold text-white transition hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
+                  disabled={sending}
+                  className="w-full bg-forest px-6 py-4 font-semibold text-white transition hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  Send Message
+                  {sending ? "Sending..." : "Send Message"}
                 </button>
 
               </form>
+
+              {status === "success" && (
+                <p className="mt-4 text-center font-medium text-green-700">
+                  Thank you. Your message has been sent successfully.
+                </p>
+              )}
+
+              {status === "error" && (
+                <p className="mt-4 text-center font-medium text-red-600">
+                  Sorry, we could not send your message. Please try again.
+                </p>
+              )}
             </motion.div>
 
           </div>
