@@ -6,11 +6,15 @@ import {
   Target,
   ArrowRight,
   ArrowLeft,
+  ArrowUpRight,
   Users,
   Baby,
   Scale,
   Search,
   CheckCircle2,
+  ChevronDown,
+  FileText,
+  MapPin,
 } from "lucide-react";
 
 // Same image the Health programme uses on the Home page.
@@ -74,6 +78,112 @@ const outcomes = [
   "Increased evidence-based advocacy for health justice and equity.",
 ];
 
+/* =========================================================
+   HEALTH ADVOCACY TOOLS — one list of tools per county.
+   Pick the county from the dropdown to see its tools.
+
+   To edit:
+   - change a county name, or add/remove a county object
+   - each tool has: type, title, description, and an optional
+     url (link to the PDF / page). Leave url as "" for no link.
+   - all the "TODO" text below is placeholder content
+========================================================= */
+
+const counties = [
+  {
+    name: "Kilifi",
+    tools: [
+      {
+        type: "Policy brief",
+        title: "Tool title", // TODO
+        description: "Short description of the tool and how communities use it.", // TODO
+        url: "",
+      },
+      {
+        type: "Community scorecard",
+        title: "Tool title", // TODO
+        description: "Short description of the tool and how communities use it.", // TODO
+        url: "",
+      },
+      {
+        type: "Advocacy toolkit",
+        title: "Tool title", // TODO
+        description: "Short description of the tool and how communities use it.", // TODO
+        url: "",
+      },
+    ],
+  },
+  {
+    name: "Homa Bay",
+    tools: [
+      {
+        type: "Policy brief",
+        title: "Tool title", // TODO
+        description: "Short description of the tool and how communities use it.", // TODO
+        url: "",
+      },
+      {
+        type: "Community scorecard",
+        title: "Tool title", // TODO
+        description: "Short description of the tool and how communities use it.", // TODO
+        url: "",
+      },
+      {
+        type: "Advocacy toolkit",
+        title: "Tool title", // TODO
+        description: "Short description of the tool and how communities use it.", // TODO
+        url: "",
+      },
+    ],
+  },
+  {
+    name: "Kwale",
+    tools: [
+      {
+        type: "Policy brief",
+        title: "Tool title", // TODO
+        description: "Short description of the tool and how communities use it.", // TODO
+        url: "",
+      },
+      {
+        type: "Community scorecard",
+        title: "Tool title", // TODO
+        description: "Short description of the tool and how communities use it.", // TODO
+        url: "",
+      },
+      {
+        type: "Advocacy toolkit",
+        title: "Tool title", // TODO
+        description: "Short description of the tool and how communities use it.", // TODO
+        url: "",
+      },
+    ],
+  },
+  {
+    name: "Migori",
+    tools: [
+      {
+        type: "Policy brief",
+        title: "Tool title", // TODO
+        description: "Short description of the tool and how communities use it.", // TODO
+        url: "",
+      },
+      {
+        type: "Community scorecard",
+        title: "Tool title", // TODO
+        description: "Short description of the tool and how communities use it.", // TODO
+        url: "",
+      },
+      {
+        type: "Advocacy toolkit",
+        title: "Tool title", // TODO
+        description: "Short description of the tool and how communities use it.", // TODO
+        url: "",
+      },
+    ],
+  },
+];
+
 const fadeUp = {
   initial: { opacity: 0, y: 22 },
   whileInView: { opacity: 1, y: 0 },
@@ -82,10 +192,14 @@ const fadeUp = {
 
 export default function HealthJustice() {
   const [active, setActive] = useState(0);
+  const [countyName, setCountyName] = useState(counties[0].name);
   const current = pillars[active];
   const CurrentIcon = current.icon;
   const goPrev = () => setActive((i) => (i === 0 ? pillars.length - 1 : i - 1));
   const goNext = () => setActive((i) => (i === pillars.length - 1 ? 0 : i + 1));
+
+  const selectedCounty =
+    counties.find((county) => county.name === countyName) ?? counties[0];
 
   return (
     <main className="bg-white font-sans text-ink">
@@ -369,10 +483,144 @@ export default function HealthJustice() {
       </section>
 
       {/* =====================================================
+          HEALTH ADVOCACY TOOLS — county dropdown
+      ===================================================== */}
+      <section id="tools" className="scroll-mt-20 px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
+        <div className="mx-auto max-w-6xl">
+          <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-forest">
+              Health advocacy tools
+            </p>
+            <h2 className="mt-3 text-3xl font-bold leading-tight text-ink sm:text-4xl">
+              Tools for health advocacy in your county.
+            </h2>
+            <p className="mt-4 leading-7 text-gray-600">
+              Choose a county to see the advocacy tools available for
+              communities and partners working there.
+            </p>
+          </motion.div>
+
+          {/* County dropdown */}
+          <div className="mx-auto mt-10 max-w-md">
+            <label
+              htmlFor="county-select"
+              className="block text-xs font-semibold uppercase tracking-[0.2em] text-forest"
+            >
+              Select a county
+            </label>
+            <div className="relative mt-2">
+              <MapPin
+                size={18}
+                strokeWidth={1.8}
+                className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-forest"
+                aria-hidden="true"
+              />
+              <select
+                id="county-select"
+                value={countyName}
+                onChange={(event) => setCountyName(event.target.value)}
+                className="w-full appearance-none rounded-xl border-2 border-forest/20 bg-white py-3.5 pl-11 pr-11 font-semibold text-ink shadow-sm transition focus:border-forest focus:outline-none focus:ring-4 focus:ring-forest/15"
+              >
+                {counties.map((county) => (
+                  <option key={county.name} value={county.name}>
+                    {county.name} County
+                  </option>
+                ))}
+              </select>
+              <ChevronDown
+                size={18}
+                strokeWidth={2}
+                className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-forest"
+                aria-hidden="true"
+              />
+            </div>
+          </div>
+
+          {/* Tools for the selected county */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={selectedCounty.name}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="mt-12"
+            >
+              <p className="text-center text-sm font-semibold text-gray-500">
+                {selectedCounty.tools.length}{" "}
+                {selectedCounty.tools.length === 1 ? "tool" : "tools"} for{" "}
+                {selectedCounty.name} County
+              </p>
+
+              {selectedCounty.tools.length > 0 ? (
+                <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {selectedCounty.tools.map((tool, index) => {
+                    const card = (
+                      <>
+                        <div className="h-1.5 w-full bg-gradient-to-r from-forest via-[#8DC63F] to-gold" />
+                        <div className="flex flex-1 flex-col p-7">
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-forest/10 text-forest transition-colors group-hover:bg-forest group-hover:text-white">
+                              <FileText size={22} strokeWidth={1.7} />
+                            </div>
+                            <span className="text-xs font-semibold uppercase tracking-wide text-forest/60">
+                              {tool.type}
+                            </span>
+                          </div>
+
+                          <h3 className="mt-5 text-lg font-bold leading-snug text-forest">
+                            {tool.title}
+                          </h3>
+                          <p className="mt-2 leading-7 text-gray-600">
+                            {tool.description}
+                          </p>
+
+                          {tool.url && (
+                            <span className="mt-auto inline-flex items-center gap-1 pt-5 text-sm font-bold text-forest underline decoration-[#8DC63F] decoration-2 underline-offset-4">
+                              Open tool
+                              <ArrowUpRight size={15} />
+                            </span>
+                          )}
+                        </div>
+                      </>
+                    );
+
+                    const cardClass =
+                      "group flex h-full flex-col overflow-hidden rounded-2xl border border-forest/10 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl";
+
+                    return tool.url ? (
+                      <a
+                        key={`${selectedCounty.name}-${index}`}
+                        href={tool.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cardClass}
+                      >
+                        {card}
+                        <span className="sr-only">(opens in a new tab)</span>
+                      </a>
+                    ) : (
+                      <article key={`${selectedCounty.name}-${index}`} className={cardClass}>
+                        {card}
+                      </article>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p className="mt-6 text-center text-gray-500">
+                  Tools for {selectedCounty.name} County are coming soon.
+                </p>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section>
+
+      {/* =====================================================
           EXPECTED OUTCOMES — card grid, same style as the
           Theory of Change programme cards
       ===================================================== */}
-      <section className="px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
+      <section className="bg-forest-soft/40 px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
         <div className="mx-auto max-w-6xl">
           <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-forest">

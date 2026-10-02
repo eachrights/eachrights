@@ -105,7 +105,7 @@ const photos = [
    {
     image: photo11,
     title: "",
-    description: "Community dialogue with school BoM and residence in Tusrkana county.",
+    description: "Community dialogue with school BoM and residence in Turkana county.",
   },
 ];
 
@@ -284,14 +284,14 @@ const mediaCoverage = [
   },
   {
     type: "Television",
-    outlet: "TV station name", // TODO
+    outlet: "TV47", // TODO
     title: "Programme or segment title", // TODO
     date: "2026", // TODO
     url: "https://youtu.be/1AcJKP-YwzU",
   },
   {
     type: "Television",
-    outlet: "TV station name", // TODO
+    outlet: "Citizen Tv", // TODO
     title: "Programme or segment title", // TODO
     date: "2026", // TODO
     url: "https://youtu.be/t3asXtTT9nc",
@@ -300,7 +300,7 @@ const mediaCoverage = [
   // ---------- Downloaded clips (files in src/assets/gallery/media/) ----------
   {
     type: "Television",
-    outlet: "", // TODO
+    outlet: "Radio Citizen Tv", // TODO
     title: "Programme or segment title", // TODO
     date: "2026", // TODO
     video: tvClip1,
