@@ -301,7 +301,7 @@ const mediaCoverage = [
   {
     type: "Television",
     outlet: "Radio Citizen Tv", // TODO
-    title: "Programme or segment title", // TODO
+    title: "Launching of the strategic plan", // TODO
     date: "2026", // TODO
     video: tvClip1,
   },
