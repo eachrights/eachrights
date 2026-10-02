@@ -14,6 +14,7 @@ import {
   BookOpen,
   Search,
   CheckCircle2,
+  PlayCircle,
 } from "lucide-react";
 
 // Same image the Gender programme uses on the Home page.
@@ -104,6 +105,56 @@ const outcomes = [
   "Greater accountability among duty bearers and institutions.",
 ];
 
+/* =========================================================
+   VIDEOS — copied from the Gallery page
+========================================================= */
+
+const videos = [
+  {
+    title: "Operationalization of Garissa, Kenya Children's Assemblies",
+    description:
+      "Highlights from EACHRights programmes, community engagement and human rights work.",
+    date: "2026",
+    url: "https://www.youtube.com/watch?v=dMBuKyPTfS8",
+  },
+  {
+    title: "Marsabit Integrated Child Policy",
+    description:
+      "Stories, conversations and activities from EACHRights' work across East Africa.",
+    date: "2026",
+    url: "https://www.youtube.com/watch?v=wftZlROyuPA",
+  },
+];
+
+function getYouTubeVideoId(url) {
+  if (!url) return "";
+
+  try {
+    const parsedUrl = new URL(url);
+    let videoId = "";
+
+    if (parsedUrl.hostname.includes("youtube.com")) {
+      videoId = parsedUrl.searchParams.get("v") || "";
+
+      if (!videoId && parsedUrl.pathname.startsWith("/shorts/")) {
+        videoId = parsedUrl.pathname.split("/shorts/")[1]?.split("/")[0];
+      }
+
+      if (!videoId && parsedUrl.pathname.startsWith("/embed/")) {
+        videoId = parsedUrl.pathname.split("/embed/")[1]?.split("/")[0];
+      }
+    }
+
+    if (parsedUrl.hostname === "youtu.be") {
+      videoId = parsedUrl.pathname.replace("/", "").split("/")[0];
+    }
+
+    return videoId;
+  } catch {
+    return "";
+  }
+}
+
 const fadeUp = {
   initial: { opacity: 0, y: 22 },
   whileInView: { opacity: 1, y: 0 },
@@ -112,6 +163,7 @@ const fadeUp = {
 
 export default function GenderJustice() {
   const [active, setActive] = useState(0);
+  const [activeVideo, setActiveVideo] = useState(null);
   const current = pillars[active];
   const CurrentIcon = current.icon;
   const goPrev = () => setActive((i) => (i === 0 ? pillars.length - 1 : i - 1));
@@ -401,10 +453,110 @@ export default function GenderJustice() {
       </section>
 
       {/* =====================================================
+          VIDEOS — same cards as the Gallery page
+      ===================================================== */}
+      <section id="videos" className="px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
+        <div className="mx-auto max-w-6xl">
+          <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-forest">
+              Watch
+            </p>
+            <h2 className="mt-3 text-3xl font-bold leading-tight text-ink sm:text-4xl">
+              From our work.
+            </h2>
+          </motion.div>
+
+          <div className="mx-auto mt-14 grid max-w-4xl gap-6 sm:grid-cols-2">
+            {videos.map((video, index) => {
+              const videoId = getYouTubeVideoId(video.url);
+              const isActive = activeVideo === index;
+
+              return (
+                <motion.article
+                  key={`${video.title}-${index}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: (index % 2) * 0.05 }}
+                  whileHover={{ y: -5 }}
+                  className="group flex flex-col overflow-hidden bg-white shadow-sm transition hover:shadow-xl"
+                >
+                  <div className="relative aspect-video overflow-hidden bg-black">
+                    {videoId && !isActive ? (
+                      <button
+                        type="button"
+                        onClick={() => setActiveVideo(index)}
+                        className="absolute inset-0 h-full w-full"
+                        aria-label={`Play ${video.title}`}
+                      >
+                        <img
+                          src={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
+                          alt={video.title}
+                          loading="lazy"
+                          className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+                          onError={(event) => {
+                            event.currentTarget.src = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+                          }}
+                        />
+
+                        <div className="absolute inset-0 bg-black/10 transition group-hover:bg-black/20" />
+
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#8DC63F] text-forest shadow-xl transition duration-300 group-hover:scale-110 sm:h-14 sm:w-14">
+                            <PlayCircle
+                              size={26}
+                              strokeWidth={2}
+                              className="sm:h-7 sm:w-7"
+                            />
+                          </span>
+                        </div>
+                      </button>
+                    ) : videoId ? (
+                      <iframe
+                        src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&autoplay=1`}
+                        title={video.title}
+                        className="absolute inset-0 h-full w-full"
+                        loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      />
+                    ) : (
+                      <div className="flex h-full flex-col items-center justify-center gap-2 px-4 text-center text-sm text-white/70">
+                        <PlayCircle size={28} strokeWidth={1.5} />
+                        Add a valid YouTube URL to display this video.
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex flex-1 flex-col p-4">
+                    <div className="mb-2 flex items-center justify-between gap-3">
+                      <span className="bg-[#8DC63F]/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-forest-dark">
+                        Video
+                      </span>
+
+                      <span className="text-xs text-ink/50">{video.date}</span>
+                    </div>
+
+                    <h3 className="line-clamp-3 font-display text-base font-bold leading-snug text-forest">
+                      {video.title}
+                    </h3>
+
+                    <p className="mt-2 line-clamp-3 text-sm leading-6 text-ink/65">
+                      {video.description}
+                    </p>
+                  </div>
+                </motion.article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
           EXPECTED CHANGE — card grid, same style as the
           Theory of Change programme cards
       ===================================================== */}
-      <section className="px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
+      <section className="bg-forest-soft/40 px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
         <div className="mx-auto max-w-6xl">
           <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-forest">
