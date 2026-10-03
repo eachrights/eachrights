@@ -12,13 +12,26 @@ import {
   Scale,
   Search,
   CheckCircle2,
-  ChevronDown,
   FileText,
   MapPin,
 } from "lucide-react";
 
 // Same image the Health programme uses on the Home page.
 import healthImage from "../../assets/impact/impact-3.png";
+
+/* =========================================================
+   Health advocacy materials live on this page. County chips
+   deep-link to the matching tab (?county=<slug>).
+========================================================= */
+
+const ADVOCACY_PATH = "/resources/upr-advocacy-tools/health";
+
+const advocacyCounties = [
+  { slug: "kilifi", name: "Kilifi" },
+  { slug: "kwale", name: "Kwale" },
+  { slug: "migori", name: "Migori" },
+  { slug: "homa-bay", name: "Homa Bay" },
+];
 
 /* =========================================================
    The ten focus areas grouped into the four pillars they
@@ -61,7 +74,7 @@ const pillars = [
     title: "Rights, Research and Advocacy",
     items: [
       "Promote the realization of the right to the highest attainable standard of health.",
-      "Conduct research, advocacy, capacity building, and partnerships to advance health justice.",
+      "Conduct research, advocacy, capacity building, and partnerships to advance health justice and equity.",
     ],
   },
 ];
@@ -78,112 +91,6 @@ const outcomes = [
   "Increased evidence-based advocacy for health justice and equity.",
 ];
 
-/* =========================================================
-   HEALTH ADVOCACY TOOLS — one list of tools per county.
-   Pick the county from the dropdown to see its tools.
-
-   To edit:
-   - change a county name, or add/remove a county object
-   - each tool has: type, title, description, and an optional
-     url (link to the PDF / page). Leave url as "" for no link.
-   - all the "TODO" text below is placeholder content
-========================================================= */
-
-const counties = [
-  {
-    name: "Kilifi",
-    tools: [
-      {
-        type: "Policy brief",
-        title: "Tool title", // TODO
-        description: "Short description of the tool and how communities use it.", // TODO
-        url: "",
-      },
-      {
-        type: "Community scorecard",
-        title: "Tool title", // TODO
-        description: "Short description of the tool and how communities use it.", // TODO
-        url: "",
-      },
-      {
-        type: "Advocacy toolkit",
-        title: "Tool title", // TODO
-        description: "Short description of the tool and how communities use it.", // TODO
-        url: "",
-      },
-    ],
-  },
-  {
-    name: "Homa Bay",
-    tools: [
-      {
-        type: "Policy brief",
-        title: "Tool title", // TODO
-        description: "Short description of the tool and how communities use it.", // TODO
-        url: "",
-      },
-      {
-        type: "Community scorecard",
-        title: "Tool title", // TODO
-        description: "Short description of the tool and how communities use it.", // TODO
-        url: "",
-      },
-      {
-        type: "Advocacy toolkit",
-        title: "Tool title", // TODO
-        description: "Short description of the tool and how communities use it.", // TODO
-        url: "",
-      },
-    ],
-  },
-  {
-    name: "Kwale",
-    tools: [
-      {
-        type: "Policy brief",
-        title: "Tool title", // TODO
-        description: "Short description of the tool and how communities use it.", // TODO
-        url: "",
-      },
-      {
-        type: "Community scorecard",
-        title: "Tool title", // TODO
-        description: "Short description of the tool and how communities use it.", // TODO
-        url: "",
-      },
-      {
-        type: "Advocacy toolkit",
-        title: "Tool title", // TODO
-        description: "Short description of the tool and how communities use it.", // TODO
-        url: "",
-      },
-    ],
-  },
-  {
-    name: "Migori",
-    tools: [
-      {
-        type: "Policy brief",
-        title: "Tool title", // TODO
-        description: "Short description of the tool and how communities use it.", // TODO
-        url: "",
-      },
-      {
-        type: "Community scorecard",
-        title: "Tool title", // TODO
-        description: "Short description of the tool and how communities use it.", // TODO
-        url: "",
-      },
-      {
-        type: "Advocacy toolkit",
-        title: "Tool title", // TODO
-        description: "Short description of the tool and how communities use it.", // TODO
-        url: "",
-      },
-    ],
-  },
-];
-
 const fadeUp = {
   initial: { opacity: 0, y: 22 },
   whileInView: { opacity: 1, y: 0 },
@@ -192,14 +99,15 @@ const fadeUp = {
 
 export default function HealthJustice() {
   const [active, setActive] = useState(0);
-  const [countyName, setCountyName] = useState(counties[0].name);
+
   const current = pillars[active];
   const CurrentIcon = current.icon;
-  const goPrev = () => setActive((i) => (i === 0 ? pillars.length - 1 : i - 1));
-  const goNext = () => setActive((i) => (i === pillars.length - 1 ? 0 : i + 1));
 
-  const selectedCounty =
-    counties.find((county) => county.name === countyName) ?? counties[0];
+  const goPrev = () =>
+    setActive((i) => (i === 0 ? pillars.length - 1 : i - 1));
+
+  const goNext = () =>
+    setActive((i) => (i === pillars.length - 1 ? 0 : i + 1));
 
   return (
     <main className="bg-white font-sans text-ink">
@@ -208,7 +116,6 @@ export default function HealthJustice() {
           HERO
       ===================================================== */}
       <section className="relative isolate overflow-hidden bg-neutral-900 text-white">
-        {/* Background photo (same image as the Home page programme card) */}
         <img
           src={healthImage}
           alt=""
@@ -216,7 +123,6 @@ export default function HealthJustice() {
           className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
         />
 
-        {/* Legibility overlays */}
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/50 to-black/10" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
@@ -224,13 +130,17 @@ export default function HealthJustice() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: 0.7,
+              ease: [0.22, 1, 0.36, 1],
+            }}
             className="max-w-3xl"
           >
             <div className="flex items-center gap-4">
               <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-white/10 backdrop-blur-sm ring-1 ring-white/20">
                 <HeartPulse size={28} strokeWidth={1.7} />
               </div>
+
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/75">
                 Programme 03
               </p>
@@ -254,6 +164,7 @@ export default function HealthJustice() {
                 Explore our pillars
                 <ArrowRight size={18} />
               </a>
+
               <Link
                 to="/contact"
                 className="inline-flex items-center gap-2 border-2 border-white/40 px-6 py-3 font-semibold text-white transition hover:bg-white/10"
@@ -266,24 +177,28 @@ export default function HealthJustice() {
 
         <div
           className="absolute bottom-0 left-0 h-8 w-full bg-white"
-          style={{ clipPath: "polygon(0 100%, 100% 0, 100% 100%)" }}
+          style={{
+            clipPath: "polygon(0 100%, 100% 0, 100% 100%)",
+          }}
           aria-hidden="true"
         />
       </section>
 
       {/* =====================================================
           INTRODUCTION
-          Narrative on the left, programme goal as a sticky
-          card on the right.
       ===================================================== */}
       <section className="px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
         <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.25fr,1fr] lg:gap-16">
 
           <div>
-            <motion.div {...fadeUp} transition={{ duration: 0.6 }}>
+            <motion.div
+              {...fadeUp}
+              transition={{ duration: 0.6 }}
+            >
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-forest">
                 About the programme
               </p>
+
               <h2 className="mt-3 text-3xl font-bold leading-tight text-ink sm:text-4xl">
                 Advancing the right to health for all
               </h2>
@@ -296,6 +211,7 @@ export default function HealthJustice() {
                 health, which includes the right to healthcare services,
                 including reproductive healthcare.
               </p>
+
               <p>
                 Despite these constitutional guarantees, many people
                 continue to experience barriers to accessing quality,
@@ -307,6 +223,7 @@ export default function HealthJustice() {
                 access to services can prevent people from fully enjoying
                 their right to health.
               </p>
+
               <p>
                 The Health Justice Programme applies a{" "}
                 <strong className="text-ink">
@@ -331,11 +248,14 @@ export default function HealthJustice() {
                 className="absolute -right-4 -top-4 text-white/10"
                 aria-hidden="true"
               />
+
               <div className="relative">
                 <div className="h-1 w-12 rounded-full bg-gold" />
+
                 <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-gold">
                   Programme goal
                 </p>
+
                 <p className="mt-3 text-xl font-semibold leading-8 sm:text-2xl sm:leading-9">
                   Promoting access to healthcare among vulnerable and
                   marginalized groups and communities.
@@ -343,23 +263,32 @@ export default function HealthJustice() {
               </div>
             </motion.div>
           </div>
+
         </div>
       </section>
 
       {/* =====================================================
-          FOCUS AREAS — interactive pillars
-          (same pattern as the Theory of Change mechanism)
+          FOCUS AREAS — INTERACTIVE PILLARS
       ===================================================== */}
-      <section id="pillars" className="scroll-mt-20 bg-forest-soft/40 px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
+      <section
+        id="pillars"
+        className="scroll-mt-20 bg-forest-soft/40 px-6 py-20 sm:px-8 lg:px-12 lg:py-24"
+      >
         <div className="mx-auto max-w-6xl">
 
-          <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="mx-auto max-w-2xl text-center">
+          <motion.div
+            {...fadeUp}
+            transition={{ duration: 0.6 }}
+            className="mx-auto max-w-2xl text-center"
+          >
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-forest">
               Focus areas
             </p>
+
             <h2 className="mt-3 text-3xl font-bold leading-tight text-ink sm:text-4xl">
               Four pillars of intervention.
             </h2>
+
             <p className="mt-4 leading-7 text-gray-600">
               Our interventions address the barriers that prevent vulnerable
               and marginalized communities from fully realizing their right
@@ -369,12 +298,23 @@ export default function HealthJustice() {
 
           {/* Pillar selector */}
           <div className="relative mt-14">
-            <div className="absolute left-[12.5%] right-[12.5%] top-8 hidden h-1 rounded-full bg-forest/10 md:block" aria-hidden="true">
+
+            <div
+              className="absolute left-[12.5%] right-[12.5%] top-8 hidden h-1 rounded-full bg-forest/10 md:block"
+              aria-hidden="true"
+            >
               <motion.div
                 className="h-full rounded-full"
-                style={{ backgroundColor: current.color }}
-                animate={{ width: `${(active / (pillars.length - 1)) * 100}%` }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
+                style={{
+                  backgroundColor: current.color,
+                }}
+                animate={{
+                  width: `${(active / (pillars.length - 1)) * 100}%`,
+                }}
+                transition={{
+                  duration: 0.5,
+                  ease: "easeInOut",
+                }}
               />
             </div>
 
@@ -383,6 +323,7 @@ export default function HealthJustice() {
                 const Icon = pillar.icon;
                 const isActive = index === active;
                 const isPassed = index <= active;
+
                 return (
                   <button
                     key={pillar.title}
@@ -394,20 +335,36 @@ export default function HealthJustice() {
                     className="group flex flex-col items-center gap-3 text-center focus:outline-none"
                   >
                     <motion.span
-                      animate={{ scale: isActive ? 1.15 : 1 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                      animate={{
+                        scale: isActive ? 1.15 : 1,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 20,
+                      }}
                       className="flex h-16 w-16 items-center justify-center rounded-full border-4 bg-white shadow-md group-focus-visible:ring-4 group-focus-visible:ring-forest/30"
                       style={{
-                        borderColor: isPassed ? pillar.color : "#D1D5DB",
-                        color: isPassed ? pillar.color : "#9CA3AF",
-                        boxShadow: isActive ? `0 10px 25px -8px ${pillar.color}` : undefined,
+                        borderColor: isPassed
+                          ? pillar.color
+                          : "#D1D5DB",
+                        color: isPassed
+                          ? pillar.color
+                          : "#9CA3AF",
+                        boxShadow: isActive
+                          ? `0 10px 25px -8px ${pillar.color}`
+                          : undefined,
                       }}
                     >
                       <Icon size={26} strokeWidth={1.8} />
                     </motion.span>
+
                     <span
                       className="rounded-full px-4 py-1.5 text-xs font-bold uppercase leading-snug tracking-wider text-white transition-opacity"
-                      style={{ backgroundColor: pillar.color, opacity: isActive ? 1 : 0.55 }}
+                      style={{
+                        backgroundColor: pillar.color,
+                        opacity: isActive ? 1 : 0.55,
+                      }}
                     >
                       {pillar.title}
                     </span>
@@ -422,25 +379,47 @@ export default function HealthJustice() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={current.title}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.3 }}
+                initial={{
+                  opacity: 0,
+                  y: 16,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                exit={{
+                  opacity: 0,
+                  y: -12,
+                }}
+                transition={{
+                  duration: 0.3,
+                }}
                 className="rounded-2xl border-l-8 bg-white p-8 shadow-lg sm:p-10"
-                style={{ borderLeftColor: current.color }}
+                style={{
+                  borderLeftColor: current.color,
+                }}
               >
                 <div className="flex items-center gap-4">
                   <div
                     className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white"
-                    style={{ backgroundColor: current.color }}
+                    style={{
+                      backgroundColor: current.color,
+                    }}
                   >
                     <CurrentIcon size={24} strokeWidth={1.8} />
                   </div>
+
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">
                       Pillar {active + 1} of {pillars.length}
                     </p>
-                    <h3 className="text-xl font-bold sm:text-2xl" style={{ color: current.color }}>
+
+                    <h3
+                      className="text-xl font-bold sm:text-2xl"
+                      style={{
+                        color: current.color,
+                      }}
+                    >
                       {current.title}
                     </h3>
                   </div>
@@ -448,11 +427,17 @@ export default function HealthJustice() {
 
                 <ul className="mt-6 space-y-4">
                   {current.items.map((item) => (
-                    <li key={item} className="flex gap-3 leading-7 text-gray-600">
+                    <li
+                      key={item}
+                      className="flex gap-3 leading-7 text-gray-600"
+                    >
                       <span
                         className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full"
-                        style={{ backgroundColor: current.color }}
+                        style={{
+                          backgroundColor: current.color,
+                        }}
                       />
+
                       <span>{item}</span>
                     </li>
                   ))}
@@ -467,6 +452,7 @@ export default function HealthJustice() {
                     <ArrowLeft size={16} />
                     Previous
                   </button>
+
                   <button
                     type="button"
                     onClick={goNext}
@@ -479,153 +465,25 @@ export default function HealthJustice() {
               </motion.div>
             </AnimatePresence>
           </div>
+
         </div>
       </section>
 
       {/* =====================================================
-          HEALTH ADVOCACY TOOLS — county dropdown
-      ===================================================== */}
-      <section id="tools" className="scroll-mt-20 px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
-        <div className="mx-auto max-w-6xl">
-          <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-forest">
-              Health advocacy tools
-            </p>
-            <h2 className="mt-3 text-3xl font-bold leading-tight text-ink sm:text-4xl">
-              Tools for health advocacy in your county.
-            </h2>
-            <p className="mt-4 leading-7 text-gray-600">
-              Choose a county to see the advocacy tools available for
-              communities and partners working there.
-            </p>
-          </motion.div>
-
-          {/* County dropdown */}
-          <div className="mx-auto mt-10 max-w-md">
-            <label
-              htmlFor="county-select"
-              className="block text-xs font-semibold uppercase tracking-[0.2em] text-forest"
-            >
-              Select a county
-            </label>
-            <div className="relative mt-2">
-              <MapPin
-                size={18}
-                strokeWidth={1.8}
-                className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-forest"
-                aria-hidden="true"
-              />
-              <select
-                id="county-select"
-                value={countyName}
-                onChange={(event) => setCountyName(event.target.value)}
-                className="w-full appearance-none rounded-xl border-2 border-forest/20 bg-white py-3.5 pl-11 pr-11 font-semibold text-ink shadow-sm transition focus:border-forest focus:outline-none focus:ring-4 focus:ring-forest/15"
-              >
-                {counties.map((county) => (
-                  <option key={county.name} value={county.name}>
-                    {county.name} County
-                  </option>
-                ))}
-              </select>
-              <ChevronDown
-                size={18}
-                strokeWidth={2}
-                className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-forest"
-                aria-hidden="true"
-              />
-            </div>
-          </div>
-
-          {/* Tools for the selected county */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={selectedCounty.name}
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-              className="mt-12"
-            >
-              <p className="text-center text-sm font-semibold text-gray-500">
-                {selectedCounty.tools.length}{" "}
-                {selectedCounty.tools.length === 1 ? "tool" : "tools"} for{" "}
-                {selectedCounty.name} County
-              </p>
-
-              {selectedCounty.tools.length > 0 ? (
-                <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {selectedCounty.tools.map((tool, index) => {
-                    const card = (
-                      <>
-                        <div className="h-1.5 w-full bg-gradient-to-r from-forest via-[#8DC63F] to-gold" />
-                        <div className="flex flex-1 flex-col p-7">
-                          <div className="flex items-center justify-between gap-3">
-                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-forest/10 text-forest transition-colors group-hover:bg-forest group-hover:text-white">
-                              <FileText size={22} strokeWidth={1.7} />
-                            </div>
-                            <span className="text-xs font-semibold uppercase tracking-wide text-forest/60">
-                              {tool.type}
-                            </span>
-                          </div>
-
-                          <h3 className="mt-5 text-lg font-bold leading-snug text-forest">
-                            {tool.title}
-                          </h3>
-                          <p className="mt-2 leading-7 text-gray-600">
-                            {tool.description}
-                          </p>
-
-                          {tool.url && (
-                            <span className="mt-auto inline-flex items-center gap-1 pt-5 text-sm font-bold text-forest underline decoration-[#8DC63F] decoration-2 underline-offset-4">
-                              Open tool
-                              <ArrowUpRight size={15} />
-                            </span>
-                          )}
-                        </div>
-                      </>
-                    );
-
-                    const cardClass =
-                      "group flex h-full flex-col overflow-hidden rounded-2xl border border-forest/10 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl";
-
-                    return tool.url ? (
-                      <a
-                        key={`${selectedCounty.name}-${index}`}
-                        href={tool.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={cardClass}
-                      >
-                        {card}
-                        <span className="sr-only">(opens in a new tab)</span>
-                      </a>
-                    ) : (
-                      <article key={`${selectedCounty.name}-${index}`} className={cardClass}>
-                        {card}
-                      </article>
-                    );
-                  })}
-                </div>
-              ) : (
-                <p className="mt-6 text-center text-gray-500">
-                  Tools for {selectedCounty.name} County are coming soon.
-                </p>
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </section>
-
-      {/* =====================================================
-          EXPECTED OUTCOMES — card grid, same style as the
-          Theory of Change programme cards
+          EXPECTED OUTCOMES
       ===================================================== */}
       <section className="bg-forest-soft/40 px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
         <div className="mx-auto max-w-6xl">
-          <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="mx-auto max-w-2xl text-center">
+
+          <motion.div
+            {...fadeUp}
+            transition={{ duration: 0.6 }}
+            className="mx-auto max-w-2xl text-center"
+          >
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-forest">
               Expected outcomes
             </p>
+
             <h2 className="mt-3 text-3xl font-bold leading-tight text-ink sm:text-4xl">
               What changes as a result.
             </h2>
@@ -636,34 +494,127 @@ export default function HealthJustice() {
               <motion.article
                 key={item}
                 {...fadeUp}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{ duration: 0.5, delay: (index % 3) * 0.08 }}
-                whileHover={{ y: -6 }}
+                viewport={{
+                  once: true,
+                  amount: 0.15,
+                }}
+                transition={{
+                  duration: 0.5,
+                  delay: (index % 3) * 0.08,
+                }}
+                whileHover={{
+                  y: -6,
+                }}
                 className="group relative flex flex-col overflow-hidden rounded-2xl border border-forest/10 bg-white shadow-sm transition-shadow hover:shadow-xl"
               >
                 <div className="h-1.5 w-full bg-gradient-to-r from-forest via-[#8DC63F] to-gold" />
+
                 <div className="flex flex-1 flex-col p-7 sm:p-8">
                   <div className="flex items-start justify-between">
                     <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-forest/10 text-forest transition-colors group-hover:bg-forest group-hover:text-white">
-                      <CheckCircle2 size={26} strokeWidth={1.7} />
+                      <CheckCircle2
+                        size={26}
+                        strokeWidth={1.7}
+                      />
                     </div>
+
                     <span className="font-display text-4xl font-bold text-forest/15 transition-colors group-hover:text-[#8DC63F]">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                   </div>
-                  <p className="mt-6 text-lg font-semibold leading-8 text-forest">{item}</p>
+
+                  <p className="mt-6 text-lg font-semibold leading-8 text-forest">
+                    {item}
+                  </p>
                 </div>
               </motion.article>
             ))}
           </div>
+
         </div>
+      </section>
+
+      {/* =====================================================
+          HEALTH ADVOCACY MATERIALS
+      ===================================================== */}
+      <section
+        id="advocacy-materials"
+        className="scroll-mt-20 px-6 py-20 sm:px-8 lg:px-12 lg:py-24"
+      >
+        <motion.div
+          {...fadeUp}
+          transition={{ duration: 0.6 }}
+          className="relative mx-auto max-w-6xl overflow-hidden rounded-2xl p-8 text-white shadow-xl sm:p-12"
+          style={{
+            backgroundImage:
+              "linear-gradient(145deg, #EF4444 0%, #991B1B 100%)",
+            boxShadow: "0 18px 40px -20px #991B1B",
+          }}
+        >
+          <FileText
+            size={220}
+            strokeWidth={0.8}
+            className="pointer-events-none absolute -right-10 -top-10 text-white/10"
+            aria-hidden="true"
+          />
+          <div className="pointer-events-none absolute -bottom-24 -left-16 h-64 w-64 rounded-full border-[26px] border-white/5" />
+
+          <div className="relative grid gap-8 lg:grid-cols-[1.4fr,1fr] lg:items-center lg:gap-12">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/75">
+                Health advocacy materials
+              </p>
+
+              <h2 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">
+                Read and download our county health files
+              </h2>
+
+              <p className="mt-4 max-w-xl leading-7 text-white/85">
+                Briefings, reports and advocacy materials from Kilifi,
+                Kwale, Migori and Homa Bay, gathered in one place and
+                organised by county.
+              </p>
+
+              <Link
+                to={ADVOCACY_PATH}
+                className="mt-7 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-[#991B1B] transition hover:gap-3"
+              >
+                View health advocacy materials
+                <ArrowUpRight size={16} />
+              </Link>
+            </div>
+
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/70">
+                Jump to a county
+              </p>
+
+              <div className="mt-4 flex flex-wrap gap-3">
+                {advocacyCounties.map((county) => (
+                  <Link
+                    key={county.slug}
+                    to={`${ADVOCACY_PATH}?county=${county.slug}`}
+                    className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-semibold text-white ring-1 ring-white/25 transition hover:bg-white/25"
+                  >
+                    <MapPin size={14} />
+                    {county.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </section>
 
       {/* =====================================================
           CTA
       ===================================================== */}
       <section className="bg-forest px-6 py-16 text-center text-white sm:px-8 lg:px-12 lg:py-20">
-        <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="mx-auto max-w-2xl">
+        <motion.div
+          {...fadeUp}
+          transition={{ duration: 0.6 }}
+          className="mx-auto max-w-2xl"
+        >
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/20">
             <HeartPulse size={26} strokeWidth={1.7} />
           </div>

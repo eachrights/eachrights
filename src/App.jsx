@@ -17,14 +17,20 @@ import NotFound from "./pages/NotFound";
 import OurStory from "./pages/whoweare/OurStory";
 import OurTeam from "./pages/whoweare/OurTeam";
 
-// What We Do (file: src/pages/whatwedo.jsx)
+// What We Do
 import WhatWeDo from "./pages/whatwedo";
 
 // Resources
 import Publications from "./pages/resources/publications";
 import Portals from "./pages/resources/portals";
 import UprAdvocacyTools from "./pages/resources/upr-advocacy-tools";
-import Health from "./pages/resources/Health"; // file: src/pages/resources/Health.jsx
+
+// UPR Advocacy Tools — Thematic Areas
+import Education from "./pages/resources/education";
+import Gender from "./pages/resources/gender";
+import Health from "./pages/resources/health";
+import Environment from "./pages/resources/environment";
+import Economics from "./pages/resources/economics";
 
 // Programmes
 import EducationJustice from "./pages/programmes/EducationJustice";
@@ -45,7 +51,10 @@ function App() {
       <Navbar />
 
       <Routes>
-        {/* Main Pages */}
+
+        {/* =====================================================
+            MAIN PAGES
+        ===================================================== */}
         <Route path="/" element={<Home />} />
         <Route path="/how-we-work" element={<HowWeWork />} />
         <Route path="/resources" element={<Resources />} />
@@ -54,65 +63,141 @@ function App() {
         <Route path="/donors" element={<Donors />} />
         <Route path="/contact" element={<Contact />} />
 
-        {/* Who We Are */}
-        <Route path="/who-we-are/our-story" element={<OurStory />} />
-        <Route path="/who-we-are/team" element={<OurTeam />} />
+        {/* =====================================================
+            WHO WE ARE
+        ===================================================== */}
+        <Route
+          path="/who-we-are/our-story"
+          element={<OurStory />}
+        />
 
-        {/* What We Do */}
-        <Route path="/what-we-do" element={<WhatWeDo />} />
+        <Route
+          path="/who-we-are/team"
+          element={<OurTeam />}
+        />
 
-        {/* Resources */}
-        <Route path="/resources/publications" element={<Publications />} />
-        <Route path="/resources/portals" element={<Portals />} />
+        {/* =====================================================
+            WHAT WE DO
+        ===================================================== */}
+        <Route
+          path="/what-we-do"
+          element={<WhatWeDo />}
+        />
+
+        {/* =====================================================
+            RESOURCES
+        ===================================================== */}
+        <Route
+          path="/resources/publications"
+          element={<Publications />}
+        />
+
+        <Route
+          path="/resources/portals"
+          element={<Portals />}
+        />
+
         <Route
           path="/resources/upr-advocacy-tools"
           element={<UprAdvocacyTools />}
         />
 
-        {/* Resources: UPR advocacy tools by thematic area */}
+        {/* =====================================================
+            UPR ADVOCACY TOOLS — THEMATIC AREAS
+        ===================================================== */}
+
+        {/* Education */}
+        <Route
+          path="/resources/upr-advocacy-tools/education"
+          element={<Education />}
+        />
+
+        {/* Gender */}
+        <Route
+          path="/resources/upr-advocacy-tools/gender"
+          element={<Gender />}
+        />
+
+        {/* Health */}
         <Route
           path="/resources/upr-advocacy-tools/health"
           element={<Health />}
         />
 
-        {/* Programmes */}
+        {/* Environment */}
+        <Route
+          path="/resources/upr-advocacy-tools/environment"
+          element={<Environment />}
+        />
+
+        {/* Economics */}
+        <Route
+          path="/resources/upr-advocacy-tools/economics"
+          element={<Economics />}
+        />
+
+        {/* =====================================================
+            PROGRAMMES
+        ===================================================== */}
+
+        {/* Education Justice */}
         <Route
           path="/programmes/education-justice"
           element={<EducationJustice />}
         />
+
+        {/* Gender Justice */}
         <Route
           path="/programmes/gender-justice"
           element={<GenderJustice />}
         />
+
+        {/* Health Justice */}
         <Route
           path="/programmes/health-justice"
           element={<HealthJustice />}
         />
+
+        {/* Environmental & Climate Justice */}
         <Route
           path="/programmes/environmental-climate-justice"
           element={<EnvironmentalClimateJustice />}
         />
+
+        {/* Economic Justice */}
         <Route
           path="/programmes/economic-justice"
           element={<EconomicJustice />}
         />
+
+        {/* Theory of Change */}
         <Route
           path="/programmes/theory-of-change"
           element={<TheoryOfChange />}
         />
+
+        {/* Institutional Growth & Sustainability */}
         <Route
           path="/programmes/institutional-growth-sustainability"
           element={<InstitutionalGrowthSustainability />}
         />
 
-        {/* Processes */}
+        {/* =====================================================
+            PROCESSES
+        ===================================================== */}
         <Route
           path="/processes/universal-periodic-review"
           element={<UniversalPeriodicReview />}
         />
 
-        {/* 404 */}
-        <Route path="*" element={<NotFound />} />
+        {/* =====================================================
+            404
+        ===================================================== */}
+        <Route
+          path="*"
+          element={<NotFound />}
+        />
+
       </Routes>
 
       <Footer />

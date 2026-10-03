@@ -24,10 +24,12 @@ import healthPhoto from "../../assets/impact/impact-3.png"; // swap for a health
 // Each entry: { county, title, description, date, size, url, thumbnail? }
 //   county    : one of the slugs in COUNTIES below
 //               ("kilifi" | "kwale" | "migori" | "homa-bay").
-//   url       : "/docs/health/<county>/your-file.pdf" for a file in public/,
-//               or a full https:// link. Leave "" for "Coming soon".
-//   thumbnail : optional cover image, e.g. "/docs/health/thumbs/your-file.jpg".
-//               If missing or broken, a document icon is shown instead.
+//   url       : a Google Drive link (written by scripts/generate-health-tools.mjs),
+//               any other full https:// link, or "" for "Coming soon".
+//   id        : the Drive file ID (added by the script). Entries with an id and
+//               a size get View + Download buttons; others get a single Open.
+//   thumbnail : optional cover image URL. If missing or broken, a document
+//               icon is shown instead.
 import toolsData from "../../data/health-tools.json";
 
 // ============================================================
@@ -184,6 +186,13 @@ function FileTicker({ items }) {
 /** A single file row with View + Download (local files) or Open (external). */
 function ToolRow({ item }) {
   const isExternal = /^https?:\/\//i.test(item.url || "");
+  // Files synced from Google Drive carry an "id". Binary files (PDFs, etc.)
+  // have a size and can be downloaded directly; native Google Docs/Sheets
+  // have no size, so they only get "Open".
+  const canDownloadFromDrive = Boolean(item.id && item.size);
+  const downloadUrl = canDownloadFromDrive
+    ? `https://drive.google.com/uc?export=download&id=${item.id}`
+    : item.url;
   const meta = [item.date, item.size].filter(Boolean).join("  ·  ");
 
   return (
@@ -206,7 +215,7 @@ function ToolRow({ item }) {
       <div className="hidden shrink-0 text-xs text-ink/50 sm:block">{meta}</div>
 
       {item.url ? (
-        isExternal ? (
+        isExternal && !canDownloadFromDrive ? (
           <a
             href={item.url}
             target="_blank"
@@ -232,8 +241,8 @@ function ToolRow({ item }) {
               </span>
             </a>
             <a
-              href={item.url}
-              download
+              href={downloadUrl}
+              {...(isExternal ? {} : { download: true })}
               className="inline-flex items-center gap-1.5 bg-forest px-3 py-1.5 text-sm font-bold text-white transition hover:bg-forest-dark"
             >
               <Download size={15} />

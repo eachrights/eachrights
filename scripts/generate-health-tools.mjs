@@ -1,72 +1,89 @@
 // scripts/generate-health-tools.mjs
 //
-// Scans public/docs/health/<county>/ for files and writes
-// src/data/health-tools.json, which the Health page imports.
+// Reads one Google Drive folder per county and writes src/data/health-tools.json,
+// which the Health page imports. Run it on your own machine, then commit the JSON:
 //
-//   node scripts/generate-health-tools.mjs
+//   npm run generate:health
+//   (= node --env-file=.env scripts/generate-health-tools.mjs)
 //
-// Folder layout:
-//   public/docs/health/kilifi/*.pdf
-//   public/docs/health/kwale/*.pdf
-//   public/docs/health/migori/*.pdf
-//   public/docs/health/homa-bay/*.pdf
-//   public/docs/health/thumbs/<same-file-name>.jpg|png|webp   (optional)
+// Needs Node 20.6+ (for --env-file and built-in fetch).
 //
 // WHAT IT DOES
-//   - New file in a county folder  -> new entry (title taken from the file name).
-//   - File already in the JSON     -> keeps the title, description, date and
-//                                     thumbnail you've edited; refreshes the
-//                                     size and county from disk.
-//   - File deleted from the folder -> its entry is dropped.
-//   - Entries whose url is not under /docs/health/ (hand-written, external
-//     links, "Coming soon" placeholders) are left alone.
+//   - New file in a Drive folder     -> new entry (title taken from the file name).
+//   - File already in the JSON       -> keeps the title, description, date and
+//                                       thumbnail you've edited; refreshes the
+//                                       size, link and county from Drive.
+//   - File removed from Drive        -> its entry is dropped.
+//   - Entries with no "id" (written by hand) are always left alone.
+//
+// If the API key is missing or Drive can't be reached, the script warns and
+// leaves the existing JSON untouched.
 
-import { readdir, readFile, writeFile, stat, mkdir } from "node:fs/promises";
+import { readFile, writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.resolve(__dirname, "..");
-const DOCS_DIR = path.join(ROOT, "public/docs/health");
-const THUMBS_DIR = path.join(DOCS_DIR, "thumbs");
-const OUTPUT = path.join(ROOT, "src/data/health-tools.json");
-const URL_PREFIX = "/docs/health";
+const OUTPUT = path.resolve(__dirname, "../src/data/health-tools.json");
 
-// Must match COUNTIES in Health.jsx. Folder name = slug.
-const COUNTY_SLUGS = ["kilifi", "kwale", "migori", "homa-bay"];
+// ------------------------------------------------------------
+// PASTE YOUR DRIVE FOLDER IDS HERE
+//   The ID is the last part of the folder URL:
+//   https://drive.google.com/drive/folders/<FOLDER_ID>
+//   Each folder must be shared as "Anyone with the link: Viewer".
+// ------------------------------------------------------------
+   const COUNTY_FOLDERS = {
+     Kilifi: "1iV9KATrVI7Mfq3rzI0xpOKcU5l-IXi-J",
+     Kwale: "1lC51ir0bgOVKJfhQpak59b5bLG1mADmb",
+     Migori: "1HoDqiVpZOMoPEPpxDpUMyuuI_tqIIkTt",
+     "Homabay": "1QPBuYG5ZokxKon4ph0Cm5qSpIf9cMDzJ",
+   };
 
-const THUMB_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp"];
+const API_KEY = process.env.GOOGLE_API_KEY;
+
+const isPlaceholder = (id) => !id || id.startsWith("PASTE_");
 
 function formatSize(bytes) {
-  if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  const n = Number(bytes);
+  if (!n) return ""; // Google Docs/Sheets have no byte size
+  if (n < 1024 * 1024) return `${Math.max(1, Math.round(n / 1024))} KB`;
+  return `${(n / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-function titleFromName(fileName) {
-  return path
-    .basename(fileName, path.extname(fileName))
+function titleFromName(name) {
+  return name
+    .replace(/\.[^.]+$/, "")
     .replace(/[_-]+/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
 
-async function exists(p) {
-  try {
-    await stat(p);
-    return true;
-  } catch {
-    return false;
-  }
-}
+async function listFolder(folderId) {
+  const files = [];
+  let pageToken;
 
-async function findThumbnail(fileName) {
-  const base = path.basename(fileName, path.extname(fileName));
-  for (const ext of THUMB_EXTENSIONS) {
-    if (await exists(path.join(THUMBS_DIR, base + ext))) {
-      return `${URL_PREFIX}/thumbs/${base}${ext}`;
+  do {
+    const params = new URLSearchParams({
+      q: `'${folderId}' in parents and trashed = false and mimeType != 'application/vnd.google-apps.folder'`,
+      fields: "nextPageToken, files(id, name, size, modifiedTime, webViewLink)",
+      orderBy: "name",
+      pageSize: "200",
+      key: API_KEY,
+    });
+    if (pageToken) params.set("pageToken", pageToken);
+
+    const res = await fetch(`https://www.googleapis.com/drive/v3/files?${params}`);
+    if (!res.ok) {
+      const body = await res.text();
+      throw new Error(`Drive API ${res.status} for folder ${folderId}: ${body}`);
     }
-  }
-  return "";
+
+    const data = await res.json();
+    files.push(...(data.files ?? []));
+    pageToken = data.nextPageToken;
+  } while (pageToken);
+
+  return files;
 }
 
 async function readExisting() {
@@ -78,49 +95,59 @@ async function readExisting() {
 }
 
 async function main() {
-  const existing = await readExisting();
-  const existingByUrl = new Map(existing.map((e) => [e.url, e]));
+  if (!API_KEY) {
+    console.warn(
+      "[health-tools] GOOGLE_API_KEY not set (check your .env file). Keeping the existing JSON."
+    );
+    return;
+  }
 
+  const counties = Object.entries(COUNTY_FOLDERS).filter(([slug, id]) => {
+    if (isPlaceholder(id)) {
+      console.warn(`[health-tools] No folder ID set for "${slug}". Skipping it.`);
+      return false;
+    }
+    return true;
+  });
+
+  if (counties.length === 0) {
+    console.warn("[health-tools] No folder IDs configured. Nothing to do.");
+    return;
+  }
+
+  const existing = await readExisting();
+  const existingById = new Map(existing.filter((e) => e.id).map((e) => [e.id, e]));
+
+  const synced = new Set(counties.map(([slug]) => slug));
   const fresh = [];
 
-  for (const county of COUNTY_SLUGS) {
-    const dir = path.join(DOCS_DIR, county);
+  for (const [county, folderId] of counties) {
+    const files = await listFolder(folderId);
 
-    if (!(await exists(dir))) {
-      await mkdir(dir, { recursive: true });
-      console.log(`[health-tools] Created empty folder public/docs/health/${county}`);
-      continue;
-    }
-
-    const entries = await readdir(dir, { withFileTypes: true });
-    const files = entries
-      .filter((e) => e.isFile() && !e.name.startsWith("."))
-      .map((e) => e.name)
-      .sort((a, b) => a.localeCompare(b));
-
-    for (const fileName of files) {
-      const url = `${URL_PREFIX}/${county}/${encodeURI(fileName)}`;
-      const info = await stat(path.join(dir, fileName));
-      const previous = existingByUrl.get(url) ?? {};
-
+    for (const file of files) {
+      const previous = existingById.get(file.id) ?? {};
       fresh.push({
+        id: file.id,
         county,
         // You can edit these in the JSON and they'll be kept:
-        title: previous.title || titleFromName(fileName),
+        title: previous.title || titleFromName(file.name),
         description: previous.description ?? "",
-        date: previous.date || info.mtime.toISOString().slice(0, 10),
-        thumbnail: previous.thumbnail || (await findThumbnail(fileName)),
-        // Always refreshed from disk:
-        size: formatSize(info.size),
-        url,
+        date: previous.date || (file.modifiedTime ?? "").slice(0, 10),
+        thumbnail:
+          previous.thumbnail ||
+          `https://drive.google.com/thumbnail?id=${file.id}&sz=w400`,
+        // Always refreshed from Drive:
+        size: formatSize(file.size),
+        url:
+          file.webViewLink || `https://drive.google.com/file/d/${file.id}/view`,
       });
     }
 
     console.log(`[health-tools] ${county}: ${files.length} file(s)`);
   }
 
-  // Keep entries that don't point into /docs/health/ (external or hand-written).
-  const kept = existing.filter((e) => !(e.url || "").startsWith(`${URL_PREFIX}/`));
+  // Keep hand-written entries (no id) and anything from counties we didn't sync.
+  const kept = existing.filter((e) => !e.id || !synced.has(e.county));
 
   const result = [...fresh, ...kept];
 
@@ -128,11 +155,12 @@ async function main() {
   await writeFile(OUTPUT, JSON.stringify(result, null, 2) + "\n", "utf8");
 
   console.log(
-    `[health-tools] Wrote ${result.length} entr${result.length === 1 ? "y" : "ies"} to ${path.relative(ROOT, OUTPUT)}`
+    `[health-tools] Wrote ${result.length} entr${result.length === 1 ? "y" : "ies"} to ${path.relative(process.cwd(), OUTPUT)}`
   );
 }
 
 main().catch((error) => {
-  console.error(`[health-tools] Failed: ${error.message}`);
-  process.exit(1);
+  console.warn(
+    `[health-tools] Sync failed, keeping the existing JSON.\n${error.message}`
+  );
 });
