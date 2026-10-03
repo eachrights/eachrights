@@ -11,7 +11,8 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "generate:thumbnails": "node scripts/generate-pdf-thumbnails.mjs",
-    "generate:health": "node --env-file=.env scripts/generate-health-tools.mjs"
+    "generate:health": "node --env-file=.env scripts/generate-health-tools.mjs",
+    "generate:upr": "node --env-file=.env scripts/generate-upr-tools.mjs"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
