@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   Building2,
   Target,
   ArrowRight,
-  ArrowLeft,
   ShieldCheck,
-  TrendingUp,
   Users2,
+  TrendingUp,
+  Wallet,
+  ClipboardCheck,
   Megaphone,
   Database,
   BarChart3,
@@ -18,53 +18,49 @@ import {
 import institutionalImage from "../../assets/impact/impact-8.png";
 
 /* =========================================================
-   Placeholder intervention areas — swap in the actual
-   strategic-plan text for this focus area once available.
-   `label` is the short name shown under each step button.
+   Intervention focus areas
 ========================================================= */
 
-const interventions = [
+const focusAreas = [
   {
     icon: ShieldCheck,
     color: "#0F9D8A",
-    label: "Governance",
-    title: "Strengthen governance",
-    text: "Reinforce board oversight, policies and accountability systems that underpin sound institutional practice.",
-  },
-  {
-    icon: TrendingUp,
-    color: "#F59E0B",
-    label: "Resources",
-    title: "Diversify resource mobilization",
-    text: "Broaden and stabilize our funding base to reduce reliance on any single source and support long-term planning.",
+    text: "Strengthen organizational leadership and governance.",
   },
   {
     icon: Users2,
+    color: "#F59E0B",
+    text: "Human Resource Management.",
+  },
+  {
+    icon: TrendingUp,
     color: "#7C3AED",
-    label: "People and Systems",
-    title: "Invest in people and systems",
-    text: "Build staff capacity, knowledge management and operational systems that keep the organisation effective as it grows.",
+    text: "Fundraising and resource mobilization.",
+  },
+  {
+    icon: Wallet,
+    color: "#2563EB",
+    text: "Strengthen finance systems and internal controls.",
+  },
+  {
+    icon: ClipboardCheck,
+    color: "#3FA535",
+    text: "Risk and compliance.",
   },
   {
     icon: Megaphone,
-    color: "#2563EB",
-    label: "Visibility",
-    title: "Communication and visibility",
-    text: "Enhance our communication strategies and visibility to increase awareness and support for our work.",
+    color: "#0B5C7E",
+    text: "Communication and visibility.",
   },
   {
     icon: Database,
-    color: "#3FA535",
-    label: "Data and Security",
-    title: "Data and Information System Management and Security",
-    text: "Data and information system management and security is a critical aspect of institutional growth and sustainability. It involves implementing robust data management practices, ensuring data privacy and security, and leveraging technology to enhance operational efficiency.",
+    color: "#DB2777",
+    text: "Data and Information System Management and Security.",
   },
   {
     icon: BarChart3,
-    color: "#0B5C7E",
-    label: "MEL",
-    title: "Monitoring, Evaluation and Learning",
-    text: "Monitoring, evaluation, and learning (MEL) is a crucial component of institutional growth and sustainability. It involves systematically tracking progress, assessing the effectiveness of programs and initiatives, and using insights gained to inform decision-making and continuous improvement.",
+    color: "#EA580C",
+    text: "Monitoring, Evaluation, and Learning.",
   },
 ];
 
@@ -75,12 +71,6 @@ const fadeUp = {
 };
 
 export default function InstitutionalGrowthSustainability() {
-  const [active, setActive] = useState(0);
-  const current = interventions[active];
-  const CurrentIcon = current.icon;
-  const goPrev = () => setActive((i) => (i === 0 ? interventions.length - 1 : i - 1));
-  const goNext = () => setActive((i) => (i === interventions.length - 1 ? 0 : i + 1));
-
   return (
     <main className="bg-white font-sans text-ink">
 
@@ -216,127 +206,67 @@ export default function InstitutionalGrowthSustainability() {
       </section>
 
       {/* =====================================================
-          INTERVENTION FOCUS AREAS — interactive, six steps
-          (same pattern as the Theory of Change mechanism)
+          INTERVENTION FOCUS AREAS
       ===================================================== */}
-      <section id="interventions" className="scroll-mt-20 bg-forest-soft/40 px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
+      <section
+        id="interventions"
+        className="scroll-mt-20 bg-forest-soft/40 px-6 py-20 sm:px-8 lg:px-12 lg:py-24"
+      >
         <div className="mx-auto max-w-6xl">
 
-          <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="mx-auto max-w-2xl text-center">
+          <motion.div
+            {...fadeUp}
+            transition={{ duration: 0.6 }}
+            className="mx-auto max-w-2xl text-center"
+          >
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-forest">
               Focus areas
             </p>
             <h2 className="mt-3 text-3xl font-bold leading-tight text-ink sm:text-4xl">
-              Six foundations of a lasting institution.
+              Intervention focus areas
             </h2>
-            <p className="mt-4 leading-7 text-gray-600">
-              Our interventions address the governance, resourcing and
-              capacity foundations this focus area is built on. Select one to
-              explore it.
-            </p>
           </motion.div>
 
-          {/* Step selector */}
-          <div className="relative mt-14">
-            <div className="absolute left-[8.33%] right-[8.33%] top-8 hidden h-1 rounded-full bg-forest/10 lg:block" aria-hidden="true">
-              <motion.div
-                className="h-full rounded-full"
-                style={{ backgroundColor: current.color }}
-                animate={{ width: `${(active / (interventions.length - 1)) * 100}%` }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-              />
-            </div>
-
-            <div className="relative grid grid-cols-3 gap-y-8 lg:grid-cols-6">
-              {interventions.map((item, index) => {
-                const Icon = item.icon;
-                const isActive = index === active;
-                const isPassed = index <= active;
-                return (
-                  <button
-                    key={item.title}
-                    type="button"
-                    onClick={() => setActive(index)}
-                    onMouseEnter={() => setActive(index)}
-                    aria-pressed={isActive}
-                    aria-label={`Focus area ${index + 1}: ${item.title}`}
-                    className="group flex flex-col items-center gap-3 text-center focus:outline-none"
-                  >
-                    <motion.span
-                      animate={{ scale: isActive ? 1.15 : 1 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                      className="flex h-16 w-16 items-center justify-center rounded-full border-4 bg-white shadow-md group-focus-visible:ring-4 group-focus-visible:ring-forest/30"
-                      style={{
-                        borderColor: isPassed ? item.color : "#D1D5DB",
-                        color: isPassed ? item.color : "#9CA3AF",
-                        boxShadow: isActive ? `0 10px 25px -8px ${item.color}` : undefined,
-                      }}
-                    >
-                      <Icon size={26} strokeWidth={1.8} />
-                    </motion.span>
-                    <span
-                      className="rounded-full px-3 py-1.5 text-xs font-bold uppercase leading-snug tracking-wider text-white transition-opacity sm:px-4"
-                      style={{ backgroundColor: item.color, opacity: isActive ? 1 : 0.55 }}
-                    >
-                      {item.label}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Detail panel */}
-          <div className="mx-auto mt-12 max-w-3xl">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={current.title}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.3 }}
-                className="rounded-2xl border-l-8 bg-white p-8 shadow-lg sm:p-10"
-                style={{ borderLeftColor: current.color }}
+          <div
+            className={`mt-14 grid gap-6 ${
+              focusAreas.length === 1
+                ? "mx-auto max-w-2xl"
+                : focusAreas.length === 2
+                ? "mx-auto max-w-4xl md:grid-cols-2"
+                : focusAreas.length === 3
+                ? "md:grid-cols-3"
+                : "sm:grid-cols-2 lg:grid-cols-4"
+            }`}
+          >
+            {focusAreas.map(({ icon: Icon, color, text }, index) => (
+              <motion.article
+                key={text}
+                {...fadeUp}
+                transition={{ duration: 0.5, delay: (index % 4) * 0.08 }}
+                whileHover={{ y: -6 }}
+                className="group relative flex flex-col overflow-hidden rounded-2xl border-t-8 bg-white p-6 shadow-lg transition-shadow hover:shadow-xl sm:p-7"
+                style={{ borderTopColor: color }}
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-start justify-between">
                   <div
-                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white"
-                    style={{ backgroundColor: current.color }}
+                    className="flex h-12 w-12 items-center justify-center rounded-xl text-white"
+                    style={{ backgroundColor: color }}
                   >
-                    <CurrentIcon size={24} strokeWidth={1.8} />
+                    <Icon size={24} strokeWidth={1.8} />
                   </div>
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">
-                      Focus area {active + 1} of {interventions.length}
-                    </p>
-                    <h3 className="text-xl font-bold leading-snug sm:text-2xl" style={{ color: current.color }}>
-                      {current.title}
-                    </h3>
-                  </div>
+                  <span
+                    className="font-display text-4xl font-bold opacity-20"
+                    style={{ color }}
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
                 </div>
 
-                <p className="mt-5 text-lg leading-8 text-gray-600">{current.text}</p>
-
-                <div className="mt-6 flex items-center justify-between">
-                  <button
-                    type="button"
-                    onClick={goPrev}
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-forest transition hover:-translate-x-0.5"
-                  >
-                    <ArrowLeft size={16} />
-                    Previous
-                  </button>
-                  <button
-                    type="button"
-                    onClick={goNext}
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-forest transition hover:translate-x-0.5"
-                  >
-                    Next
-                    <ArrowRight size={16} />
-                  </button>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+                <p className="mt-5 text-base font-semibold leading-7 text-ink">
+                  {text}
+                </p>
+              </motion.article>
+            ))}
           </div>
         </div>
       </section>

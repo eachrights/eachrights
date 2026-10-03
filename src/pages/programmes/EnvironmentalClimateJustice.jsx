@@ -1,65 +1,41 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   Leaf,
   Target,
   ArrowRight,
-  ArrowLeft,
+  ArrowUpRight,
   Sprout,
   Scale,
-  Users,
-  Search,
   CheckCircle2,
   PlayCircle,
+  FileText,
 } from "lucide-react";
 
 // Same image the Environment and Climate Change programme uses on the Home page.
 import environmentImage from "../../assets/impact/impact-4.png";
 
 /* =========================================================
-   The ten focus areas grouped into the four pillars they
-   actually represent, rather than one flat list.
+   Where the environment advocacy tools live.
 ========================================================= */
 
-const pillars = [
+const ADVOCACY_PATH = "/resources/upr-advocacy-tools/environment";
+
+/* =========================================================
+   Intervention focus areas
+========================================================= */
+
+const focusAreas = [
   {
     icon: Sprout,
     color: "#0F9D8A",
-    title: "Climate Resilience and Adaptation",
-    items: [
-      "Promote environmental and climate adaptation and mitigation strategies.",
-      "Build climate resilience among vulnerable and marginalised communities.",
-      "Support sustainable natural resource management.",
-    ],
+    text: "Promote environmental and climate adaptation and mitigation strategies.",
   },
   {
     icon: Scale,
     color: "#F59E0B",
-    title: "Rights, Policy and Accountability",
-    items: [
-      "Strengthen environmental and climate accountability.",
-      "Promote environmental rights and justice.",
-      "Advocate for effective environmental and climate policies and governance.",
-    ],
-  },
-  {
-    icon: Users,
-    color: "#7C3AED",
-    title: "Community and Youth Participation",
-    items: [
-      "Promote youth and community participation in climate action.",
-      "Support community-led environmental protection and conservation initiatives.",
-    ],
-  },
-  {
-    icon: Search,
-    color: "#2563EB",
-    title: "Awareness, Research and Advocacy",
-    items: [
-      "Increase climate change awareness and environmental education.",
-      "Conduct research, advocacy and evidence generation.",
-    ],
+    text: "Strengthen environmental and climate accountability.",
   },
 ];
 
@@ -130,12 +106,7 @@ const fadeUp = {
 };
 
 export default function EnvironmentalClimateJustice() {
-  const [active, setActive] = useState(0);
   const [activeVideo, setActiveVideo] = useState(null);
-  const current = pillars[active];
-  const CurrentIcon = current.icon;
-  const goPrev = () => setActive((i) => (i === 0 ? pillars.length - 1 : i - 1));
-  const goNext = () => setActive((i) => (i === pillars.length - 1 ? 0 : i + 1));
 
   return (
     <main className="bg-white font-sans text-ink">
@@ -187,7 +158,7 @@ export default function EnvironmentalClimateJustice() {
                 href="#pillars"
                 className="inline-flex items-center gap-2 bg-gold px-6 py-3 font-semibold text-forest transition hover:brightness-105"
               >
-                Explore our pillars
+                Explore our focus areas
                 <ArrowRight size={18} />
               </a>
               <Link
@@ -280,138 +251,106 @@ export default function EnvironmentalClimateJustice() {
       </section>
 
       {/* =====================================================
-          FOCUS AREAS — interactive pillars
-          (same pattern as the Theory of Change mechanism)
+          INTERVENTION FOCUS AREAS
       ===================================================== */}
-      <section id="pillars" className="scroll-mt-20 bg-forest-soft/40 px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
+      <section
+        id="pillars"
+        className="scroll-mt-20 bg-forest-soft/40 px-6 py-20 sm:px-8 lg:px-12 lg:py-24"
+      >
         <div className="mx-auto max-w-6xl">
 
-          <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="mx-auto max-w-2xl text-center">
+          <motion.div
+            {...fadeUp}
+            transition={{ duration: 0.6 }}
+            className="mx-auto max-w-2xl text-center"
+          >
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-forest">
               Focus areas
             </p>
             <h2 className="mt-3 text-3xl font-bold leading-tight text-ink sm:text-4xl">
-              Four pillars of intervention.
+              Intervention focus areas
             </h2>
-            <p className="mt-4 leading-7 text-gray-600">
-              We work with communities and partners to advance climate
-              resilience, environmental protection and accountability.
-              Select a pillar to explore it.
-            </p>
           </motion.div>
 
-          {/* Pillar selector */}
-          <div className="relative mt-14">
-            <div className="absolute left-[12.5%] right-[12.5%] top-8 hidden h-1 rounded-full bg-forest/10 md:block" aria-hidden="true">
-              <motion.div
-                className="h-full rounded-full"
-                style={{ backgroundColor: current.color }}
-                animate={{ width: `${(active / (pillars.length - 1)) * 100}%` }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-              />
-            </div>
-
-            <div className="relative grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4">
-              {pillars.map((pillar, index) => {
-                const Icon = pillar.icon;
-                const isActive = index === active;
-                const isPassed = index <= active;
-                return (
-                  <button
-                    key={pillar.title}
-                    type="button"
-                    onClick={() => setActive(index)}
-                    onMouseEnter={() => setActive(index)}
-                    aria-pressed={isActive}
-                    aria-label={`Pillar ${index + 1}: ${pillar.title}`}
-                    className="group flex flex-col items-center gap-3 text-center focus:outline-none"
-                  >
-                    <motion.span
-                      animate={{ scale: isActive ? 1.15 : 1 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                      className="flex h-16 w-16 items-center justify-center rounded-full border-4 bg-white shadow-md group-focus-visible:ring-4 group-focus-visible:ring-forest/30"
-                      style={{
-                        borderColor: isPassed ? pillar.color : "#D1D5DB",
-                        color: isPassed ? pillar.color : "#9CA3AF",
-                        boxShadow: isActive ? `0 10px 25px -8px ${pillar.color}` : undefined,
-                      }}
-                    >
-                      <Icon size={26} strokeWidth={1.8} />
-                    </motion.span>
-                    <span
-                      className="rounded-full px-4 py-1.5 text-xs font-bold uppercase leading-snug tracking-wider text-white transition-opacity"
-                      style={{ backgroundColor: pillar.color, opacity: isActive ? 1 : 0.55 }}
-                    >
-                      {pillar.title}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Detail panel */}
-          <div className="mx-auto mt-12 max-w-3xl">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={current.title}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.3 }}
-                className="rounded-2xl border-l-8 bg-white p-8 shadow-lg sm:p-10"
-                style={{ borderLeftColor: current.color }}
+          <div
+            className={`mt-14 grid gap-6 ${
+              focusAreas.length === 1
+                ? "mx-auto max-w-2xl"
+                : focusAreas.length === 2
+                ? "mx-auto max-w-4xl md:grid-cols-2"
+                : "md:grid-cols-3"
+            }`}
+          >
+            {focusAreas.map(({ icon: Icon, color, text }, index) => (
+              <motion.article
+                key={text}
+                {...fadeUp}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -6 }}
+                className="group relative flex flex-col overflow-hidden rounded-2xl border-t-8 bg-white p-8 shadow-lg transition-shadow hover:shadow-xl sm:p-9"
+                style={{ borderTopColor: color }}
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-start justify-between">
                   <div
-                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-white"
-                    style={{ backgroundColor: current.color }}
+                    className="flex h-14 w-14 items-center justify-center rounded-xl text-white"
+                    style={{ backgroundColor: color }}
                   >
-                    <CurrentIcon size={24} strokeWidth={1.8} />
+                    <Icon size={26} strokeWidth={1.8} />
                   </div>
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">
-                      Pillar {active + 1} of {pillars.length}
-                    </p>
-                    <h3 className="text-xl font-bold sm:text-2xl" style={{ color: current.color }}>
-                      {current.title}
-                    </h3>
-                  </div>
+                  <span
+                    className="font-display text-5xl font-bold opacity-20"
+                    style={{ color }}
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
                 </div>
 
-                <ul className="mt-6 space-y-4">
-                  {current.items.map((item) => (
-                    <li key={item} className="flex gap-3 leading-7 text-gray-600">
-                      <span
-                        className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full"
-                        style={{ backgroundColor: current.color }}
-                      />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-6 flex items-center justify-between">
-                  <button
-                    type="button"
-                    onClick={goPrev}
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-forest transition hover:-translate-x-0.5"
-                  >
-                    <ArrowLeft size={16} />
-                    Previous
-                  </button>
-                  <button
-                    type="button"
-                    onClick={goNext}
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-forest transition hover:translate-x-0.5"
-                  >
-                    Next
-                    <ArrowRight size={16} />
-                  </button>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+                <p className="mt-6 text-lg font-semibold leading-8 text-ink">
+                  {text}
+                </p>
+              </motion.article>
+            ))}
           </div>
+
+          {/* Environment advocacy tools link */}
+          <motion.div
+            {...fadeUp}
+            transition={{ duration: 0.6 }}
+            className="relative mx-auto mt-12 flex max-w-4xl flex-col items-start gap-6 overflow-hidden rounded-2xl p-8 text-white shadow-xl sm:flex-row sm:items-center sm:justify-between sm:p-10"
+            style={{
+              backgroundImage:
+                "linear-gradient(145deg, #22C55E 0%, #166534 100%)",
+              boxShadow: "0 18px 40px -20px #166534",
+            }}
+          >
+            <FileText
+              size={160}
+              strokeWidth={0.8}
+              className="pointer-events-none absolute -right-8 -top-8 text-white/10"
+              aria-hidden="true"
+            />
+
+            <div className="relative max-w-xl">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/75">
+                Advocacy tools
+              </p>
+              <h3 className="mt-2 text-2xl font-bold">
+                Environment and climate advocacy tools
+              </h3>
+              <p className="mt-2 leading-7 text-white/85">
+                Guides, briefings and reports to support environment and
+                climate advocacy, ready to read or download.
+              </p>
+            </div>
+
+            <Link
+              to={ADVOCACY_PATH}
+              className="relative inline-flex shrink-0 items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-[#166534] transition hover:gap-3"
+            >
+              View environment advocacy tools
+              <ArrowUpRight size={16} />
+            </Link>
+          </motion.div>
         </div>
       </section>
 

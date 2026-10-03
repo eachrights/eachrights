@@ -14,6 +14,9 @@ import {
   TrendingUp,
   CheckCircle2,
   CalendarDays,
+  Target,
+  Network,
+  Megaphone,
 } from "lucide-react";
 
 // Hero photo (same image as the Theory of Change page). Swap for another if you prefer.
@@ -59,10 +62,34 @@ const cycles = [
 
 // Hero figures — the reach of the UPR Kenya coalition.
 const heroStats = [
-  { icon: Users, value: "300+", label: "Member organisations coordinated in Kenya" },
-  { icon: Layers, value: "32+", label: "Thematic groups" },
+  { icon: Users, value: "400+", label: "Member organisations coordinated in Kenya" },
+  { icon: Layers, value: "30+", label: "Thematic groups" },
   { icon: FileText, value: "40+", label: "Civil society reports submitted in the 4th cycle" },
   { icon: Globe2, value: "20+", label: "Countries supported" },
+];
+
+// The coalition's thematic groups are organised into three clusters.
+const clusters = [
+  "Civil and Political Rights",
+  "Economic, Social and Cultural Rights",
+  "Group Rights",
+];
+
+/* =========================================================
+   Strategic focus area: intervention focus areas
+========================================================= */
+
+const focusAreas = [
+  {
+    icon: Network,
+    color: "#0F9D8A",
+    text: "Coordination of UPR Kenya.",
+  },
+  {
+    icon: Megaphone,
+    color: "#F59E0B",
+    text: "Advocacy on EACHRights thematic focus areas using the UPR mechanism.",
+  },
 ];
 
 const achievements = [
@@ -231,7 +258,9 @@ export default function UniversalPeriodicReview() {
                 years, under the same rules and supervision, regardless of
                 size or political influence &mdash; giving each State an
                 opportunity to declare what it has done to improve its human
-                rights situation.
+                rights situation. The ultimate aim of the mechanism is to
+                improve the human rights situation across all countries and
+                to address human rights violations wherever they occur.
               </p>
             </div>
           </div>
@@ -421,9 +450,97 @@ export default function UniversalPeriodicReview() {
       </section>
 
       {/* =====================================================
+          STRATEGIC FOCUS AREA — goal + intervention focus areas
+      ===================================================== */}
+      <section
+        id="focus-areas"
+        className="scroll-mt-20 px-6 py-20 sm:px-8 lg:px-12 lg:py-24"
+      >
+        <div className="mx-auto max-w-6xl">
+
+          <motion.div
+            {...fadeUp}
+            transition={{ duration: 0.6 }}
+            className="mx-auto max-w-2xl text-center"
+          >
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-forest">
+              Strategic focus area
+            </p>
+            <h2 className="mt-3 text-3xl font-bold leading-tight text-ink sm:text-4xl">
+              Intervention focus areas
+            </h2>
+            <p className="mt-4 leading-7 text-gray-600">
+              During the 4th Cycle review in Geneva in May 2025, Kenya
+              received 339 recommendations. EACHRights will support all
+              stakeholders to strengthen their implementation.
+            </p>
+          </motion.div>
+
+          {/* Programme goal */}
+          <motion.div
+            {...fadeUp}
+            transition={{ duration: 0.6 }}
+            className="mx-auto mt-12 flex max-w-4xl flex-col items-start gap-6 rounded-2xl bg-gradient-to-r from-forest to-forest/85 p-8 text-white shadow-lg sm:flex-row sm:items-center sm:p-10"
+          >
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/20">
+              <Target size={30} strokeWidth={1.7} />
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
+                Programme goal
+              </p>
+              <p className="mt-2 text-xl font-semibold leading-8 sm:text-2xl sm:leading-9">
+                To enhance the utilisation of the UPR mechanism.
+              </p>
+            </div>
+          </motion.div>
+
+          <div
+            className={`mt-10 grid gap-6 ${
+              focusAreas.length === 1
+                ? "mx-auto max-w-2xl"
+                : focusAreas.length === 2
+                ? "mx-auto max-w-4xl md:grid-cols-2"
+                : "md:grid-cols-3"
+            }`}
+          >
+            {focusAreas.map(({ icon: Icon, color, text }, index) => (
+              <motion.article
+                key={text}
+                {...fadeUp}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -6 }}
+                className="group relative flex flex-col overflow-hidden rounded-2xl border-t-8 bg-white p-8 shadow-lg transition-shadow hover:shadow-xl sm:p-9"
+                style={{ borderTopColor: color }}
+              >
+                <div className="flex items-start justify-between">
+                  <div
+                    className="flex h-14 w-14 items-center justify-center rounded-xl text-white"
+                    style={{ backgroundColor: color }}
+                  >
+                    <Icon size={26} strokeWidth={1.8} />
+                  </div>
+                  <span
+                    className="font-display text-5xl font-bold opacity-20"
+                    style={{ color }}
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </div>
+
+                <p className="mt-6 text-lg font-semibold leading-8 text-ink">
+                  {text}
+                </p>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
           THE COALITION
       ===================================================== */}
-      <section className="px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
+      <section className="bg-forest-soft/40 px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
         <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-16">
 
           <div>
@@ -439,22 +556,35 @@ export default function UniversalPeriodicReview() {
             <div className="mt-8 space-y-5 text-base leading-8 text-gray-600">
               <p>
                 The Coalition, known as UPR Kenya, brings together a
-                membership of over 300 organisations. It is led by a Steering
-                Committee with technical support from the Kenya National
-                Commission on Human Rights (KNCHR) and the UN Office of the
-                High Commissioner on Human Rights (OHCHR).
+                membership of over 400 organisations, divided into over 30
+                thematic groups across three clusters. It is led by a
+                Steering Committee with technical support from the Kenya
+                National Commission on Human Rights (KNCHR) and the UN Office
+                of the High Commissioner on Human Rights (OHCHR).
               </p>
               <p>
-                EACHRights serves as the Secretariat of the Kenya
-                Stakeholders Coalition on the Universal Periodic Review.
+                EACHRights serves as the Coordinator and Secretariat of the
+                Kenya Stakeholders Coalition on the Universal Periodic
+                Review.
               </p>
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-2">
+              {clusters.map((cluster) => (
+                <span
+                  key={cluster}
+                  className="rounded-full border border-forest/15 bg-white px-4 py-1.5 text-sm font-medium text-forest"
+                >
+                  {cluster}
+                </span>
+              ))}
             </div>
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2">
             {[
-              { icon: Users, big: "300+", small: "Member organisations" },
-              { icon: Scale, big: "EACHRights", small: "Coalition Secretariat" },
+              { icon: Users, big: "400+", small: "Member organisations" },
+              { icon: Scale, big: "EACHRights", small: "Coordinator and Secretariat" },
             ].map((card, index) => {
               const Icon = card.icon;
               return (
@@ -504,7 +634,7 @@ export default function UniversalPeriodicReview() {
       {/* =====================================================
           ACHIEVEMENTS — card grid
       ===================================================== */}
-      <section className="bg-forest-soft/40 px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
+      <section className="px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
         <div className="mx-auto max-w-6xl">
           <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-forest">
@@ -551,7 +681,7 @@ export default function UniversalPeriodicReview() {
       {/* =====================================================
           WHY IT MATTERS
       ===================================================== */}
-      <section className="px-6 py-20 sm:px-8 lg:px-12 lg:py-24">
+      <section className="px-6 pb-20 sm:px-8 lg:px-12 lg:pb-24">
         <motion.div
           {...fadeUp}
           transition={{ duration: 0.6 }}

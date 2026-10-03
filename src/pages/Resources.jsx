@@ -90,14 +90,14 @@ const thematicAreas = [
   },
   {
     title: "Economic",
-    slug: "economic",
+    slug: "economics",
     icon: Coins,
     from: "#0EA5E9",
     to2: "#075985",
   },
   {
     title: "Environment & Climate Change",
-    slug: "environment-climate-change",
+    slug: "environment",
     icon: Leaf,
     from: "#22C55E",
     to2: "#166534",
